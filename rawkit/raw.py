@@ -1,0 +1,2 @@
+class Raw(object):
+    pass
