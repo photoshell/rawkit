@@ -1,0 +1,6 @@
+-e .
+
+-r requirements-test.txt
+
+pre-commit
+wheel

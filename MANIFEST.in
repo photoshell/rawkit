@@ -1,0 +1,8 @@
+include LICENSE
+include *.md
+include *.txt
+include *.yaml
+include .coveragerc
+include Makefile
+include tox.ini
+recursive-include tests *.py
