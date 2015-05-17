@@ -1,4 +1,4 @@
-from ctypes import *
+from ctypes import *  # noqa
 
 
 libraw = cdll.LoadLibrary('libraw.so.10')
