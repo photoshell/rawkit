@@ -13,7 +13,7 @@ pre-commit: .git/hooks/pre-commit
 
 $(VENV): $(VENV)/bin/activate
 
-$(VENV)/bin/activate: requirements-dev.txt
+$(VENV)/bin/activate: requirements-dev.txt requirements-test.txt
 	test -d $(VENV) || virtualenv -p /usr/bin/python3 $(VENV)
 	$(ACTIVATE); pip install -r requirements-dev.txt
 	touch $(BIN)/activate
@@ -48,3 +48,11 @@ clean:
 	rm -rf .tox
 	rm -rf $(VENV)
 	rm -rf dist
+	$(MAKE) -C docs $@
+
+.PHONY: gendoc
+docs: docs/*.rst
+	$(ACTIVATE); $(MAKE) -C $@ html
+
+docs/*.rst: *.py $(VENV)
+	$(ACTIVATE); sphinx-apidoc -o docs/source rawkit docs

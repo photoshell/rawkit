@@ -1,3 +1,7 @@
+""":mod:`rawkit.libraw` --- Low-level libraw bindings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""
+
 from ctypes import *  # noqa
 
 
@@ -5,6 +9,8 @@ libraw = cdll.LoadLibrary('libraw.so.10')
 
 
 class ph1_t(Structure):
+
+    """Contains color data read by Phase One cameras."""
     _fields_ = [
         ('format', c_int),
         ('key_off', c_int),
@@ -17,6 +23,8 @@ class ph1_t(Structure):
 
 
 class libraw_iparams_t(Structure):
+
+    """The primary parameters of the image."""
     _fields_ = [
         ('make', c_char * 64),
         ('model', c_char * 64),
@@ -31,6 +39,8 @@ class libraw_iparams_t(Structure):
 
 
 class libraw_image_sizes_t(Structure):
+
+    """Describes the size of the image."""
     _fields_ = [
         ('raw_height', c_ushort),
         ('raw_width', c_ushort),
@@ -48,6 +58,8 @@ class libraw_image_sizes_t(Structure):
 
 
 class libraw_colordata_t(Structure):
+
+    """Describes all color data of the image."""
     _fields_ = [
         ('curve', c_ushort * 0x10000),
         ('cblack', c_uint * 4),
@@ -71,6 +83,10 @@ class libraw_colordata_t(Structure):
 
 
 class libraw_imgother_t(Structure):
+
+    """
+    Information read from the raw file that is unnecessary for raw processing.
+    """
     _fields_ = [
         ('iso_speed', c_float),
         ('shutter', c_float),
@@ -85,6 +101,8 @@ class libraw_imgother_t(Structure):
 
 
 class libraw_thumbnail_t(Structure):
+
+    """Describes the thumbnail image embedded in the raw file."""
     _fields_ = [
         ('tformat', c_uint),  # LibRaw_thumbnail_formats
         ('twidth', c_ushort),
@@ -106,6 +124,11 @@ class libraw_internal_output_params_t(Structure):
 
 
 class libraw_rawdata_t(Structure):
+
+    """
+    Raw image data (after it has been unpacked) and a backup copy of color info
+    used during post processing.
+    """
     _fields_ = [
         ('raw_alloc', c_void_p),
         ('raw_image', POINTER(c_ushort)),
@@ -120,6 +143,8 @@ class libraw_rawdata_t(Structure):
 
 
 class libraw_output_params_t(Structure):
+
+    """Output parameters for processing the image with dcraw."""
     _fields_ = [
         ('greybox', c_uint * 4),
         ('cropbox', c_uint * 4),
@@ -183,6 +208,11 @@ class libraw_output_params_t(Structure):
 
 
 class libraw_data_t(Structure):
+
+    """
+    A container which comprises the data structures that make up libraw's
+    representation of a raw file.
+    """
     _fields_ = [
         ('image', POINTER(c_ushort * 4)),
         ('sizes', libraw_image_sizes_t),

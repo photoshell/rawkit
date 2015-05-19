@@ -2,3 +2,5 @@ coverage
 flake8
 pytest
 tox
+sphinx
+sphinx_rtd_theme
