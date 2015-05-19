@@ -228,4 +228,19 @@ class libraw_data_t(Structure):
     ]
 
 
+class libraw_processed_image_t(Structure):
+
+    """A container for processed image data."""
+    _fields_ = [
+        ('type', c_uint),
+        ('height', c_ushort),
+        ('width', c_ushort),
+        ('colors', c_ushort),
+        ('bits', c_ushort),
+        ('data_size', c_uint),
+        ('data', c_byte * 1),
+    ]
+
+
 libraw.libraw_init.restype = POINTER(libraw_data_t)
+libraw.libraw_dcraw_make_mem_image.restype = POINTER(libraw_processed_image_t)
