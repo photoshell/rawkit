@@ -44,15 +44,15 @@ upload: build test
 
 .PHONY: clean
 clean:
+	$(ACTIVATE); $(MAKE) -C docs $@
 	find . -iname '*.pyc' | xargs rm -f
 	rm -rf .tox
-	rm -rf $(VENV)
 	rm -rf dist
-	$(MAKE) -C docs $@
+	rm -rf $(VENV)
 
 .PHONY: gendoc
-docs: docs/*.rst
+docs: docs/source/*.rst
 	$(ACTIVATE); $(MAKE) -C $@ html
 
-docs/*.rst: *.py $(VENV)
+docs/source/*.rst: rawkit/*.py $(VENV)
 	$(ACTIVATE); sphinx-apidoc -o docs/source rawkit docs
