@@ -44,11 +44,11 @@ upload: build test
 
 .PHONY: clean
 clean:
+	$(ACTIVATE); $(MAKE) -C docs $@
 	find . -iname '*.pyc' | xargs rm -f
 	rm -rf .tox
-	rm -rf $(VENV)
 	rm -rf dist
-	$(MAKE) -C docs $@
+	rm -rf $(VENV)
 
 .PHONY: gendoc
 docs: docs/*.rst
