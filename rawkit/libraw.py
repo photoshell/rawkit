@@ -6,10 +6,6 @@ from ctypes import *  # noqa
 from ctypes import util
 
 
-# TODO: This will do bad things if the API version isn't 10
-libraw = cdll.LoadLibrary(util.find_library('raw'))
-
-
 class ph1_t(Structure):
 
     """Contains color data read by Phase One cameras."""
@@ -244,5 +240,13 @@ class libraw_processed_image_t(Structure):
     ]
 
 
-libraw.libraw_init.restype = POINTER(libraw_data_t)
-libraw.libraw_dcraw_make_mem_image.restype = POINTER(libraw_processed_image_t)
+# TODO: This is necessary because Travis CI is still using Ubuntu 12.04
+try:
+    # TODO: This will do bad things if the API version isn't 10
+    libraw = cdll.LoadLibrary(util.find_library('raw'))
+    libraw.libraw_init.restype = POINTER(libraw_data_t)
+    libraw.libraw_dcraw_make_mem_image.restype = POINTER(
+        libraw_processed_image_t
+    )
+except:  # pragma: no cover
+    libraw = cdll.LoadLibrary('')  # pragma: no cover
