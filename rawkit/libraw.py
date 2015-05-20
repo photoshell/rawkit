@@ -3,9 +3,11 @@
 """
 
 from ctypes import *  # noqa
+from ctypes import util
 
 
-libraw = cdll.LoadLibrary('libraw.so.10')
+# TODO: This will do bad things if the API version isn't 10
+libraw = cdll.LoadLibrary(util.find_library('raw'))
 
 
 class ph1_t(Structure):
