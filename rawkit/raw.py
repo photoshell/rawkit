@@ -30,7 +30,7 @@ class Raw(object):
     def __init__(self, filename=None):
         """Initializes a new Raw object."""
         self.data = libraw.libraw_init(0)
-        libraw.libraw_open_file(self.data, bytes(filename, 'utf-8'))
+        libraw.libraw_open_file(self.data, filename.encode('ascii'))
 
     def __enter__(self):
         """Return a Raw object for use in context managers."""
@@ -67,7 +67,7 @@ class Raw(object):
         self.data.contents.params.output_tiff = 0 if filetype is 'ppm' else 1
 
         libraw.libraw_dcraw_ppm_tiff_writer(
-            self.data, bytes(filename, 'utf-8'))
+            self.data, filename.encode('ascii'))
 
     def to_buffer(self):
         """Return the image data as an RGB buffer."""
