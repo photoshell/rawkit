@@ -1,5 +1,6 @@
 import mock
 import pytest
+from rawkit.metadata import Metadata
 from rawkit.raw import Raw
 
 
@@ -113,3 +114,8 @@ def test_thumbnail_to_buffer(mock_libraw, raw):
     mock_libraw.libraw_dcraw_clear_mem.assert_called_once_with(
         mock_libraw.libraw_dcraw_make_mem_thumb(raw.data),
     )
+
+
+def test_metadata(mock_libraw, raw):
+    metadata = raw.metadata
+    assert type(metadata) is Metadata
