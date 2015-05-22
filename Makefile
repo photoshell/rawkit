@@ -50,7 +50,7 @@ clean:
 	rm -rf dist
 	rm -rf $(VENV)
 
-.PHONY: gendoc
+.PHONY: docs
 docs: docs/source/*.rst
 	$(ACTIVATE); $(MAKE) -C $@ html
 

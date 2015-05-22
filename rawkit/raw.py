@@ -4,6 +4,7 @@
 
 import ctypes
 from rawkit.libraw import libraw
+from rawkit.metadata import Metadata
 
 
 class Raw(object):
@@ -121,3 +122,25 @@ class Raw(object):
         libraw.libraw_dcraw_clear_mem(processed_image)
 
         return data
+
+    @property
+    def metadata(self):
+        """
+        Common metadata for the photo
+
+        :returns: A metadata object
+        :rtype: :class:`~rawkit.metadata.Metadata`
+        """
+        return Metadata(
+            aperture=self.data.contents.other.aperture,
+            timestamp=self.data.contents.other.timestamp,
+            shutter=self.data.contents.other.shutter,
+            flash=bool(self.data.contents.color.flash_used),
+            focal_length=self.data.contents.other.focal_len,
+            height=self.data.contents.sizes.height,
+            iso=self.data.contents.other.iso_speed,
+            make=self.data.contents.idata.make,
+            model=self.data.contents.idata.model,
+            orientation=self.data.contents.sizes.flip,
+            width=self.data.contents.sizes.width,
+        )
