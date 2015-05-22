@@ -50,7 +50,7 @@ class Raw(object):
         libraw.libraw_close(self.data)
 
     def unpack(self):
-        """Unpack and the raw data."""
+        """Unpack the raw data."""
         if not self.image_unpacked:
             libraw.libraw_unpack(self.data)
             self.image_unpacked = True
@@ -69,9 +69,10 @@ class Raw(object):
         """
         Save the image data as a new PPM or TIFF image.
 
-        Keyword arguments:
-        filename -- A filename to save.
-        filetype -- A filetype (``ppm`` or ``tiff``).
+        :param filename: the name of an image file to save
+        :type filename: :class:`basestring`
+        :param filetype: the type of file to output (``ppm`` or ``tiff``)
+        :type filetype: :class:`basestring`
         """
         assert filetype in ('ppm', 'tiff')
         self.data.contents.params.output_tiff = 0 if filetype is 'ppm' else 1
@@ -86,8 +87,8 @@ class Raw(object):
         """
         Save the thumbnail data.
 
-        Keyword arguments:
-        filename -- A filename to save.
+        :param filename: the name of an image file to save
+        :type filename: :class:`basestring`
         """
         self.unpack_thumb()
 
