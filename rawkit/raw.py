@@ -96,7 +96,12 @@ class Raw(object):
             self.data, filename.encode('ascii'))
 
     def to_buffer(self):
-        """Return the image data as an RGB buffer."""
+        """
+        Return the image data as an RGB buffer.
+
+        :returns: RGB data of the image
+        :rtype: :class:`bytearray`
+        """
         self.unpack()
         self.process()
 
@@ -111,7 +116,12 @@ class Raw(object):
         return data
 
     def thumbnail_to_buffer(self):
-        """Return the thumbnail data as an RGB buffer."""
+        """
+        Return the thumbnail data as an RGB buffer.
+
+        :returns: RGB data of the thumbnail
+        :rtype: :class:`bytearray`
+        """
         self.unpack_thumb()
 
         processed_image = libraw.libraw_dcraw_make_mem_thumb(self.data)

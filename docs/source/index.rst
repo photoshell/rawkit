@@ -7,7 +7,6 @@ Python inspired by the Wand_ API. ::
     from rawkit.raw import Raw
 
     with Raw(filename='some/raw/image.CR2') as raw:
-      raw.process()
       raw.save(filename='some/destination/image.ppm')
 
 Contents:
