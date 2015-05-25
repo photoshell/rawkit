@@ -52,7 +52,11 @@ class option(object):
 
     def write_param(self, obj, params):
         if self.param_func is None:
-            setattr(params, self.param, self.ctype(self.__get__(obj, None)))
+            val = self.__get__(obj, None)
+            try:
+                setattr(params, self.param, self.ctype(*val))
+            except TypeError:
+                setattr(params, self.param, self.ctype(val))
         else:
             self.param_func(obj, params)
 
