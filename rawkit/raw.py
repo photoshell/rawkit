@@ -3,8 +3,10 @@
 """
 
 import ctypes
+
 from rawkit.libraw import libraw
 from rawkit.metadata import Metadata
+from rawkit.options import Options
 
 
 class Raw(object):
@@ -17,8 +19,10 @@ class Raw(object):
     file) looks like this::
 
         from rawkit.raw import Raw
+        from rawkit.options import WhiteBalance
 
         with Raw(filename='some/raw/image.CR2') as raw:
+            raw.options.white_balance = WhiteBalance(camera=False, auto=True)
             raw.save(filename='some/destination/image.ppm')
 
     :param filename: the name of a raw file to load
@@ -32,7 +36,7 @@ class Raw(object):
         self.data = libraw.libraw_init(0)
         libraw.libraw_open_file(self.data, filename.encode('ascii'))
 
-        self.options = {}
+        self.options = Options()
 
         self.image_unpacked = False
         self.thumb_unpacked = False
@@ -63,6 +67,7 @@ class Raw(object):
 
     def process(self):
         """Process the raw data based on self.options"""
+        self.options._map_to_libraw_params(self.data.contents.params)
         libraw.libraw_dcraw_process(self.data)
 
     def save(self, filename=None, filetype='ppm'):
