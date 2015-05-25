@@ -153,7 +153,8 @@ class Options(object):
         '_use_camera_matrix',
         '_white_balance',
         '_highlight_mode',
-        '_colorspace'
+        '_colorspace',
+        '_cropbox'
     ]
     """The options which are supported by this class."""
 
@@ -372,6 +373,18 @@ class Options(object):
         :libraw: :class:`rawkit.libraw.libraw_output_params_t.bright`
         """
         return 1.0
+
+    @option(param='cropbox', ctype=(ctypes.c_uint * 4))
+    def cropbox(self):
+        """
+        Crops the image.
+
+        :type: :class:`4 float tuple`
+        :default: None
+        :dcraw: None
+        :libraw: :class:`rawkit.libraw.libraw_output_params_t.cropbox`
+        """
+        return None
 
     def _map_to_libraw_params(self, params):
         """
