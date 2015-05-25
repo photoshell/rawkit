@@ -23,6 +23,10 @@ $(VENV)/bin/activate: requirements-dev.txt requirements-test.txt
 test: $(VENV)
 	$(ACTIVATE); tox $(REBUILD_FLAG)
 
+.PHONY: stress-test
+stress-test: $(VENV)
+	$(ACTIVATE); INPUT=$(INPUT) tox -c tox-stress.ini $(REBUILD_FLAG)
+
 dist/*.whl: setup.py rawkit/*.py
 	python setup.py bdist_wheel
 
