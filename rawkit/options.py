@@ -90,6 +90,22 @@ Constants for setting the highlight mode.
     highlights which compromises between favoring whites and favoring colors.
 """
 
+gamma_curves = namedtuple(
+    'GammaCurves', ['linear', 'bt709', 'srgb', 'adobe_rgb']
+)([1, 1], [1 / 2.222, 4.5], [1 / 2.4, 12.92], [256 / float(563)])
+"""
+Gamma curves for a few common color profiles.
+
+  - ``linear`` --- A basic linear transfer function.
+  - ``bt709`` --- The BT.709 (Rec. 709) curve used by HDTVs (uses the median
+    power of sRGB, and a similar but shifted transfer function).
+  - ``srgb`` --- The sRGB gamma curve (uses the max power to account for linear
+    discontinuity and to attain the standard `IEC 61966-2-1` solution $K_0
+    \\\\approx 0.04045 $).
+  - ``adobe_rgb`` --- The correction function power for the Adobe RGB
+    colorspace. The toe-slope is left off.
+"""
+
 colorspaces = namedtuple(
     'ColorSpaces', ['raw', 'srgb', 'adobe_rgb', 'wide_gammut_rgb',
                     'kodak_prophoto_rgb', 'xyz']
@@ -154,7 +170,8 @@ class Options(object):
         '_white_balance',
         '_highlight_mode',
         '_colorspace',
-        '_cropbox'
+        '_cropbox',
+        '_gamma'
     ]
     """The options which are supported by this class."""
 
@@ -385,6 +402,24 @@ class Options(object):
         :libraw: :class:`rawkit.libraw.libraw_output_params_t.cropbox`
         """
         return None
+
+    @option(param='gamm', ctype=(ctypes.c_double * 6))
+    def gamma(self):
+        """
+        Sets the gamma-curve of the photo. The two values in the tuple
+        correspond to:
+
+            - gamma[0] --- Correction function power (inverted Gamma power,
+              $\\\\gamma^{-1}$)
+            - gamma[1] --- toe-slope ($\\\\phi$)
+
+        For a simple power curve, set the toe-slope to zero.
+
+        :type: :class:`2 double tuple`
+        :default: None
+        :dcraw: ``-g``
+        :libraw: :class:`rawkit.libraw.libraw_output_params_t.gamm`
+        """
 
     def _map_to_libraw_params(self, params):
         """
