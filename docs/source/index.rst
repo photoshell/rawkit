@@ -9,14 +9,16 @@ Python inspired by the Wand_ API. ::
     with Raw(filename='some/raw/image.CR2') as raw:
       raw.save(filename='some/destination/image.ppm')
 
-Contents:
+.. _LibRaw: http://www.libraw.org/
+.. _Wand: http://docs.wand-py.org
+
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
 
-.. _LibRaw: http://www.libraw.org/
-.. _Wand: http://docs.wand-py.org
-
+   rawkit
 
 Indices and tables
 ==================
