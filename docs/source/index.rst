@@ -20,7 +20,7 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   rawkit
+   api/rawkit
 
 Indices and tables
 ==================
