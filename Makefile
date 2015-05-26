@@ -55,8 +55,8 @@ clean:
 	rm -rf $(VENV)
 
 .PHONY: docs
-docs: docs/source/*.rst
+docs: docs/source/api/*.rst
 	$(ACTIVATE); $(MAKE) -C $@ html
 
-docs/source/*.rst: rawkit/*.py $(VENV)
-	$(ACTIVATE); sphinx-apidoc -o docs/source rawkit docs
+docs/source/api/*.rst: rawkit/*.py $(VENV)
+	$(ACTIVATE); sphinx-apidoc -o docs/source/api rawkit docs
