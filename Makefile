@@ -55,8 +55,15 @@ clean:
 	rm -rf $(VENV)
 
 .PHONY: docs
-docs: docs/source/api/*.rst
-	$(ACTIVATE); $(MAKE) -C $@ html
+docs: epub html docs/source/api/*.rst
+
+.PHONY: html
+html: docs/source/api/*.rst docs/source/* docs/source/_static/*
+	$(ACTIVATE); $(MAKE) -C docs $@
+
+.PHONY: epub
+epub: docs/source/api/*.rst
+	$(ACTIVATE); $(MAKE) -C docs $@
 
 docs/source/api/*.rst: rawkit/*.py $(VENV)
 	$(ACTIVATE); sphinx-apidoc -o docs/source/api rawkit docs

@@ -1,0 +1,20 @@
+@import url(http://fonts.googleapis.com/css?family=Prociono);
+@import url(flasky.css);
+
+div.indexwrapper h1 {
+	text-indent: 0;
+	font-family: "Prociono", "Garamond","Georgia", serif;
+	font-size: 5em;
+}
+
+div.body h2 {
+	font-family: "Prociono", "Garamond","Georgia", serif;
+}
+
+.indexwrapper div.body #rawkit.section h1 {
+  background-image: url(rocket.png);
+  background-size: 75px;
+  background-repeat: no-repeat;
+  padding-left: 85px;
+	background-position: 0;
+}

@@ -3,6 +3,7 @@
     hooks:
       -   id: autopep8-wrapper
           args: ['-i']
+          exclude: 'docs/source/_themes/'
       -   id: check-json
       -   id: check-yaml
       -   id: debug-statements
