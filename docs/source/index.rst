@@ -1,6 +1,10 @@
 rawkit
 ======
 
+.. image:: https://readthedocs.org/projects/rawkit/badge/?version=latest
+   :alt: Docs Status
+   :target: https://rawkit.readthedocs.org/en/latest/
+
 .. image:: https://secure.travis-ci.org/photoshell/rawkit.svg?branch=master
    :alt: Build Status
    :target: https://travis-ci.org/photoshell/rawkit

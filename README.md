@@ -1,5 +1,6 @@
+[![Docs status](https://readthedocs.org/projects/rawkit/badge/?version=latest)](https://rawkit.readthedocs.org/en/latest/)
 [![Build status](https://api.travis-ci.org/photoshell/rawkit.svg?branch=master)](https://travis-ci.org/photoshell/rawkit)
-[![Coverage Status](https://coveralls.io/repos/photoshell/rawkit/badge.svg)](https://coveralls.io/r/photoshell/rawkit)
+[![Coverage status](https://coveralls.io/repos/photoshell/rawkit/badge.svg)](https://coveralls.io/r/photoshell/rawkit)
 
 # rawkit
 
