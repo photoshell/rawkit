@@ -14,7 +14,10 @@ setup(
     description='CTypes based LibRaw bindings',
     author='Cameron Paul, Sam Whited',
     author_email='cpaul37@gmail.com',
+    maintainer='Cameron Paul, Sam Whited',
+    maintainer_email='sam@samwhited.com',
     url='https://photoshell.github.io/rawkit/',
+    bugtrack_url='https://github.com/photoshell/rawkit/issues',
     packages=['rawkit'],
     keywords=['encoding', 'images', 'photography', 'libraw', 'raw', 'photos'],
     classifiers=[
