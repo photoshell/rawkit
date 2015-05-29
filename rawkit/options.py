@@ -121,6 +121,19 @@ Constants for setting the colorspace.
   - ``xyz`` --- XYZ colorspace
 """
 
+interpolation = namedtuple(
+    'InterpolationAlgo', ['linear', 'vng', 'ppg', 'ahd', 'dcb']
+)(0, 1, 2, 3, 4)
+"""
+Constants for setting the interpolation algorithm:
+
+    - ``linear``
+    - ``vng``
+    - ``ppg``
+    - ``ahd``
+    - ``dcb``
+"""
+
 
 class WhiteBalance(namedtuple('WhiteBalance',
                               ['auto', 'camera', 'greybox', 'rgbg'])):
@@ -171,7 +184,8 @@ class Options(object):
         '_highlight_mode',
         '_colorspace',
         '_cropbox',
-        '_gamma'
+        '_gamma',
+        '_interpolation'
     ]
     """The options which are supported by this class."""
 
@@ -420,6 +434,19 @@ class Options(object):
         :dcraw: ``-g``
         :libraw: :class:`rawkit.libraw.libraw_output_params_t.gamm`
         """
+        return None
+
+    @option(param='interpolation', ctype=ctypes.c_uint)
+    def interpolation(self):
+        """
+        Sets the interpolation algorithm.
+
+        :type: :class:`rawkit.options.interpolation`
+        :default: `ahd`
+        :dcraw: `-q`
+        :libraw: :class:`rawkit.libraw.libraw_output_params_t.user_qual`
+        """
+        return interpolation.ahd
 
     def _map_to_libraw_params(self, params):
         """
