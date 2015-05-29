@@ -1,6 +1,10 @@
 rawkit
 ======
 
+.. image:: https://badge.fury.io/py/rawkit.svg?
+  :alt: Package Status
+  :target: https://pypi.python.org/pypi/rawkit
+
 .. image:: https://readthedocs.org/projects/rawkit/badge/?version=latest
    :alt: Docs Status
    :target: https://rawkit.readthedocs.org/en/latest/
