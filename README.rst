@@ -17,7 +17,7 @@ rawkit
    :alt: Test Coverage Status
    :target: https://coveralls.io/r/photoshell/rawkit
 
-``rawkit`` (pronounced `rocket`) is a :mod:`ctypes`-based LibRaw_ binding for
+``rawkit`` (pronounced `rocket`) is a ctypes-based LibRaw_ binding for
 Python inspired by the Wand_ API. ::
 
     from rawkit.raw import Raw
