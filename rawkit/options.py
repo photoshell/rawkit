@@ -167,6 +167,10 @@ class Options(object):
 
     """
     Represents a set of options which can be used when processing raw data.
+
+    :param attrs: a subscriptable object from which to take the initial state
+                  of the options object.
+    :type attrs: :class:`dict`
     """
 
     __slots__ = [
@@ -189,12 +193,17 @@ class Options(object):
     ]
     """The options which are supported by this class."""
 
-    def __init__(self):
+    def __init__(self, attrs=None):
         """
-        Create the options object, initializing values to ``None``.
+        Create the options object, initializing values to ``None`` or their
+        corresponding value from `attrs`.
         """
         for i in self.__slots__:
-            setattr(self, i, None)
+            try:
+                param = i[1:]
+                setattr(self, param, attrs[param])
+            except (KeyError, TypeError):
+                setattr(self, i, None)
 
     def __iter__(self):
         """Allow iterating over the options."""
