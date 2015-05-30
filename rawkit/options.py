@@ -215,6 +215,12 @@ class Options(object):
             except IndexError:
                 raise StopIteration
 
+    def __repr__(self):
+        """
+        Represents the options as a dict.
+        """
+        return repr(dict(self))
+
     def keys(self):
         """
         A list of keys which have a value other than ``None`` and which have
