@@ -36,9 +36,12 @@ Requirements
 - Python
 
   - CPython 2.7+
-  - CPytohn 3.3+
+  - CPython 3.4+
   - PyPy 2.5+
   - PyPy3 2.4+
+
+While other versions may work, rawkit is only tested with the versions listed
+above.
 
 - LibRaw
 
