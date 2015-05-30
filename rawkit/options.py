@@ -211,7 +211,7 @@ class Options(object):
         while True:
             idx += 1
             try:
-                yield self.__slots__[idx - 1][1:]
+                yield self.keys()[idx - 1]
             except IndexError:
                 raise StopIteration
 
