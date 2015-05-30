@@ -196,6 +196,43 @@ class Options(object):
         for i in self.__slots__:
             setattr(self, i, None)
 
+    def __iter__(self):
+        """Allow iterating over the options."""
+        idx = 0
+        while True:
+            idx += 1
+            try:
+                yield self.__slots__[idx - 1][1:]
+            except IndexError:
+                raise StopIteration
+
+    def keys(self):
+        """
+        A list of keys which have a value other than ``None`` and which have
+        been set by the user (even if those options are set to the default
+        value).
+
+        :returns: List of option keys which have been set
+        :rtype: :class:`tuple`
+        """
+        return [slot[1:] for slot in self.__slots__ if getattr(self, slot) is
+                not None]
+
+    def values(self):
+        """
+        The values of all options which appear in :func:`keys`.
+
+        :returns: List of options values
+        :rtype: :class:`tuple`
+        """
+        return [self.__getitem__(k) for k in self.keys()]
+
+    def __getitem__(self, k):
+        """
+        Allow accessing options with dictionary syntax eg. opts['half_size'].
+        """
+        return getattr(self, k)
+
     @option(param='output_color', ctype=ctypes.c_int)
     def colorspace(self):
         """
