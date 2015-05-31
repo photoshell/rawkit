@@ -1,3 +1,4 @@
+import ctypes
 import os
 
 from rawkit.libraw import libraw
@@ -21,3 +22,18 @@ def discover(path):
 
     libraw.libraw_close(raw)
     return file_list
+
+
+def camera_list():
+    """
+    Return a list of cameras which are supported by the currently linked
+    version of LibRaw.
+
+    :returns: A list of supported cameras
+    :rtype: :class:`basestring tuple`
+    """
+    libraw.libraw_cameraList.restype = ctypes.POINTER(
+        ctypes.c_char_p * libraw.libraw_cameraCount()
+    )
+    data_pointer = libraw.libraw_cameraList()
+    return [x.decode('ascii') for x in data_pointer.contents]
