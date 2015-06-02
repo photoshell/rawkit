@@ -122,16 +122,46 @@ Constants for setting the colorspace.
 """
 
 interpolation = namedtuple(
-    'InterpolationAlgo', ['linear', 'vng', 'ppg', 'ahd', 'dcb']
-)(0, 1, 2, 3, 4)
+    'InterpolationAlgo', ['linear', 'vng', 'ppg', 'ahd', 'dcb', 'modified_ahd',
+                          'afd', 'vcd', 'mixed_vcd_modified_ahd', 'lmmse',
+                          'amaze']
+)(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 """
 Constants for setting the interpolation algorithm:
 
-    - ``linear``
-    - ``vng``
-    - ``ppg``
-    - ``ahd``
-    - ``dcb``
+    0.  Linear
+    1.  VNG
+    2.  PPG
+    3.  AHD
+    4.  DCB
+    5.  Modified AHD
+    6.  AFD
+    7.  VCD
+    8.  Mixed VCD and Modified AHD
+    9.  LMMSE
+    10. AMaZE
+
+Modified AHD (5) through LMMSE (9) are only useful if you're using a version of
+LibRaw with the "`LibRaw Demosaic Pack GPL2`_" built in and AMaZE (10) is only
+useful if LibRaw was built with the "`LibRaw Demosaic Pack GPL3`_". If you
+attepmt to use an interpolation method that's not built into your version of
+LibRaw, it will silently fallback to AHD.
+
+Usage example:
+
+.. sourcecode:: python
+
+    from rawkit.raw import Raw
+    from rawkit.options import interpolation
+
+    with Raw(filename="RawFile.CR2") as raw:
+        raw.options.interpolation = interpolation.ahd
+        raw.save("RawFile.ppm")
+
+.. _LibRaw Demosaic Pack GPL2:
+   https://github.com/LibRaw/LibRaw-demosaic-pack-GPL2
+.. _LibRaw Demosaic Pack GPL3:
+   https://github.com/LibRaw/LibRaw-demosaic-pack-GPL3
 """
 
 
