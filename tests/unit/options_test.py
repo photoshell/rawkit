@@ -60,3 +60,27 @@ def test_map_params_fails_on_invalid(options):
     # with pytest.raises(AttributeError):
     params = Mock()
     options._map_to_libraw_params(params)
+
+
+def test_options_are_iterable(options):
+    options.half_size = True
+    assert 'half_size' in options
+    assert 'bps' not in options
+
+
+def test_options_repr(options):
+    options.half_size = True
+
+    assert repr(options) == repr({'half_size': True})
+
+
+def test_options_keys(options):
+    options.half_size = True
+
+    assert options.keys() == ['half_size']
+
+
+def test_options_values(options):
+    options.half_size = True
+
+    assert options.values() == [True]

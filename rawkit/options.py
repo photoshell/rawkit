@@ -167,6 +167,10 @@ class Options(object):
 
     """
     Represents a set of options which can be used when processing raw data.
+
+    :param attrs: a subscriptable object from which to take the initial state
+                  of the options object.
+    :type attrs: :class:`dict`
     """
 
     __slots__ = [
@@ -189,12 +193,60 @@ class Options(object):
     ]
     """The options which are supported by this class."""
 
-    def __init__(self):
+    def __init__(self, attrs=None):
         """
-        Create the options object, initializing values to ``None``.
+        Create the options object, initializing values to ``None`` or their
+        corresponding value from `attrs`.
         """
         for i in self.__slots__:
-            setattr(self, i, None)
+            try:
+                param = i[1:]
+                setattr(self, param, attrs[param])
+            except (KeyError, TypeError):
+                setattr(self, i, None)
+
+    def __iter__(self):
+        """Allow iterating over the options."""
+        idx = 0
+        while True:
+            idx += 1
+            try:
+                yield self.keys()[idx - 1]
+            except IndexError:
+                raise StopIteration
+
+    def __repr__(self):
+        """
+        Represents the options as a dict.
+        """
+        return repr(dict(self))
+
+    def keys(self):
+        """
+        A list of keys which have a value other than ``None`` and which have
+        been set by the user (even if those options are set to the default
+        value).
+
+        :returns: List of option keys which have been set
+        :rtype: :class:`tuple`
+        """
+        return [slot[1:] for slot in self.__slots__ if getattr(self, slot) is
+                not None]
+
+    def values(self):
+        """
+        The values of all options which appear in :func:`keys`.
+
+        :returns: List of options values
+        :rtype: :class:`tuple`
+        """
+        return [self.__getitem__(k) for k in self.keys()]
+
+    def __getitem__(self, k):
+        """
+        Allow accessing options with dictionary syntax eg. opts['half_size'].
+        """
+        return getattr(self, k)
 
     @option(param='output_color', ctype=ctypes.c_int)
     def colorspace(self):
