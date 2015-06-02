@@ -147,6 +147,17 @@ useful if LibRaw was built with the "`LibRaw Demosaic Pack GPL3`_". If you
 attepmt to use an interpolation method that's not built into your version of
 LibRaw, it will silently fallback to AHD.
 
+Usage example:
+
+.. sourcecode:: python
+
+    from rawkit.raw import Raw
+    from rawkit.options import interpolation
+
+    with Raw(filename="RawFile.CR2") as raw:
+        raw.options.interpolation = interpolation.ahd
+        raw.save("RawFile.ppm")
+
 .. _LibRaw Demosaic Pack GPL2:
    https://github.com/LibRaw/LibRaw-demosaic-pack-GPL2
 .. _LibRaw Demosaic Pack GPL3:
