@@ -1,9 +1,13 @@
 rawkit
 ======
 
+.. image:: https://img.shields.io/github/license/photoshell/rawkit.svg
+   :alt: MIT License
+   :target: https://tldrlegal.com/license/mit-license
+
 .. image:: https://badge.fury.io/py/rawkit.svg?
-  :alt: Package Status
-  :target: https://pypi.python.org/pypi/rawkit
+   :alt: Package Status
+   :target: https://pypi.python.org/pypi/rawkit
 
 .. image:: https://readthedocs.org/projects/rawkit/badge/?version=latest
    :alt: Docs Status
@@ -26,8 +30,8 @@ Python inspired by the Wand_ API.
     from rawkit.options import WhiteBalance
 
     with Raw(filename='some/raw/image.CR2') as raw:
-      raw.options.white_balance = WhiteBalance(camera=False, auto=True)
-      raw.save(filename='some/destination/image.ppm')
+        raw.options.white_balance = WhiteBalance(camera=False, auto=True)
+        raw.save(filename='some/destination/image.ppm')
 
 for more info, see the docs_
 
