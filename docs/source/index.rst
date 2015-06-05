@@ -18,7 +18,9 @@ rawkit
    :target: https://coveralls.io/r/photoshell/rawkit
 
 ``rawkit`` (pronounced `rocket`) is a :mod:`ctypes`-based LibRaw_ binding for
-Python inspired by the Wand_ API. ::
+Python inspired by the Wand_ API.
+
+.. sourcecode:: python
 
     from rawkit.raw import Raw
     from rawkit.options import WhiteBalance
