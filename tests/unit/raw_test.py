@@ -5,7 +5,13 @@ from rawkit.raw import Raw
 
 
 @pytest.yield_fixture
-def mock_libraw():
+def mock_check_call():
+    with mock.patch('rawkit.raw.e') as check_call:
+        yield check_call
+
+
+@pytest.yield_fixture
+def mock_libraw(mock_check_call):
     with mock.patch('rawkit.raw.libraw') as libraw:
         yield libraw
 

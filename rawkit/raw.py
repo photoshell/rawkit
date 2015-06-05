@@ -4,6 +4,7 @@
 
 import ctypes
 
+from rawkit import errors as e
 from rawkit.libraw import libraw
 from rawkit.metadata import Metadata
 from rawkit.options import Options
@@ -34,7 +35,9 @@ class Raw(object):
     def __init__(self, filename=None):
         """Initializes a new Raw object."""
         self.data = libraw.libraw_init(0)
-        libraw.libraw_open_file(self.data, filename.encode('ascii'))
+        e.check_call(
+            libraw.libraw_open_file(self.data, filename.encode('ascii'))
+        )
 
         self.options = Options()
 
@@ -51,24 +54,24 @@ class Raw(object):
 
     def close(self):
         """Free the underlying raw representation."""
-        libraw.libraw_close(self.data)
+        e.check_call(libraw.libraw_close(self.data))
 
     def unpack(self):
         """Unpack the raw data."""
         if not self.image_unpacked:
-            libraw.libraw_unpack(self.data)
+            e.check_call(libraw.libraw_unpack(self.data))
             self.image_unpacked = True
 
     def unpack_thumb(self):
         """Unpack the thumbnail data."""
         if not self.thumb_unpacked:
-            libraw.libraw_unpack_thumb(self.data)
+            e.check_call(libraw.libraw_unpack_thumb(self.data))
             self.thumb_unpacked = True
 
     def process(self):
         """Process the raw data based on self.options"""
         self.options._map_to_libraw_params(self.data.contents.params)
-        libraw.libraw_dcraw_process(self.data)
+        e.check_call(libraw.libraw_dcraw_process(self.data))
 
     def save(self, filename=None, filetype='ppm'):
         """
@@ -85,8 +88,8 @@ class Raw(object):
         self.unpack()
         self.process()
 
-        libraw.libraw_dcraw_ppm_tiff_writer(
-            self.data, filename.encode('ascii'))
+        e.check_call(libraw.libraw_dcraw_ppm_tiff_writer(
+            self.data, filename.encode('ascii')))
 
     def save_thumb(self, filename=None):
         """
@@ -97,8 +100,8 @@ class Raw(object):
         """
         self.unpack_thumb()
 
-        libraw.libraw_dcraw_thumb_writer(
-            self.data, filename.encode('ascii'))
+        e.check_call(libraw.libraw_dcraw_thumb_writer(
+            self.data, filename.encode('ascii')))
 
     def to_buffer(self):
         """
@@ -116,7 +119,7 @@ class Raw(object):
             ctypes.POINTER(ctypes.c_byte * processed_image.contents.data_size)
         )
         data = bytearray(data_pointer.contents)
-        libraw.libraw_dcraw_clear_mem(processed_image)
+        e.check_call(libraw.libraw_dcraw_clear_mem(processed_image))
 
         return data
 
@@ -135,7 +138,7 @@ class Raw(object):
             ctypes.POINTER(ctypes.c_byte * processed_image.contents.data_size)
         )
         data = bytearray(data_pointer.contents)
-        libraw.libraw_dcraw_clear_mem(processed_image)
+        e.check_call(libraw.libraw_dcraw_clear_mem(processed_image))
 
         return data
 
