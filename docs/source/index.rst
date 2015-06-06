@@ -58,7 +58,6 @@ First, you'll need to install LibRaw:
   - `LibRaw` on Fedora_ 21+
   - `libraw10` on Ubuntu_ Utopic+
   - `libraw-bin` on Debian_ Jessie+
-.. TODO: OS X with homebrew?
 
 Now you can fetch rawkit from PyPi_:
 

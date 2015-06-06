@@ -33,4 +33,4 @@ for more info, see the docs_
 
 .. _LibRaw: http://www.libraw.org/
 .. _Wand: http://docs.wand-py.org
-.. _docs: https://photoshell.github.io/rawkit/
+.. _docs: https://rawkit.readthedocs.org/en/latest/
