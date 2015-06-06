@@ -88,28 +88,3 @@ class BadCrop(Exception):
     The cropping coordinates specified are invalid (eg. the top left corner of
     the cropping rectangle is outside the image).
     """
-
-
-def check_call(exit_code):
-    """
-    Throws a Python error which corresponds to the given LibRaw exit code.
-
-    :param exit_code: the exit code returned by a LibRaw function
-    :type exit_code: :class:`int`
-    """
-
-    if exit_code is not 0:
-        raise {
-            -1: UnspecifiedError,
-            -2: FileUnsupported,
-            -3: RequestForNonexistentImage,
-            -4: OutOfOrderCall,
-            -5: NoThumbnail,
-            -6: UnsupportedThumbnail,
-            -7: InputClosed,
-            -100007: InsufficientMemory,
-            -100008: DataError,
-            -100009: IOError,
-            -100010: CancelledByCallback,
-            -100011: BadCrop
-        }[exit_code]

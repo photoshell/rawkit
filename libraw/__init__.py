@@ -1,6 +1,6 @@
-import libraw.bindings
+from libraw.bindings import LibRaw
 
-libraw = libraw.bindings.libraw
+libraw = LibRaw()
 """
 A handle to the LibRaw binary installed on the end users machine.
 
