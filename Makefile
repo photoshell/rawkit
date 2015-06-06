@@ -50,20 +50,24 @@ upload: build test
 clean:
 	$(ACTIVATE); $(MAKE) -C docs $@
 	find . -iname '*.pyc' | xargs rm -f
+	rm -rf docs/source/api/*
 	rm -rf .tox
 	rm -rf dist
 	rm -rf $(VENV)
 
 .PHONY: docs
-docs: epub html docs/source/api/*.rst
+docs: epub html
 
 .PHONY: html
-html: docs/source/api/*.rst docs/source/* docs/source/_static/*
+html: docs/source/api/rawkit.rst docs/source/api/libraw.rst docs/source/* docs/source/_static/*
 	$(ACTIVATE); $(MAKE) -C docs $@
 
 .PHONY: epub
-epub: docs/source/api/*.rst
+epub: docs/source/api/rawkit.rst docs/source/api/libraw.rst
 	$(ACTIVATE); $(MAKE) -C docs $@
 
-docs/source/api/*.rst: rawkit/*.py $(VENV)
-	$(ACTIVATE); sphinx-apidoc -o docs/source/api rawkit libraw docs
+docs/source/api/rawkit.rst: rawkit/*.py $(VENV)
+	$(ACTIVATE); sphinx-apidoc -M -o docs/source/api rawkit docs
+
+docs/source/api/libraw.rst: libraw/*.py $(VENV)
+	$(ACTIVATE); sphinx-apidoc -M -o docs/source/api libraw docs
