@@ -11,6 +11,13 @@ from rawkit.errors import NoFileSpecified, InvalidFileType
 from rawkit.metadata import Metadata
 from rawkit.options import Options
 
+from libraw.bindings import LibRaw
+
+libraw = LibRaw()
+"""
+A handle to the LibRaw binary installed on the end users machine.
+"""
+
 
 class Raw(object):
 

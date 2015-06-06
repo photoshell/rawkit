@@ -14,6 +14,11 @@ from libraw.structs import libraw_data_t, libraw_processed_image_t
 
 class LibRaw(CDLL):
 
+    """
+    A :class:`ctypes.CDLL` that loads an instance of `libraw.so` (or the
+    equivalent on your platform).
+    """
+
     @staticmethod
     def check_call(exit_code, func, arguments):
         """
@@ -21,6 +26,9 @@ class LibRaw(CDLL):
 
         :param exit_code: the exit code returned by a LibRaw function
         :type exit_code: :class:`int`
+        :returns: Returns :param:`exit_code` or throws an error from
+                  :class:`libraw.errors`
+        :rtype: :class:`type(exit_code)`
         """
 
         if isinstance(exit_code, int) and exit_code is not 0:
