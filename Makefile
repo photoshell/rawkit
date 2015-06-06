@@ -55,15 +55,15 @@ clean:
 	rm -rf dist
 	rm -rf $(VENV)
 
-.PHONY: docs
+.PHONY: docs $(VENV)
 docs: epub html
 
 .PHONY: html
-html: docs/source/api/rawkit.rst docs/source/api/libraw.rst docs/source/* docs/source/_static/*
+html: docs/source/api/rawkit.rst docs/source/api/libraw.rst docs/source/* docs/source/_static/* $(VENV)
 	$(ACTIVATE); $(MAKE) -C docs $@
 
 .PHONY: epub
-epub: docs/source/api/rawkit.rst docs/source/api/libraw.rst
+epub: docs/source/api/rawkit.rst docs/source/api/libraw.rst $(VENV)
 	$(ACTIVATE); $(MAKE) -C docs $@
 
 docs/source/api/rawkit.rst: rawkit/*.py $(VENV)
