@@ -287,7 +287,7 @@ class Options(object):
         :type: :class:`int`
         :default: :class:`rawkit.options.colorspaces.srgb`
         :dcraw: ``-o``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.output_color`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.output_color`
         """
         return colorspaces.srgb
 
@@ -306,7 +306,7 @@ class Options(object):
         :type: :class:`int`
         :default: :class:`rawkit.options.highlight_modes.clip`
         :dcraw: ``-H``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.highlight`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.highlight`
         """
         return highlight_modes.clip
 
@@ -321,10 +321,10 @@ class Options(object):
                 ``-w``
                 ``-A``
                 ``-r``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.use_auto_wb`
-                 :class:`rawkit.libraw.libraw_output_params_t.use_camera_wb`
-                 :class:`rawkit.libraw.libraw_output_params_t.greybox`
-                 :class:`rawkit.libraw.libraw_output_params_t.user_mul`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.use_auto_wb`
+                 :class:`libraw.structs.libraw_output_params_t.use_camera_wb`
+                 :class:`libraw.structs.libraw_output_params_t.greybox`
+                 :class:`libraw.structs.libraw_output_params_t.user_mul`
         """
         return WhiteBalance(auto=True, camera=True)
 
@@ -362,7 +362,7 @@ class Options(object):
         :type: :class:`int`
         :default: 0
         :dcraw: ``-s``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.shot_select`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.shot_select`
         """
         return None
 
@@ -374,7 +374,7 @@ class Options(object):
         :type: :class:`int`
         :default: None
         :dcraw: ``-S``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.user_sat`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.user_sat`
         """
         return None
 
@@ -386,7 +386,7 @@ class Options(object):
         :type: :class:`boolean`
         :default: False
         :dcraw: ``-f``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.four_color_rgb`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.four_color_rgb`
         """
         return False
 
@@ -398,7 +398,7 @@ class Options(object):
         :type: :class:`float`
         :default: None
         :dcraw: ``-n``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.threshold`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.threshold`
         """
         return None
 
@@ -411,7 +411,7 @@ class Options(object):
         :type: :class:`boolean`
         :default: False
         :dcraw: ``-h``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.half_size`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.half_size`
         """
         return False
 
@@ -423,7 +423,7 @@ class Options(object):
         :type: :class:`int`
         :default: None
         :dcraw: ``-k``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.user_black`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.user_black`
         """
         return None
 
@@ -441,7 +441,7 @@ class Options(object):
         :type: :class:`double tuple`
         :default: (1, 1)
         :dcraw: ``-C``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.aber`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.aber`
         """
         return (1, 1)
 
@@ -464,7 +464,7 @@ class Options(object):
         :type: :class:`int`
         :default: 8
         :dcraw: ``-4``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.output_bps`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.output_bps`
         """
         return 8
 
@@ -483,7 +483,7 @@ class Options(object):
         :type: :class:`float`
         :default: 1.0
         :dcraw: ``-b``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.bright`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.bright`
         """
         return 1.0
 
@@ -495,7 +495,7 @@ class Options(object):
         :type: :class:`4 float tuple`
         :default: None
         :dcraw: None
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.cropbox`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.cropbox`
         """
         return None
 
@@ -514,7 +514,7 @@ class Options(object):
         :type: :class:`2 double tuple`
         :default: None
         :dcraw: ``-g``
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.gamm`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.gamm`
         """
         return None
 
@@ -526,7 +526,7 @@ class Options(object):
         :type: :class:`rawkit.options.interpolation`
         :default: `ahd`
         :dcraw: `-q`
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.user_qual`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.user_qual`
         """
         return interpolation.ahd
 
@@ -536,7 +536,7 @@ class Options(object):
         struct with the proper C data types.
 
         :param params: the output params struct to set
-        :type params: :class:`rawkit.libraw.libraw_output_params_t`
+        :type params: :class:`libraw.structs.libraw_output_params_t`
         """
         for slot in self.__slots__:
             prop = slot[1:]

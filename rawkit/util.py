@@ -1,7 +1,7 @@
 import ctypes
 import os
 
-from rawkit.libraw import libraw
+from libraw import libraw
 
 
 def discover(path):
