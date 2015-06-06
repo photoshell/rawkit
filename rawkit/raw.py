@@ -4,8 +4,9 @@
 
 import ctypes
 
-from rawkit import errors as e
-from rawkit.libraw import libraw
+from libraw import libraw
+from libraw import errors as e
+
 from rawkit.metadata import Metadata
 from rawkit.options import Options
 

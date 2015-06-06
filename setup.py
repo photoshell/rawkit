@@ -18,7 +18,7 @@ setup(
     maintainer_email='sam@samwhited.com',
     url='https://photoshell.github.io/rawkit/',
     bugtrack_url='https://github.com/photoshell/rawkit/issues',
-    packages=['rawkit'],
+    packages=['rawkit', 'libraw'],
     keywords=['encoding', 'images', 'photography', 'libraw', 'raw', 'photos'],
     classifiers=[
         "Programming Language :: Python",

@@ -66,4 +66,4 @@ epub: docs/source/api/*.rst
 	$(ACTIVATE); $(MAKE) -C docs $@
 
 docs/source/api/*.rst: rawkit/*.py $(VENV)
-	$(ACTIVATE); sphinx-apidoc -o docs/source/api rawkit docs
+	$(ACTIVATE); sphinx-apidoc -o docs/source/api rawkit libraw docs

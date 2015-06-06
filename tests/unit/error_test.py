@@ -1,7 +1,7 @@
 import pytest
 
-from rawkit.errors import check_call
-from rawkit.errors import LibrawUnspecifiedError
+from libraw.errors import check_call
+from libraw.errors import UnspecifiedError
 
 
 def test_check_call_success():
@@ -9,5 +9,5 @@ def test_check_call_success():
 
 
 def test_check_call_error():
-    with pytest.raises(LibrawUnspecifiedError):
+    with pytest.raises(UnspecifiedError):
         check_call(-1)

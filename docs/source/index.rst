@@ -18,7 +18,9 @@ rawkit
    :target: https://coveralls.io/r/photoshell/rawkit
 
 ``rawkit`` (pronounced `rocket`) is a :mod:`ctypes`-based LibRaw_ binding for
-Python inspired by the Wand_ API. ::
+Python inspired by the Wand_ API.
+
+.. sourcecode:: python
 
     from rawkit.raw import Raw
     from rawkit.options import WhiteBalance
@@ -73,10 +75,17 @@ Now you can fetch rawkit from PyPi_:
 API Reference
 -------------
 
+The `rawkit` package provides two modules: `rawkit` and `libraw`. The `rawkit`
+module provides a high-level Pythonic interface for developing raw photos,
+while the `libraw` module provides a CTypes based interface for interacting
+with the low-level LibRaw C APIs. Most of the time, developers will want to use
+the `rawkit` module instead of using `libraw` directly.
+
 .. toctree::
    :maxdepth: 2
 
    api/rawkit
+   api/libraw
 
 Indices and tables
 ------------------
