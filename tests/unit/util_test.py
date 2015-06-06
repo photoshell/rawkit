@@ -6,7 +6,7 @@ from rawkit import util
 
 @pytest.yield_fixture
 def mock_libraw():
-    with mock.patch('rawkit.util.libraw') as libraw:
+    with mock.patch('rawkit.util._libraw') as libraw:
         yield libraw
 
 
@@ -22,7 +22,7 @@ def test_discover(mock_libraw):
 
 def test_camera_list(mock_libraw):
     with mock.patch(
-        'rawkit.util.libraw.libraw_cameraCount',
+        'rawkit.util._libraw.libraw_cameraCount',
         return_value=0
     ):
         assert util.camera_list() == []
