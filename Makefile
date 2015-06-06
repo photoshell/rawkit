@@ -1,7 +1,7 @@
 REBUILD_FLAG =
 VENV=env
 BIN=$(VENV)/bin
-ACTIVATE=source $(BIN)/activate
+ACTIVATE=. $(BIN)/activate
 
 .PHONY: all
 all: test build pre-commit
