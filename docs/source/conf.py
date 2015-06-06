@@ -256,7 +256,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'rawkit', 'rawkit Documentation',
-     'Cameron Paul, Sam Whited', 'rawkit', 'One line description of project.',
+     'Cameron Paul, Sam Whited', 'rawkit', 'CTypes based LibRaw bindings.',
      'Miscellaneous'),
 ]
 
