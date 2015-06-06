@@ -4,54 +4,100 @@
 
 
 class UnspecifiedError(Exception):
-    pass
+
+    """
+    Something bad happened, but we don't know what.
+    """
 
 
 class FileUnsupported(Exception):
-    pass
+
+    """
+    The file is not a raw file or is from an unsupported camera.
+    """
 
 
 class RequestForNonexistentImage(Exception):
-    pass
+
+    """
+    The image file directory in the raw file which you are trying to access
+    does not contain an image.
+    """
 
 
 class OutOfOrderCall(Exception):
-    pass
+
+    """
+    A LibRaw function depends on another function being called first and was
+    invoked out of order.
+    """
 
 
 class NoThumbnail(Exception):
-    pass
+
+    """
+    The raw file does not contain a thumbnail.
+    """
 
 
 class UnsupportedThumbnail(Exception):
-    pass
+
+    """
+    The thumbnail format is not supported.
+    """
 
 
 class InputClosed(Exception):
-    pass
+
+    """
+    There is no input stream, or the input stream has been closed.
+    """
 
 
 class InsufficientMemory(Exception):
-    pass
+
+    """
+    Memory allocation failed.
+    """
 
 
 class DataError(Exception):
-    pass
+
+    """
+    Data unpacking failed.
+    """
 
 
 class IOError(Exception):
-    pass
+
+    """
+    The RAW file is either corrupt or reading was interrupted somehow.
+    """
 
 
 class CancelledByCallback(Exception):
-    pass
+
+    """
+    Image processing was canceled because the progress callback requested it.
+    """
 
 
 class BadCrop(Exception):
-    pass
+
+    """
+    The cropping coordinates specified are invalid (eg. the top left corner of
+    the cropping rectangle is outside the image).
+    """
 
 
 def check_call(exit_code):
+    """
+    Throws a Python error which corresponds to the given LibRaw exit code.
+
+    :param exit_code: the exit code returned by a LibRaw function
+    :type exit_code: :class:`int`
+    """
+
     if exit_code is not 0:
         raise {
             -1: UnspecifiedError,
