@@ -55,8 +55,8 @@ clean:
 	rm -rf dist
 	rm -rf $(VENV)
 
-.PHONY: docs $(VENV)
-docs: epub html
+.PHONY: docs
+docs: epub html $(VENV)
 
 .PHONY: html
 html: docs/source/api/rawkit.rst docs/source/api/libraw.rst docs/source/* docs/source/_static/* $(VENV)
