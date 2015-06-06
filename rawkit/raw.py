@@ -6,17 +6,9 @@ import ctypes
 
 from libraw import libraw
 
-
 from rawkit.errors import NoFileSpecified, InvalidFileType
 from rawkit.metadata import Metadata
 from rawkit.options import Options
-
-from libraw.bindings import LibRaw
-
-libraw = LibRaw()
-"""
-A handle to the LibRaw binary installed on the end users machine.
-"""
 
 
 class Raw(object):
@@ -64,24 +56,24 @@ class Raw(object):
 
     def close(self):
         """Free the underlying raw representation."""
-        libraw.libraw_close(self.data)
+        _libraw.libraw_close(self.data)
 
     def unpack(self):
         """Unpack the raw data."""
         if not self.image_unpacked:
-            libraw.libraw_unpack(self.data)
+            _libraw.libraw_unpack(self.data)
             self.image_unpacked = True
 
     def unpack_thumb(self):
         """Unpack the thumbnail data."""
         if not self.thumb_unpacked:
-            libraw.libraw_unpack_thumb(self.data)
+            _libraw.libraw_unpack_thumb(self.data)
             self.thumb_unpacked = True
 
     def process(self):
         """Process the raw data based on self.options"""
         self.options._map_to_libraw_params(self.data.contents.params)
-        libraw.libraw_dcraw_process(self.data)
+        _libraw.libraw_dcraw_process(self.data)
 
     def save(self, filename=None, filetype='ppm'):
         """
@@ -103,7 +95,7 @@ class Raw(object):
         self.unpack()
         self.process()
 
-        libraw.libraw_dcraw_ppm_tiff_writer(
+        _libraw.libraw_dcraw_ppm_tiff_writer(
             self.data, filename.encode('ascii'))
 
     def save_thumb(self, filename=None):
@@ -115,7 +107,7 @@ class Raw(object):
         """
         self.unpack_thumb()
 
-        libraw.libraw_dcraw_thumb_writer(
+        _libraw.libraw_dcraw_thumb_writer(
             self.data, filename.encode('ascii'))
 
     def to_buffer(self):
@@ -128,13 +120,13 @@ class Raw(object):
         self.unpack()
         self.process()
 
-        processed_image = libraw.libraw_dcraw_make_mem_image(self.data)
+        processed_image = _libraw.libraw_dcraw_make_mem_image(self.data)
         data_pointer = ctypes.cast(
             processed_image.contents.data,
             ctypes.POINTER(ctypes.c_byte * processed_image.contents.data_size)
         )
         data = bytearray(data_pointer.contents)
-        libraw.libraw_dcraw_clear_mem(processed_image)
+        _libraw.libraw_dcraw_clear_mem(processed_image)
 
         return data
 
@@ -147,13 +139,13 @@ class Raw(object):
         """
         self.unpack_thumb()
 
-        processed_image = libraw.libraw_dcraw_make_mem_thumb(self.data)
+        processed_image = _libraw.libraw_dcraw_make_mem_thumb(self.data)
         data_pointer = ctypes.cast(
             processed_image.contents.data,
             ctypes.POINTER(ctypes.c_byte * processed_image.contents.data_size)
         )
         data = bytearray(data_pointer.contents)
-        libraw.libraw_dcraw_clear_mem(processed_image)
+        _libraw.libraw_dcraw_clear_mem(processed_image)
 
         return data
 

@@ -59,6 +59,10 @@ class LibRaw(CDLL):
     def __getitem__(self, name):
         func = self._FuncPtr((name, self))
         func.__name__ = name
-        func.errcheck = LibRaw.check_call
+
+        errexcludes = ('libraw_cameraCount', 'libraw_versionNumber')
+
+        if name not in errexcludes:
+            func.errcheck = LibRaw.check_call
 
         return func
