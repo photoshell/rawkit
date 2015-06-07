@@ -57,6 +57,7 @@ class LibRaw(CDLL):
             self.libraw_dcraw_make_mem_image.restype = POINTER(
                 libraw_processed_image_t
             )
+            self.libraw_version.restype = c_char_p
         except:
             super(LibRaw, self).__init__(util.find_library(''))
 
@@ -71,9 +72,7 @@ class LibRaw(CDLL):
         :returns: The version number
         :rtype: :class:`3 tuple`
         """
-        self.libraw_version.restype = c_char_p
         v = self.libraw_versionNumber()
-        print(v)
         return ((v >> 16) & 0x0000ff, (v >> 8) & 0x0000ff, v & 0x0000ff)
 
     @property
@@ -87,17 +86,13 @@ class LibRaw(CDLL):
         :returns: The version
         :rtype: :class:`basestring`
         """
-        self.libraw_version.restype = c_char_p
         return self.libraw_version().decode('utf-8')
 
     def __getitem__(self, name):
         if name.startswith('libraw_'):
-            # func = self._FuncPtr((name, self))
             func = super(LibRaw, self).__getitem__(name)
-            # func.__name__ = name
 
-            errexcludes = ('libraw_cameraCount', 'libraw_versionNumber',
-                           'libraw_init', 'libraw_version')
+            errexcludes = ('libraw_cameraCount', 'libraw_versionNumber')
 
             if name not in errexcludes:
                 func.errcheck = LibRaw.check_call
