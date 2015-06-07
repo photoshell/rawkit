@@ -208,6 +208,7 @@ class Options(object):
         '_brightness',
         '_chromatic_aberration',
         '_darkness',
+        '_lightness',
         '_half_size',
         '_noise_threshold',
         '_rgbg_interpolation',
@@ -529,6 +530,19 @@ class Options(object):
         :libraw: :class:`libraw.structs.libraw_output_params_t.user_qual`
         """
         return interpolation.ahd
+
+    @option(param='no_auto_bright', ctype=ctypes.c_int)
+    def lightness(self):
+        """
+        Use a fixed white level. Defaults to automatically setting the white
+        level based on the image histogram.
+
+        :type: :class:`int`
+        :default: None
+        :dcraw: `-W`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.no_auto_bright`
+        """
+        return None
 
     def _map_to_libraw_params(self, params):
         """
