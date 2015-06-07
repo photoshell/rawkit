@@ -540,7 +540,7 @@ class Options(object):
         :type: :class:`int`
         :default: None
         :dcraw: `-W`
-        :libraw: :class:`rawkit.libraw.libraw_output_params_t.no_auto_bright`
+        :libraw: :class:`libraw.structs.libraw_output_params_t.no_auto_bright`
         """
         return None
 
