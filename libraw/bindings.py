@@ -15,8 +15,8 @@ from libraw.structs import libraw_data_t, libraw_processed_image_t
 class LibRaw(CDLL):
 
     """
-    A :class:`ctypes.CDLL` that loads an instance of `libraw.so` (or the
-    equivalent on your platform).
+    A :class:`ctypes.CDLL` that links against `libraw.so` (or the equivalent on
+    your platform).
     """
 
     @staticmethod
