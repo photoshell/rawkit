@@ -342,17 +342,20 @@ class Options(object):
     def use_camera_matrix(self):
         """
         Use the color matrix from the raw's metadata. Only affects Olympus,
-        Leaf, and Phase One cameras (and DNG files). Default is True if the
-        photo is in DNG format or the camera white balance is being used, False
-        otherwise.
+        Leaf, and Phase One cameras (and DNG files).
+
+        Note that we differ from the LibRaw defaults on this option. LibRaw
+        defaults to true if the photo is in DNG format or the camera white
+        balance is being used, and false otherwise. rawkit always defaults to
+        true.
 
         :type: :class:`boolean`
-        :default: 0
+        :default: True
         :dcraw: ``+M``
                 ``-M``
         :libraw: :class:`libraw.libraw_output_params_t.use_camera_matrix`
         """
-        return None
+        return True
 
     @option(param='shot_select', ctype=ctypes.c_uint)
     def shot(self):
