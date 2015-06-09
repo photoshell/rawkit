@@ -9,6 +9,7 @@ from ctypes import *  # noqa
 from ctypes import util
 
 from libraw import errors
+from libraw.errors import c_error
 from libraw.structs import libraw_data_t, libraw_processed_image_t
 
 
@@ -31,7 +32,7 @@ class LibRaw(CDLL):
         :rtype: :class:`type(exit_code)`
         """
 
-        if isinstance(exit_code, int) and exit_code is not 0:
+        if func.restype is c_error and exit_code.value != 0:
             raise {
                 -1: errors.UnspecifiedError,
                 -2: errors.FileUnsupported,
@@ -45,7 +46,7 @@ class LibRaw(CDLL):
                 -100009: errors.IOError,
                 -100010: errors.CancelledByCallback,
                 -100011: errors.BadCrop
-            }[exit_code]
+            }[exit_code.value]
 
         return exit_code
 
@@ -53,12 +54,41 @@ class LibRaw(CDLL):
         # TODO: This hack is required because Travis doesn't have libraw10
         try:
             super(LibRaw, self).__init__(util.find_library('raw'))
+
+            # Define return types
+
             self.libraw_init.restype = POINTER(libraw_data_t)
-            self.libraw_dcraw_make_mem_image.restype = POINTER(
-                libraw_processed_image_t
-            )
             self.libraw_version.restype = c_char_p
-        except:
+            self.libraw_strprogress.restype = c_char_p
+            self.libraw_versionNumber.restype = c_int
+            self.libraw_cameraCount.restype = c_int
+            self.libraw_cameraList.restype = POINTER(
+                c_char_p * self.libraw_cameraCount()
+            )
+            self.libraw_unpack_function_name.restype = c_char_p
+            self.libraw_subtract_black.restype = POINTER(libraw_data_t)
+            self.libraw_open_file.restype = c_error
+            self.libraw_open_file_ex.restype = c_error
+            self.libraw_open_buffer.restype = c_error
+            self.libraw_unpack.restype = c_error
+            self.libraw_unpack_thumb.restype = c_error
+            self.libraw_adjust_sizes_info_only.restype = c_error
+            self.libraw_dcraw_ppm_tiff_writer.restype = c_error
+            self.libraw_dcraw_thumb_writer.restype = c_error
+            self.libraw_dcraw_process.restype = c_error
+            self.libraw_dcraw_make_mem_image.restype = POINTER(
+                libraw_processed_image_t)
+            self.libraw_dcraw_make_mem_thumb.restype = POINTER(
+                libraw_processed_image_t)
+            self.libraw_raw2image.restype = c_error
+            self.libraw_get_decoder_info.restype = c_error
+            self.libraw_COLOR.restype = c_error
+            try:
+                self.libraw_open_wfile.restype = c_error
+                self.libraw_open_wfile_ex.restype = c_error
+            except AttributeError:
+                pass
+        except Exception:
             super(LibRaw, self).__init__(util.find_library(''))
 
     @property
@@ -89,13 +119,8 @@ class LibRaw(CDLL):
         return self.libraw_version().decode('utf-8')
 
     def __getitem__(self, name):
-        if name.startswith('libraw_'):
-            func = super(LibRaw, self).__getitem__(name)
+        func = super(LibRaw, self).__getitem__(name)
 
-            errexcludes = ('libraw_cameraCount', 'libraw_versionNumber')
+        func.errcheck = LibRaw.check_call
 
-            if name not in errexcludes:
-                func.errcheck = LibRaw.check_call
-
-            # return func
-            return func
+        return func

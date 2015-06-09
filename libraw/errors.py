@@ -2,6 +2,17 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
 
+from ctypes import c_int
+
+
+class c_error(c_int):
+
+    """
+    An error type for LibRaw (since LibRaw errors are ints and you can't
+    distinguish between functions that return an error and functions that
+    return an int that doesn't code for an error).
+    """
+
 
 class UnspecifiedError(Exception):
 
