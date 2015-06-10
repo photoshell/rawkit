@@ -87,7 +87,7 @@ class LibRaw(CDLL):
                 self.libraw_open_wfile_ex.restype = c_error
             except AttributeError:
                 pass
-        except Exception:
+        except AttributeError:
             super(LibRaw, self).__init__(util.find_library(''))
 
     @property
