@@ -57,3 +57,6 @@ target/
 
 # Vim
 *.swp
+
+# JUnit test output for Bamboo
+*.xml
