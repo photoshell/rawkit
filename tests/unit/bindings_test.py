@@ -1,12 +1,42 @@
+import ctypes
 import mock
 import pytest
 
 from libraw.bindings import LibRaw
+from libraw.errors import c_error, UnspecifiedError
 
 
 @pytest.fixture
 def libraw():
     return LibRaw()
+
+
+@pytest.fixture
+def error_func():
+    m = mock.Mock()
+    m.restype = c_error
+    return m
+
+
+@pytest.fixture
+def int_func():
+    m = mock.Mock()
+    m.restype = ctypes.c_int
+    return m
+
+
+@pytest.fixture
+def success_exit_code():
+    m = mock.Mock()
+    m.value = 0
+    return m
+
+
+@pytest.fixture
+def undefined_exit_code():
+    m = mock.Mock()
+    m.value = -1
+    return m
 
 
 def test_libraw_sets_method_name(libraw):
@@ -22,14 +52,10 @@ def test_libraw_sets_method_name(libraw):
 
 def test_error_checking(libraw):
     """
-    Check that libraw methods are assigned an error checker (unless they're on
-    the white list).
+    Check that libraw methods are assigned an error checker.
     """
 
     libraw._FuncPtr = mock.Mock()
-
-    libraw.libraw_cameraCount()
-    assert libraw.libraw_cameraCount.errcheck != LibRaw.check_call
 
     libraw.libraw_something()
     assert libraw.libraw_something.errcheck == LibRaw.check_call
@@ -54,11 +80,27 @@ def test_version(libraw):
     libraw.libraw_version.assert_called_once_with()
 
 
-def test_get_non_libraw_method(libraw):
+def test_check_call_success(error_func, success_exit_code):
     """
-    Tets getting a method from an instance of `LibRaw` that does not exist in
-    the DLL (eg. that does not start with `libraw_`) and is not an instance
-    method. Expected behavior is to return `None`.
+    An error check with a return value of 0 should not raise.
     """
 
-    assert libraw.test is None
+    LibRaw.check_call(success_exit_code, error_func, None)
+
+
+def test_check_call_error(error_func, undefined_exit_code):
+    """
+    An error check with a negative error code should raise.
+    """
+
+    with pytest.raises(UnspecifiedError):
+        LibRaw.check_call(undefined_exit_code, error_func, None)
+
+
+def test_check_non_error_code_int(int_func, undefined_exit_code):
+    """
+    An error check to a method which does not return an error should not raise
+    (even if the return value looks like an error code).
+    """
+
+    LibRaw.check_call(undefined_exit_code, int_func, None)
