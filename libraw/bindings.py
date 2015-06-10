@@ -2,7 +2,6 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The :class:`libraw.bindings` module handles linking against the LibRaw binary.
-It does not provide an API.
 """
 
 from ctypes import *  # noqa
@@ -95,7 +94,7 @@ class LibRaw(CDLL):
     def version_number(self):
         """
         A numeric representation of the version of LibRaw which we have linked
-        against. eg. ::
+        against in ``(Major, Minor, Patch)`` form. eg. ::
 
             (0, 16, 1)
 
