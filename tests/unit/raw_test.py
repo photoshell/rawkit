@@ -20,12 +20,12 @@ def raw(input_file):
     with mock.patch('rawkit.raw.LibRaw'):
         with Raw(filename=input_file) as raw_obj:
             yield raw_obj
-        raw_obj._libraw.libraw_close.assert_called_once_with(raw_obj.data)
+        raw_obj.libraw.libraw_close.assert_called_once_with(raw_obj.data)
 
 
 def test_create(raw, input_file):
-    raw._libraw.libraw_init.assert_called_once()
-    raw._libraw.libraw_open_file.assert_called_once_with(
+    raw.libraw.libraw_init.assert_called_once()
+    raw.libraw.libraw_open_file.assert_called_once_with(
         raw.data,
         input_file.encode('ascii'),
     )
@@ -44,24 +44,24 @@ def test_unpack(mock_libraw, raw):
 def test_unpack_twice(raw):
     raw.unpack()
     raw.unpack()
-    raw._libraw.libraw_unpack.assert_called_once_with(raw.data)
+    raw.libraw.libraw_unpack.assert_called_once_with(raw.data)
 
 
 def test_unpack_thumb(raw):
     raw.unpack_thumb()
-    raw._libraw.libraw_unpack_thumb.assert_called_once_with(raw.data)
+    raw.libraw.libraw_unpack_thumb.assert_called_once_with(raw.data)
 
 
 def test_unpack_thumb_twice(raw):
     raw.unpack_thumb()
     raw.unpack_thumb()
-    raw._libraw.libraw_unpack_thumb.assert_called_once_with(raw.data)
+    raw.libraw.libraw_unpack_thumb.assert_called_once_with(raw.data)
 
 
 def _test_save(raw, output_file, filetype):
     raw.save(filename=output_file, filetype=filetype)
 
-    raw._libraw.libraw_dcraw_ppm_tiff_writer.assert_called_once_with(
+    raw.libraw.libraw_dcraw_ppm_tiff_writer.assert_called_once_with(
         raw.data,
         output_file.encode('ascii'),
     )
@@ -88,7 +88,7 @@ def test_save_invalid(mock_libraw, raw, output_file):
 def test_save_thumb(raw, output_file):
     raw.save_thumb(filename=output_file)
 
-    raw._libraw.libraw_dcraw_thumb_writer.assert_called_once_with(
+    raw.libraw.libraw_dcraw_thumb_writer.assert_called_once_with(
         raw.data,
         output_file.encode('ascii'),
     )
@@ -99,12 +99,12 @@ def test_to_buffer(raw):
     with mock.patch('rawkit.raw.ctypes'):
         raw.to_buffer()
 
-    raw._libraw.libraw_dcraw_make_mem_image.assert_called_once_with(
+    raw.libraw.libraw_dcraw_make_mem_image.assert_called_once_with(
         raw.data,
     )
 
-    raw._libraw.libraw_dcraw_clear_mem.assert_called_once_with(
-        raw._libraw.libraw_dcraw_make_mem_image(raw.data),
+    raw.libraw.libraw_dcraw_clear_mem.assert_called_once_with(
+        raw.libraw.libraw_dcraw_make_mem_image(raw.data),
     )
 
 
@@ -113,12 +113,12 @@ def test_thumbnail_to_buffer(raw):
     with mock.patch('rawkit.raw.ctypes'):
         raw.thumbnail_to_buffer()
 
-    raw._libraw.libraw_dcraw_make_mem_thumb.assert_called_once_with(
+    raw.libraw.libraw_dcraw_make_mem_thumb.assert_called_once_with(
         raw.data,
     )
 
-    raw._libraw.libraw_dcraw_clear_mem.assert_called_once_with(
-        raw._libraw.libraw_dcraw_make_mem_thumb(raw.data),
+    raw.libraw.libraw_dcraw_clear_mem.assert_called_once_with(
+        raw.libraw.libraw_dcraw_make_mem_thumb(raw.data),
     )
 
 
