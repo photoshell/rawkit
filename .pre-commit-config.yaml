@@ -1,12 +1,15 @@
 -   repo: git://github.com/pre-commit/pre-commit-hooks
-    sha: v0.4.1
+    sha: v0.4.2
     hooks:
       -   id: autopep8-wrapper
           args: ['-i']
           exclude: 'docs/source/_themes/'
       -   id: check-json
       -   id: check-yaml
+      -   id: name-tests-test
       -   id: debug-statements
       -   id: end-of-file-fixer
       -   id: trailing-whitespace
+      -   id: check-case-conflict
+      -   id: check-merge-conflict
       -   id: check-docstring-first
