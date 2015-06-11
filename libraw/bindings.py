@@ -19,6 +19,50 @@ class LibRaw(CDLL):
     your platform).
     """
 
+    def __init__(self):  # pragma: no cover
+        libraw = util.find_library('raw')
+        try:
+            if libraw is not None:
+                super(LibRaw, self).__init__(libraw)
+            else:
+                raise ImportError
+        except (ImportError, AttributeError, OSError, IOError):
+            raise ImportError('Cannot find LibRaw on your system!')
+
+        # Define return types
+
+        self.libraw_init.restype = POINTER(libraw_data_t)
+        self.libraw_version.restype = c_char_p
+        self.libraw_strprogress.restype = c_char_p
+        self.libraw_versionNumber.restype = c_int
+        self.libraw_cameraCount.restype = c_int
+        self.libraw_cameraList.restype = POINTER(
+            c_char_p * self.libraw_cameraCount()
+        )
+        self.libraw_unpack_function_name.restype = c_char_p
+        self.libraw_subtract_black.restype = POINTER(libraw_data_t)
+        self.libraw_open_file.restype = c_error
+        self.libraw_open_file_ex.restype = c_error
+        self.libraw_open_buffer.restype = c_error
+        self.libraw_unpack.restype = c_error
+        self.libraw_unpack_thumb.restype = c_error
+        self.libraw_adjust_sizes_info_only.restype = c_error
+        self.libraw_dcraw_ppm_tiff_writer.restype = c_error
+        self.libraw_dcraw_thumb_writer.restype = c_error
+        self.libraw_dcraw_process.restype = c_error
+        self.libraw_dcraw_make_mem_image.restype = POINTER(
+            libraw_processed_image_t)
+        self.libraw_dcraw_make_mem_thumb.restype = POINTER(
+            libraw_processed_image_t)
+        self.libraw_raw2image.restype = c_error
+        self.libraw_get_decoder_info.restype = c_error
+        self.libraw_COLOR.restype = c_error
+        try:
+            self.libraw_open_wfile.restype = c_error
+            self.libraw_open_wfile_ex.restype = c_error
+        except AttributeError:
+            pass
+
     @staticmethod
     def check_call(exit_code, func, arguments):
         """
@@ -48,47 +92,6 @@ class LibRaw(CDLL):
             }[exit_code.value]
 
         return exit_code
-
-    def __init__(self):  # pragma: no cover
-        # TODO: This hack is required because Travis doesn't have libraw10
-        try:
-            super(LibRaw, self).__init__(util.find_library('raw'))
-
-            # Define return types
-
-            self.libraw_init.restype = POINTER(libraw_data_t)
-            self.libraw_version.restype = c_char_p
-            self.libraw_strprogress.restype = c_char_p
-            self.libraw_versionNumber.restype = c_int
-            self.libraw_cameraCount.restype = c_int
-            self.libraw_cameraList.restype = POINTER(
-                c_char_p * self.libraw_cameraCount()
-            )
-            self.libraw_unpack_function_name.restype = c_char_p
-            self.libraw_subtract_black.restype = POINTER(libraw_data_t)
-            self.libraw_open_file.restype = c_error
-            self.libraw_open_file_ex.restype = c_error
-            self.libraw_open_buffer.restype = c_error
-            self.libraw_unpack.restype = c_error
-            self.libraw_unpack_thumb.restype = c_error
-            self.libraw_adjust_sizes_info_only.restype = c_error
-            self.libraw_dcraw_ppm_tiff_writer.restype = c_error
-            self.libraw_dcraw_thumb_writer.restype = c_error
-            self.libraw_dcraw_process.restype = c_error
-            self.libraw_dcraw_make_mem_image.restype = POINTER(
-                libraw_processed_image_t)
-            self.libraw_dcraw_make_mem_thumb.restype = POINTER(
-                libraw_processed_image_t)
-            self.libraw_raw2image.restype = c_error
-            self.libraw_get_decoder_info.restype = c_error
-            self.libraw_COLOR.restype = c_error
-            try:
-                self.libraw_open_wfile.restype = c_error
-                self.libraw_open_wfile_ex.restype = c_error
-            except AttributeError:
-                pass
-        except AttributeError:
-            super(LibRaw, self).__init__(util.find_library(''))
 
     @property
     def version_number(self):

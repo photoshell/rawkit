@@ -1,7 +1,7 @@
 import ctypes
 import os
 
-from rawkit import _libraw
+from libraw.bindings import LibRaw
 
 
 def discover(path):
@@ -11,16 +11,17 @@ def discover(path):
     :type path: :class:`str`
     """
     file_list = []
-    raw = _libraw.libraw_init(0)
+    libraw = LibRaw()
+    raw = libraw.libraw_init(0)
 
     for root, _, files in os.walk(path):
         for file_name in files:
             file_path = os.path.join(root, file_name).encode('ascii')
-            if _libraw.libraw_open_file(raw, file_path) == 0:
+            if libraw.libraw_open_file(raw, file_path) == 0:
                 file_list.append(file_path)
-            _libraw.libraw_recycle(raw)
+            libraw.libraw_recycle(raw)
 
-    _libraw.libraw_close(raw)
+    libraw.libraw_close(raw)
     return file_list
 
 
@@ -33,8 +34,10 @@ def camera_list():
     :rtype: :class:`str tuple`
     """
 
-    _libraw.libraw_cameraList.restype = ctypes.POINTER(
-        ctypes.c_char_p * _libraw.libraw_cameraCount()
+    libraw = LibRaw()
+    print(libraw)
+    libraw.libraw_cameraList.restype = ctypes.POINTER(
+        ctypes.c_char_p * libraw.libraw_cameraCount()
     )
-    data_pointer = _libraw.libraw_cameraList()
+    data_pointer = libraw.libraw_cameraList()
     return [x.decode('ascii') for x in data_pointer.contents]

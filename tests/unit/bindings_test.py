@@ -6,9 +6,10 @@ from libraw.bindings import LibRaw
 from libraw.errors import c_error, UnspecifiedError
 
 
-@pytest.fixture
+@pytest.yield_fixture
 def libraw():
-    return LibRaw()
+    with mock.patch.object(LibRaw, '__init__', mock.Mock(return_value=None)):
+        yield LibRaw()
 
 
 @pytest.fixture
