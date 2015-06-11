@@ -7,7 +7,7 @@ from rawkit import util
 @pytest.yield_fixture
 def libraw():
     with mock.patch('rawkit.util.LibRaw') as libraw:
-        # TODO: There muts be a better way...
+        # TODO: There must be a better way...
         libraw.return_value = libraw
         yield libraw
 
