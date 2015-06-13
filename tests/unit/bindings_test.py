@@ -3,7 +3,7 @@ import mock
 import pytest
 
 from libraw.bindings import LibRaw
-from libraw.errors import c_error, UnspecifiedError
+from libraw.errors import c_error, check_call, UnspecifiedError
 
 
 @pytest.yield_fixture
@@ -59,7 +59,7 @@ def test_error_checking(libraw):
     libraw._FuncPtr = mock.Mock()
 
     libraw.libraw_something()
-    assert libraw.libraw_something.errcheck == LibRaw.check_call
+    assert libraw.libraw_something.errcheck == check_call
 
 
 def test_version_number_calculation(libraw):
@@ -86,7 +86,7 @@ def test_check_call_success(error_func, success_exit_code):
     An error check with a return value of 0 should not raise.
     """
 
-    LibRaw.check_call(success_exit_code, error_func, None)
+    check_call(success_exit_code, error_func, None)
 
 
 def test_check_call_error(error_func, undefined_exit_code):
@@ -95,7 +95,7 @@ def test_check_call_error(error_func, undefined_exit_code):
     """
 
     with pytest.raises(UnspecifiedError):
-        LibRaw.check_call(undefined_exit_code, error_func, None)
+        check_call(undefined_exit_code, error_func, None)
 
 
 def test_check_non_error_code_int(int_func, undefined_exit_code):
@@ -104,4 +104,4 @@ def test_check_non_error_code_int(int_func, undefined_exit_code):
     (even if the return value looks like an error code).
     """
 
-    LibRaw.check_call(undefined_exit_code, int_func, None)
+    check_call(undefined_exit_code, int_func, None)

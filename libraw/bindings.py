@@ -63,36 +63,6 @@ class LibRaw(CDLL):
         except AttributeError:
             pass
 
-    @staticmethod
-    def check_call(exit_code, func, arguments):
-        """
-        Throws a Python error which corresponds to the given LibRaw exit code.
-
-        :param exit_code: the exit code returned by a LibRaw function
-        :type exit_code: :class:`int`
-        :returns: Returns :param:`exit_code` or throws an error from
-                  :class:`libraw.errors`
-        :rtype: :class:`type(exit_code)`
-        """
-
-        if func.restype is c_error and exit_code.value != 0:
-            raise {
-                -1: errors.UnspecifiedError,
-                -2: errors.FileUnsupported,
-                -3: errors.RequestForNonexistentImage,
-                -4: errors.OutOfOrderCall,
-                -5: errors.NoThumbnail,
-                -6: errors.UnsupportedThumbnail,
-                -7: errors.InputClosed,
-                -100007: errors.InsufficientMemory,
-                -100008: errors.DataError,
-                -100009: errors.IOError,
-                -100010: errors.CancelledByCallback,
-                -100011: errors.BadCrop
-            }[exit_code.value]
-
-        return exit_code
-
     @property
     def version_number(self):
         """
@@ -123,6 +93,6 @@ class LibRaw(CDLL):
     def __getitem__(self, name):
         func = super(LibRaw, self).__getitem__(name)
 
-        func.errcheck = LibRaw.check_call
+        func.errcheck = errors.check_call
 
         return func
