@@ -8,7 +8,7 @@ def discover(path):
     """
     Recursively search for raw files in a given directory.
     :param path: the directory to recursively search
-    :type path: :class:`basestring`
+    :type path: :class:`str`
     """
     file_list = []
     raw = libraw.libraw_init(0)
@@ -30,7 +30,7 @@ def camera_list():
     version of LibRaw.
 
     :returns: A list of supported cameras
-    :rtype: :class:`basestring tuple`
+    :rtype: :class:`str tuple`
     """
     libraw.libraw_cameraList.restype = ctypes.POINTER(
         ctypes.c_char_p * libraw.libraw_cameraCount()

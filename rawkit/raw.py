@@ -28,7 +28,7 @@ class Raw(object):
             raw.save(filename='some/destination/image.ppm')
 
     :param filename: the name of a raw file to load
-    :type filename: :class:`basestring`
+    :type filename: :class:`str`
     :returns: A raw object
     :rtype: :class:`Raw`
     """
@@ -79,9 +79,9 @@ class Raw(object):
         Save the image data as a new PPM or TIFF image.
 
         :param filename: the name of an image file to save
-        :type filename: :class:`basestring`
+        :type filename: :class:`str`
         :param filetype: the type of file to output (``ppm`` or ``tiff``)
-        :type filetype: :class:`basestring`
+        :type filetype: :class:`str`
         """
         assert filetype in ('ppm', 'tiff')
         self.data.contents.params.output_tiff = 0 if filetype is 'ppm' else 1
@@ -97,7 +97,7 @@ class Raw(object):
         Save the thumbnail data.
 
         :param filename: the name of an image file to save
-        :type filename: :class:`basestring`
+        :type filename: :class:`str`
         """
         self.unpack_thumb()
 
