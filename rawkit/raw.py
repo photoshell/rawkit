@@ -7,6 +7,8 @@ import ctypes
 from libraw import libraw
 from libraw import errors as e
 
+
+from rawkit.errors import NoFileSpecified, InvalidFileType
 from rawkit.metadata import Metadata
 from rawkit.options import Options
 
@@ -31,10 +33,13 @@ class Raw(object):
     :type filename: :class:`str`
     :returns: A raw object
     :rtype: :class:`Raw`
+    :raises: :exc:`rawkit.errors.NoFileSpecified`
     """
 
     def __init__(self, filename=None):
         """Initializes a new Raw object."""
+        if filename is None:
+            raise NoFileSpecified()
         self.data = libraw.libraw_init(0)
         e.check_call(
             libraw.libraw_open_file(self.data, filename.encode('ascii'))
@@ -82,8 +87,13 @@ class Raw(object):
         :type filename: :class:`str`
         :param filetype: the type of file to output (``ppm`` or ``tiff``)
         :type filetype: :class:`str`
+        :raises: :exc:`rawkit.errors.NoFileSpecified`
+                 :exc:`rawkit.errors.InvalidFileTypeError`
         """
-        assert filetype in ('ppm', 'tiff')
+        if filename is None:
+            raise NoFileSpecified()
+        if filetype not in ('ppm', 'tiff'):
+            raise InvalidFileType('Output filetype must be "ppm" or "tiff"')
         self.data.contents.params.output_tiff = 0 if filetype is 'ppm' else 1
 
         self.unpack()
