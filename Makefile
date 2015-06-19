@@ -50,7 +50,7 @@ upload: build test
 clean:
 	$(ACTIVATE); $(MAKE) -C docs $@
 	find . -iname '*.pyc' | xargs rm -f
-	rm -rf docs/source/api/*
+	find . -iname '__pycache__' -type d | xargs rm -rf
 	rm -rf .tox
 	rm -rf dist
 	rm -rf $(VENV)

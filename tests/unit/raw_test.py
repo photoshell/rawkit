@@ -1,5 +1,6 @@
 import mock
 import pytest
+from rawkit.errors import InvalidFileType, NoFileSpecified
 from rawkit.metadata import Metadata
 from rawkit.raw import Raw
 
@@ -41,6 +42,11 @@ def test_create(mock_libraw, raw, input_file):
     )
 
 
+def test_create_no_filename(mock_libraw):
+    with pytest.raises(NoFileSpecified):
+        Raw()
+
+
 def test_unpack(mock_libraw, raw):
     raw.unpack()
     mock_libraw.libraw_unpack.assert_called_once_with(raw.data)
@@ -72,6 +78,11 @@ def _test_save(mock_libraw, raw, output_file, filetype):
     )
 
 
+def test_save_no_filename(mock_libraw, raw):
+    with pytest.raises(NoFileSpecified):
+        raw.save(filetype='ppm')
+
+
 def test_save_ppm(mock_libraw, raw, output_file):
     _test_save(mock_libraw, raw, output_file, 'ppm')
 
@@ -81,7 +92,7 @@ def test_save_tiff(mock_libraw, raw, output_file):
 
 
 def test_save_invalid(mock_libraw, raw, output_file):
-    with pytest.raises(AssertionError):
+    with pytest.raises(InvalidFileType):
         _test_save(mock_libraw, raw, output_file, 'jpg')
 
 

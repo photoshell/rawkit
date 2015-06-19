@@ -9,6 +9,14 @@ rawkit package
 Submodules
 ----------
 
+rawkit.errors module
+----------------------
+
+.. automodule:: rawkit.errors
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 rawkit.metadata module
 ----------------------
 
