@@ -4,3 +4,4 @@ mock
 pytest
 tox
 sphinx
+alabaster
