@@ -31,14 +31,14 @@ def test_create(raw, input_file):
     )
 
 
-def test_create_no_filename(mock_libraw):
+def test_create_no_filename():
     with pytest.raises(NoFileSpecified):
         Raw()
 
 
-def test_unpack(mock_libraw, raw):
+def test_unpack(raw):
     raw.unpack()
-    mock_libraw.libraw_unpack.assert_called_once_with(raw.data)
+    raw.libraw.libraw_unpack.assert_called_once_with(raw.data)
 
 
 def test_unpack_twice(raw):
@@ -67,7 +67,7 @@ def _test_save(raw, output_file, filetype):
     )
 
 
-def test_save_no_filename(mock_libraw, raw):
+def test_save_no_filename(raw):
     with pytest.raises(NoFileSpecified):
         raw.save(filetype='ppm')
 
@@ -80,9 +80,9 @@ def test_save_tiff(raw, output_file):
     _test_save(raw, output_file, 'tiff')
 
 
-def test_save_invalid(mock_libraw, raw, output_file):
+def test_save_invalid(raw, output_file):
     with pytest.raises(InvalidFileType):
-        _test_save(mock_libraw, raw, output_file, 'jpg')
+        _test_save(raw, output_file, 'jpg')
 
 
 def test_save_thumb(raw, output_file):
