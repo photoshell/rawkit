@@ -12,4 +12,3 @@
       -   id: trailing-whitespace
       -   id: check-case-conflict
       -   id: check-merge-conflict
-      -   id: check-docstring-first
