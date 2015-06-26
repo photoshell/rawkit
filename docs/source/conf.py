@@ -115,7 +115,15 @@ html_theme = 'alabaster'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-# html_theme_options = {}
+html_theme_options = {
+    'logo': 'rocket.png',
+    'logo_name': True,
+    'logo_text_align': 'center',
+    'github_user': 'photoshell',
+    'github_repo': 'rawkit',
+    'github_button': False,
+    'github_banner': True,
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = [alabaster.get_path()]
@@ -132,7 +140,7 @@ html_style = 'rawkit.css'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = '_static/rocket.png'
+# html_logo = '_static/rocket.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
