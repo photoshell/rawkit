@@ -3,8 +3,6 @@ import pytest
 from mock import Mock
 from rawkit.options import option, Options, WhiteBalance
 
-# @option decorator tests
-
 
 @pytest.fixture
 def options():
@@ -128,3 +126,20 @@ def test_auto_brightness_param_writer(options):
     options.auto_brightness = False
     params = options._map_to_libraw_params(Mock())
     assert params.no_auto_bright.value == 1
+
+
+def test_dark_frame_setter(options):
+    options.dark_frame = 'Some String'
+    assert options._dark_frame == 'Some String'
+
+
+def test_dark_frame_writer(options):
+    options.dark_frame = 'Some String'
+    params = options._map_to_libraw_params(Mock())
+    assert params.dark_frame.value == b'Some String'
+
+    df = Mock()
+    df.tmp = 'fakefile'
+    options.dark_frame = df
+    params = options._map_to_libraw_params(Mock())
+    assert params.dark_frame.value == b'fakefile'

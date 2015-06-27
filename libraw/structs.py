@@ -161,7 +161,7 @@ class libraw_output_params_t(Structure):
         ('output_profile', POINTER(c_char)),
         ('camera_profile', POINTER(c_char)),
         ('bad_pixels', POINTER(c_char)),
-        ('dark_frame', POINTER(c_char)),
+        ('dark_frame', c_char_p),
         ('output_bps', c_int),
         ('output_tiff', c_int),
         ('user_flip', c_int),

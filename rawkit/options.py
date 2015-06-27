@@ -223,6 +223,7 @@ class Options(object):
         '_interpolation',
         '_auto_stretch',
         '_rotation',
+        '_dark_frame',
     ]
     """The options which are supported by this class."""
 
@@ -604,6 +605,36 @@ class Options(object):
             90: 6,
             0: 0
         }[self._rotation])
+
+    @option
+    def dark_frame(self):
+        """
+        A dark frame in 16-bit PGM format. This may either be a path to an
+        existing file, or an instance of :class:`rawkit.raw.DarkFrame`.
+
+        :type: :class:`rawkit.raw.DarkFrame`
+               :class:`str`
+        :default: None
+        :dcraw: ``-K``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.dark_frame`
+        """
+        return None
+
+    @dark_frame.setter
+    def dark_frame(self, value):
+        self._dark_frame = value
+
+    @dark_frame.param_writer
+    def dark_frame(self, params):
+        try:
+            self._dark_frame.save()
+            params.dark_frame = ctypes.c_char_p(
+                self._dark_frame.tmp.encode('utf-8')
+            )
+        except AttributeError:
+            params.dark_frame = ctypes.c_char_p(
+                self._dark_frame.encode('utf-8')
+            )
 
     def _map_to_libraw_params(self, params):
         """

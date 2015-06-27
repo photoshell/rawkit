@@ -3,6 +3,9 @@
 """
 
 import ctypes
+import os
+import shutil
+import tempfile
 
 from rawkit.errors import NoFileSpecified, InvalidFileType
 from libraw.bindings import LibRaw
@@ -171,3 +174,43 @@ class Raw(object):
             orientation=self.data.contents.sizes.flip,
             width=self.data.contents.sizes.width,
         )
+
+
+class DarkFrame(Raw):
+
+    """
+    Represents a dark frame---a raw photo taken in low light which can be
+    subtracted from another photos raw data.
+
+    Creates a temporary file which is not cleaned up until the dark frame is
+    closed.
+
+    :See also: :class:`rawkit.raw.Raw`
+    """
+
+    def __init__(self, filename=None):
+        """Initializes a new DarkFrame object."""
+        super(DarkFrame, self).__init__(filename=filename)
+        self.options = Options({
+            'auto_brightness': False,
+            'brightness': 1.0,
+            'auto_stretch': True,
+            'bps': 16,
+            'gamma': (1, 1),
+            'rotation': 0,
+        })
+        self._td = tempfile.mkdtemp()
+        self.tmp = os.path.join(self._td, 'df')
+
+    def save(self):
+        """
+        Save the image data, defaults to using the temporary file.
+        """
+
+        if not os.path.isfile(self.tmp):
+            super(DarkFrame, self).save(filename=self.tmp, filetype='ppm')
+
+    def close(self):
+        """Free the underlying raw representation and temp file."""
+        super(DarkFrame, self).close()
+        shutil.rmtree(self._td, True)

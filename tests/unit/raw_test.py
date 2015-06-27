@@ -2,7 +2,7 @@ import mock
 import pytest
 from rawkit.errors import InvalidFileType, NoFileSpecified
 from rawkit.metadata import Metadata
-from rawkit.raw import Raw
+from rawkit.raw import Raw, DarkFrame
 
 
 @pytest.fixture
@@ -23,6 +23,14 @@ def raw(input_file):
         raw_obj.libraw.libraw_close.assert_called_once_with(raw_obj.data)
 
 
+@pytest.yield_fixture
+def darkframe(input_file):
+    with mock.patch('rawkit.raw.LibRaw'):
+        with DarkFrame(filename=input_file) as raw_obj:
+            yield raw_obj
+        raw_obj.libraw.libraw_close.assert_called_once_with(raw_obj.data)
+
+
 def test_create(raw, input_file):
     raw.libraw.libraw_init.assert_called_once()
     raw.libraw.libraw_open_file.assert_called_once_with(
@@ -34,6 +42,10 @@ def test_create(raw, input_file):
 def test_create_no_filename():
     with pytest.raises(NoFileSpecified):
         Raw()
+
+
+def test_darkframe_is_raw(darkframe):
+    assert isinstance(darkframe, Raw)
 
 
 def test_unpack(raw):
@@ -56,6 +68,20 @@ def test_unpack_thumb_twice(raw):
     raw.unpack_thumb()
     raw.unpack_thumb()
     raw.libraw.libraw_unpack_thumb.assert_called_once_with(raw.data)
+
+
+def test_save_darkframe_cached(darkframe):
+    darkframe.save()
+
+    # Touch the file (as if LibRaw were installed and saved a file)
+    with open(darkframe.tmp, 'a'):
+        pass
+
+    darkframe.save()
+    darkframe.libraw.libraw_dcraw_ppm_tiff_writer.assert_called_once_with(
+        darkframe.data,
+        darkframe.tmp.encode('ascii'),
+    )
 
 
 def _test_save(raw, output_file, filetype):
