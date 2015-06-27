@@ -114,3 +114,17 @@ def test_rotation_param_writer_values(options):
         options.rotation = value
         params = options._map_to_libraw_params(Mock())
         assert params.user_flip.value == values[value]
+
+
+def test_auto_brightness_param_writer(options):
+    options.auto_brightness = None
+    params = options._map_to_libraw_params(Mock())
+    assert params.no_auto_bright.value == 0
+
+    options.auto_brightness = True
+    params = options._map_to_libraw_params(Mock())
+    assert params.no_auto_bright.value == 0
+
+    options.auto_brightness = False
+    params = options._map_to_libraw_params(Mock())
+    assert params.no_auto_bright.value == 1
