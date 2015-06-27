@@ -529,7 +529,7 @@ class Options(object):
 
         :type: :class:`rawkit.options.interpolation`
         :default: `ahd`
-        :dcraw: `-q`
+        :dcraw: ``-q``
         :libraw: :class:`libraw.structs.libraw_output_params_t.user_qual`
         """
         return interpolation.ahd
@@ -542,10 +542,25 @@ class Options(object):
 
         :type: :class:`int`
         :default: None
-        :dcraw: `-W`
+        :dcraw: ``-W``
         :libraw: :class:`libraw.structs.libraw_output_params_t.no_auto_bright`
         """
         return None
+
+    @option(param='use_fuji_rotate', ctype=ctypes.c_int)
+    def auto_stretch(self):
+        """
+        Stretches images taken on cameras with non-square pixels to the correct
+        aspect ratio. For Fuji Super CCD cameras, rotates the image 45 degrees.
+        This guarantees that the output pixels share a 1:1 correspondence with
+        the raw pixels.
+
+        :type: :class:`boolean`
+        :default: True
+        :dcraw: ``-j``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.use_fuji_rotate`
+        """
+        return True
 
     def _map_to_libraw_params(self, params):
         """
