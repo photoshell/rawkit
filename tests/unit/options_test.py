@@ -43,23 +43,19 @@ def test_option_from_class_should_return_decorator():
 
 
 def test_custom_wb_param_writer_writes_rgbg_and_greybox(options):
-    params = Mock()
-    options.white_balance = WhiteBalance(greybox=(0, 0, 0, 0),
-                                         rgbg=(0, 0, 0, 0))
-    options._map_to_libraw_params(params)
-    assert params.greybox is not None
-    assert params.rgbg is not None
+    options.white_balance = WhiteBalance(greybox=(7, 7, 7, 7),
+                                         rgbg=(42, 42, 42, 42))
+    params = options._map_to_libraw_params(Mock())
+
+    for v in params.greybox:
+        assert v == 7
+    for v in params.user_mul:
+        assert v == 42
 
 
 def test_bps_must_be_8_or_16(options):
     with pytest.raises(ValueError):
         options.bps = 5
-
-
-def test_map_params_fails_on_invalid(options):
-    # with pytest.raises(AttributeError):
-    params = Mock()
-    options._map_to_libraw_params(params)
 
 
 def test_options_are_iterable(options):
@@ -84,3 +80,37 @@ def test_options_values(options):
     options.half_size = True
 
     assert options.values() == [True]
+
+
+def test_set_rotation_invalid_type(options):
+    with pytest.raises(TypeError):
+        options.rotation = 'fish'
+
+
+def test_set_rotation_value_is_reduced(options):
+    options.rotation = 270 + 90
+    assert options.rotation == 0
+
+    options.rotation = 270 + 180
+    assert options.rotation == 90
+
+    options.rotation = None
+    assert options.rotation is None
+
+
+def test_set_rotation_invalid_value(options):
+    with pytest.raises(ValueError):
+        options.rotation = 93.5
+
+
+def test_rotation_param_writer_values(options):
+    values = {
+        270: 5,
+        180: 3,
+        90: 6,
+        0: 0
+    }
+    for value in values.keys():
+        options.rotation = value
+        params = options._map_to_libraw_params(Mock())
+        assert params.user_flip.value == values[value]

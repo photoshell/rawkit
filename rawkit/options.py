@@ -220,7 +220,9 @@ class Options(object):
         '_colorspace',
         '_cropbox',
         '_gamma',
-        '_interpolation'
+        '_interpolation',
+        '_auto_stretch',
+        '_rotation',
     ]
     """The options which are supported by this class."""
 
@@ -562,6 +564,41 @@ class Options(object):
         """
         return True
 
+    @option
+    def rotation(self):
+        """
+        Rotates the image by the given number of degrees. Must be a multiple of
+        90 (0, 90, 180, 270, etc).
+
+        The default (None) is to use the rotation provided by the camera.
+
+        :type: :class:`int`
+        :default: None
+        :dcraw: ``-t``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.user_flip`
+        """
+        return None
+
+    @rotation.setter
+    def rotation(self, value):
+        if value is not None and value > 0:
+            value = ((value + 3600) % 360)
+
+        if value in (None, 0, 90, 180, 270):
+            self._rotation = value
+        else:
+            raise ValueError('Rotation must be None (use camera rotation) or '
+                             'a multiple of 90')
+
+    @rotation.param_writer
+    def rotation(self, params):
+        params.user_flip = ctypes.c_int({
+            270: 5,
+            180: 3,
+            90: 6,
+            0: 0
+        }[self._rotation])
+
     def _map_to_libraw_params(self, params):
         """
         Internal method that writes rawkit options into the libraw options
@@ -575,3 +612,6 @@ class Options(object):
             opt = getattr(Options, prop)
             if type(opt) is option and getattr(self, prop) is not None:
                 opt.write_param(self, params)
+
+        # This generally isn't needed, except for testing.
+        return params
