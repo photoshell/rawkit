@@ -206,9 +206,9 @@ class Options(object):
     __slots__ = [
         '_bps',
         '_brightness',
+        '_auto_brightness',
         '_chromatic_aberration',
         '_darkness',
-        '_lightness',
         '_half_size',
         '_noise_threshold',
         '_rgbg_interpolation',
@@ -481,18 +481,6 @@ class Options(object):
         else:
             raise ValueError("BPS must be 8 or 16")
 
-    @option(param='bright', ctype=ctypes.c_float)
-    def brightness(self):
-        """
-        The brightness of the image.
-
-        :type: :class:`float`
-        :default: 1.0
-        :dcraw: ``-b``
-        :libraw: :class:`libraw.structs.libraw_output_params_t.bright`
-        """
-        return 1.0
-
     @option(param='cropbox', ctype=(ctypes.c_uint * 4))
     def cropbox(self):
         """
@@ -536,18 +524,33 @@ class Options(object):
         """
         return interpolation.ahd
 
-    @option(param='no_auto_bright', ctype=ctypes.c_int)
-    def lightness(self):
+    @option('bright', ctype=ctypes.c_float)
+    def brightness(self):
         """
-        Use a fixed white level. Defaults to automatically setting the white
-        level based on the image histogram.
+        Sets the brightness level.
 
-        :type: :class:`int`
-        :default: None
+        :type: :class:`float`
+        :default: 1.0
+        :dcraw: ``-b``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.bright`
+        """
+        return 1.0
+
+    @option
+    def auto_brightness(self):
+        """
+        Sets the brightness automatically based on the image histogram.
+
+        :type: :class:`boolean`
+        :default: True
         :dcraw: ``-W``
         :libraw: :class:`libraw.structs.libraw_output_params_t.no_auto_bright`
         """
-        return None
+        return True
+
+    @auto_brightness.param_writer
+    def auto_brightness(self, params):
+        params.no_auto_bright = ctypes.c_int(not self._auto_brightness)
 
     @option(param='use_fuji_rotate', ctype=ctypes.c_int)
     def auto_stretch(self):
