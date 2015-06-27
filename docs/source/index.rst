@@ -84,6 +84,7 @@ the `rawkit` module instead of using `libraw` directly.
 .. toctree::
    :maxdepth: 2
 
+   api/modules
    api/rawkit
    api/libraw
 

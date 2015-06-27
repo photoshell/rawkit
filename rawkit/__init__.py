@@ -1,5 +1,5 @@
-""":mod:`rawkit` --- Raw photo manipulation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""Introduction
+~~~~~~~~~~~~~~~
 
 The :mod:`rawkit` module contains high-level APIs for manipulating raw photos
 using the low-level :mod:`libraw` module (which in turn uses the even

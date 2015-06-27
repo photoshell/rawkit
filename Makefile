@@ -2,6 +2,8 @@ REBUILD_FLAG =
 VENV=env
 BIN=$(VENV)/bin
 ACTIVATE=source $(BIN)/activate
+APIDOCS=docs/source/api
+DOCSRC=$(APIDOCS)/modules.rst docs/source/* docs/source/_static/*
 
 .PHONY: all
 all: test build pre-commit
@@ -59,15 +61,12 @@ clean:
 docs: epub html $(VENV)
 
 .PHONY: html
-html: docs/source/api/rawkit.rst docs/source/api/libraw.rst docs/source/* docs/source/_static/* $(VENV)
+html: $(DOCSRC) $(VENV)
 	$(ACTIVATE); $(MAKE) -C docs $@
 
 .PHONY: epub
-epub: docs/source/api/rawkit.rst docs/source/api/libraw.rst $(VENV)
+epub: $(DOCSRC) $(VENV)
 	$(ACTIVATE); $(MAKE) -C docs $@
 
-docs/source/api/rawkit.rst: rawkit/*.py $(VENV)
-	$(ACTIVATE); sphinx-apidoc -M -o docs/source/api rawkit docs
-
-docs/source/api/libraw.rst: libraw/*.py $(VENV)
-	$(ACTIVATE); sphinx-apidoc -M -o docs/source/api libraw docs
+$(APIDOCS)/modules.rst: rawkit/*.py libraw/*.py $(VENV)
+	$(ACTIVATE); sphinx-apidoc -f -E -M -o $(APIDOCS) -H Contents . docs tests setup.py
