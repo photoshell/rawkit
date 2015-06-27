@@ -550,7 +550,10 @@ class Options(object):
 
     @auto_brightness.param_writer
     def auto_brightness(self, params):
-        params.no_auto_bright = ctypes.c_int(not self._auto_brightness)
+        if self._auto_brightness is None:
+            params.no_auto_bright = ctypes.c_int(False)
+        else:
+            params.no_auto_bright = ctypes.c_int(not self._auto_brightness)
 
     @option(param='use_fuji_rotate', ctype=ctypes.c_int)
     def auto_stretch(self):
