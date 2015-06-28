@@ -14,3 +14,8 @@ div.bodywrapper h1 {
 div.body h2 {
 	font-family: "Prociono", "Garamond","Georgia", serif;
 }
+
+div.sphinxsidebar #searchbox input[type="text"] {
+	float: left;
+	width: 166px;
+}
