@@ -43,12 +43,12 @@ Requirements
   - PyPy 2.5+
   - PyPy3 2.4+
 
-While other versions may work, rawkit is only tested with the versions listed
-above.
-
 - LibRaw
 
   - LibRaw 0.16.x (API version 10)
+
+While other versions of Python or LibRaw may work, only the versions listed
+above are tested for compatibility.
 
 Installing rawkit
 -----------------
