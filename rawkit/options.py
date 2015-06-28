@@ -224,6 +224,7 @@ class Options(object):
         '_auto_stretch',
         '_rotation',
         '_dark_frame',
+        '_green_matching',
     ]
     """The options which are supported by this class."""
 
@@ -635,6 +636,19 @@ class Options(object):
             params.dark_frame = ctypes.c_char_p(
                 self._dark_frame.encode('utf-8')
             )
+
+    @option(param='green_matching', ctype=ctypes.c_int)
+    def green_matching(self):
+        """
+        Performs a second post-processing pass to correct for green channel
+        imbalance.
+
+        :type: :class:`boolean`
+        :default: False
+        :dcraw: None
+        :libraw: :class:`libraw.structs.libraw_output_params_t.green_matching`
+        """
+        return False
 
     def _map_to_libraw_params(self, params):
         """
