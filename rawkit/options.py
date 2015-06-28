@@ -207,6 +207,7 @@ class Options(object):
         '_bps',
         '_brightness',
         '_auto_brightness',
+        '_auto_brightness_threshold',
         '_chromatic_aberration',
         '_darkness',
         '_half_size',
@@ -529,7 +530,8 @@ class Options(object):
     @option(param='bright', ctype=ctypes.c_float)
     def brightness(self):
         """
-        Sets the brightness level.
+        Sets the brightness level by dividing the white level by this value.
+        This is ignored if :class:`~auto_brightness` is ``True``.
 
         :type: :class:`float`
         :default: 1.0
@@ -538,28 +540,35 @@ class Options(object):
         """
         return 1.0
 
-    @option
-    def auto_brightness(self):
+    @option(param='auto_bright_thr', ctype=ctypes.c_float)
+    def auto_brightness_threshold(self):
         """
-        If set to an allowable percentage of clipped pixels, sets the
-        brightness automatically based on the image histogram. Otherwise (None)
-        use a fixed brightness level.
+        The allowable percentage of clipped pixels when
+        :class:`~auto_brightness` is used.
 
         :type: :class:`float`
         :default: 0.001 (0.1%)
-        :dcraw: ``-W``
-        :libraw: :class:`libraw.structs.libraw_output_params_t.no_auto_bright`
-                 :class:`libraw.structs.libraw_output_params_t.auto_bright_thr`
+        :dcraw: None
+        :libraw: :class:`libraw.structs.libraw_output_params_t.auto_bright_thr`
         """
         return 0.001
 
+    @option
+    def auto_brightness(self):
+        """
+        Set the brightness automatically based on the image histogram and the
+        :class:`~auto_brightness_threshold`.
+
+        :type: :class:`boolean`
+        :default: True
+        :dcraw: ``-W``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.no_auto_bright`
+        """
+        return True
+
     @auto_brightness.param_writer
-    def auto_brightness(self, params):
-        if self._auto_brightness is None:
-            params.no_auto_bright = ctypes.c_int(True)
-        else:
-            params.no_auto_bright = ctypes.c_int(False)
-            params.auto_bright_thr = ctypes.c_float(self._auto_brightness)
+    def auto_brightness(self, param):
+        param.no_auto_bright = ctypes.c_int(not self._auto_brightness)
 
     @option(param='use_fuji_rotate', ctype=ctypes.c_int)
     def auto_stretch(self):
