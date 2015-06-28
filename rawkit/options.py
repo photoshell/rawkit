@@ -526,7 +526,7 @@ class Options(object):
         """
         return interpolation.ahd
 
-    @option('bright', ctype=ctypes.c_float)
+    @option(param='bright', ctype=ctypes.c_float)
     def brightness(self):
         """
         Sets the brightness level.
@@ -541,21 +541,25 @@ class Options(object):
     @option
     def auto_brightness(self):
         """
-        Sets the brightness automatically based on the image histogram.
+        If set to an allowable percentage of clipped pixels, sets the
+        brightness automatically based on the image histogram. Otherwise (None)
+        use a fixed brightness level.
 
-        :type: :class:`boolean`
-        :default: True
+        :type: :class:`float`
+        :default: 0.001 (0.1%)
         :dcraw: ``-W``
         :libraw: :class:`libraw.structs.libraw_output_params_t.no_auto_bright`
+                 :class:`libraw.structs.libraw_output_params_t.auto_bright_thr`
         """
-        return True
+        return 0.001
 
     @auto_brightness.param_writer
     def auto_brightness(self, params):
         if self._auto_brightness is None:
-            params.no_auto_bright = ctypes.c_int(False)
+            params.no_auto_bright = ctypes.c_int(True)
         else:
-            params.no_auto_bright = ctypes.c_int(not self._auto_brightness)
+            params.no_auto_bright = ctypes.c_int(False)
+            params.auto_bright_thr = ctypes.c_float(self._auto_brightness)
 
     @option(param='use_fuji_rotate', ctype=ctypes.c_int)
     def auto_stretch(self):

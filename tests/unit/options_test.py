@@ -117,15 +117,12 @@ def test_rotation_param_writer_values(options):
 def test_auto_brightness_param_writer(options):
     options.auto_brightness = None
     params = options._map_to_libraw_params(Mock())
-    assert params.no_auto_bright.value == 0
-
-    options.auto_brightness = True
-    params = options._map_to_libraw_params(Mock())
-    assert params.no_auto_bright.value == 0
-
-    options.auto_brightness = False
-    params = options._map_to_libraw_params(Mock())
     assert params.no_auto_bright.value == 1
+
+    options.auto_brightness = 0.1
+    params = options._map_to_libraw_params(Mock())
+    assert params.no_auto_bright.value == 0
+    assert abs(params.auto_bright_thr.value - 0.1) < 0.000001
 
 
 def test_dark_frame_setter(options):
