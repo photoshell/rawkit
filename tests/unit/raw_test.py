@@ -1,4 +1,5 @@
 import mock
+import os
 import pytest
 from rawkit.errors import InvalidFileType, NoFileSpecified
 from rawkit.metadata import Metadata
@@ -24,7 +25,7 @@ def raw(input_file):
 
 
 @pytest.yield_fixture
-def darkframe(input_file):
+def dark_frame(input_file):
     with mock.patch('rawkit.raw.LibRaw'):
         with DarkFrame(filename=input_file) as raw_obj:
             yield raw_obj
@@ -44,8 +45,8 @@ def test_create_no_filename():
         Raw()
 
 
-def test_darkframe_is_raw(darkframe):
-    assert isinstance(darkframe, Raw)
+def test_dark_frame_is_raw(dark_frame):
+    assert isinstance(dark_frame, Raw)
 
 
 def test_unpack(raw):
@@ -70,18 +71,26 @@ def test_unpack_thumb_twice(raw):
     raw.libraw.libraw_unpack_thumb.assert_called_once_with(raw.data)
 
 
-def test_save_darkframe_cached(darkframe):
-    darkframe.save()
+def test_save_dark_frame_cached(dark_frame, tmpdir):
+    dark_frame.save()
 
     # Touch the file (as if LibRaw were installed and saved a file)
-    with open(darkframe.tmp, 'a'):
+    with open(dark_frame.name, 'a'):
         pass
 
-    darkframe.save()
-    darkframe.libraw.libraw_dcraw_ppm_tiff_writer.assert_called_once_with(
-        darkframe.data,
-        darkframe.tmp.encode('ascii'),
+    dark_frame.save()
+    dark_frame.libraw.libraw_dcraw_ppm_tiff_writer.assert_called_once_with(
+        dark_frame.data,
+        dark_frame.name.encode('ascii'),
     )
+
+
+def test_save_dark_frame_with_filename_cached(dark_frame, tmpdir):
+    tmpdir.join('somefile').write('')
+    fn = os.path.join(str(tmpdir), 'somefile')
+    dark_frame.save(filename=fn)
+    dark_frame.save(filename=fn, filetype='tiff')
+    assert not dark_frame.libraw.libraw_dcraw_ppm_tiff_writer.called
 
 
 def _test_save(raw, output_file, filetype):

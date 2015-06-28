@@ -4,7 +4,8 @@
 
 import ctypes
 import os
-import shutil
+import random
+import string
 import tempfile
 
 from rawkit.errors import NoFileSpecified, InvalidFileType
@@ -199,18 +200,52 @@ class DarkFrame(Raw):
             'gamma': (1, 1),
             'rotation': 0,
         })
-        self._td = tempfile.mkdtemp()
-        self.tmp = os.path.join(self._td, 'df')
+        self._tmp = os.path.join(
+            tempfile.gettempdir(),
+            '{prefix}{rand}'.format(
+                prefix=tempfile.gettempprefix(),
+                rand=''.join(random.SystemRandom().choice(
+                    string.ascii_uppercase + string.digits) for _ in range(8)
+                )
+            )
+        )
+        self._filetype = None
 
-    def save(self):
+    def save(self, filename=None, filetype='ppm'):
         """
-        Save the image data, defaults to using the temporary file.
+        Save the image data, defaults to using a temp file.
+
+        :param filename: the name of an image file to save
+        :type filename: :class:`str`
+        :param filetype: the type of file to output (``ppm`` or ``tiff``)
+        :type filetype: :class:`str`
+        :raises: :exc:`rawkit.errors.InvalidFileTypeError`
         """
 
-        if not os.path.isfile(self.tmp):
-            super(DarkFrame, self).save(filename=self.tmp, filetype='ppm')
+        if filename is None:
+            filename = self._tmp
+
+        if not os.path.isfile(filename):
+            super(DarkFrame, self).save(filename=filename, filetype=filetype)
+
+    @property
+    def name(self):
+        """
+        A tempfile in a unique directory.
+
+        :returns: The name of a temp file
+        :rtype: :class:`str`
+        """
+        return self._tmp
+
+    def cleanup(self):
+        """Cleanup temp files."""
+        try:
+            os.unlink(self._tmp)
+        except OSError:
+            pass
 
     def close(self):
-        """Free the underlying raw representation and temp file."""
+        """Free the underlying raw representation and cleanup temp files."""
         super(DarkFrame, self).close()
-        shutil.rmtree(self._td, True)
+        self.cleanup()

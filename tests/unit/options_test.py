@@ -139,7 +139,8 @@ def test_dark_frame_writer(options):
     assert params.dark_frame.value == b'Some String'
 
     df = Mock()
-    df.tmp = 'fakefile'
+    df._tmp = 'fakefile'
+    df.name = df._tmp
     options.dark_frame = df
     params = options._map_to_libraw_params(Mock())
     assert params.dark_frame.value == b'fakefile'

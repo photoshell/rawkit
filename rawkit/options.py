@@ -629,7 +629,7 @@ class Options(object):
         try:
             self._dark_frame.save()
             params.dark_frame = ctypes.c_char_p(
-                self._dark_frame.tmp.encode('utf-8')
+                self._dark_frame.name.encode('utf-8')
             )
         except AttributeError:
             params.dark_frame = ctypes.c_char_p(
