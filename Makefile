@@ -45,12 +45,12 @@ dist: dist/*.tar.gz
 build: pre-commit wheel dist
 
 .PHONY: upload
-upload: clean build test
+upload: clean
 	python setup.py sdist bdist bdist_wheel upload
 
 .PHONY: clean
 clean:
-	$(ACTIVATE); $(MAKE) -C docs $@
+	-$(ACTIVATE) 2>/dev/null; $(MAKE) -C docs $@
 	find . -iname '*.pyc' | xargs rm -f
 	find . -iname '__pycache__' -type d | xargs rm -rf
 	rm -rf .tox
