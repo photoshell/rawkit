@@ -19,7 +19,7 @@ Creates a callback for use by the EXIF parser.
     def exif_cb(context, tag, type, len, ord, ifp):
         pass
 
-    cb = CFUNCTYPE(exif_cb)
+    cb = exif_parser_callback(exif_cb)
 
     libraw.libraw_set_exifparser_handler(libraw_data, cb, data)
 
@@ -46,7 +46,7 @@ Creates a callback for use when there are memory errors in LibRaw.
     def memory_cb(data, file, where):
         pass
 
-    cb = CFUNCTYPE(memory_cb)
+    cb = memory_callback(memory_cb)
 
     libraw.libraw_set_memerror_handler(libraw_data, cb, data)
 
@@ -73,7 +73,7 @@ A callback for use when there are data errors in LibRaw.
     def data_cb(data, file, offset):
         pass
 
-    cb = CFUNCTYPE(data_cb)
+    cb = data_callback(data_cb)
 
     libraw.libraw_set_dataerror_handler(libraw_data, cb, data)
 
@@ -100,7 +100,7 @@ A callback that will be called to alert you to the stages of image processing.
     def progress_cb(data, stage, iteration, expected):
         pass
 
-    cb = CFUNCTYPE(progress_cb)
+    cb = progress_callback(progress_cb)
 
     libraw.libraw_set_progress_handler(libraw_data, cb, data)
 
