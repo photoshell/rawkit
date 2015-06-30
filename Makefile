@@ -45,7 +45,7 @@ dist: dist/*.tar.gz
 build: pre-commit wheel dist
 
 .PHONY: upload
-upload: build test
+upload: clean build test
 	python setup.py sdist bdist bdist_wheel upload
 
 .PHONY: clean
@@ -54,6 +54,7 @@ clean:
 	find . -iname '*.pyc' | xargs rm -f
 	find . -iname '__pycache__' -type d | xargs rm -rf
 	rm -rf .tox
+	rm -rf build
 	rm -rf dist
 	rm -rf $(VENV)
 
