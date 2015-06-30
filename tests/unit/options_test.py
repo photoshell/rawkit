@@ -134,10 +134,10 @@ def test_dark_frame_writer(options):
 
 def test_use_camera_profile_setter(options):
     options.use_camera_profile = False
-    assert options.use_camera_profile == False
+    assert options.use_camera_profile is False
 
     options.use_camera_profile = True
-    assert options.use_camera_profile == True
+    assert options.use_camera_profile is True
 
 
 def test_use_camera_profile_writer(options):
