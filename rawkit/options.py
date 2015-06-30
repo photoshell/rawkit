@@ -229,6 +229,7 @@ class Options(object):
         '_rotation',
         '_dark_frame',
         '_green_matching',
+        '_bad_pixels_file',
     ]
     """The options which are supported by this class."""
 
@@ -725,6 +726,20 @@ class Options(object):
             params.camera_profile = 'embed'
         else:
             params.camera_profile = None
+
+    @option(param='bad_pixels', ctype=ctypes.c_char_p)
+    def bad_pixels_file(self):
+        """
+        Points to a bad pixels map in dcraw format: ::
+
+            column row unix-timestamp\\n
+
+        :type: :class:`str`
+        :default: None
+        :dcraw: ``-P``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.bad_pixels`
+        """
+        return None
 
     def _map_to_libraw_params(self, params):
         """
