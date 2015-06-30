@@ -56,6 +56,6 @@ docs/_build/
 target/
 
 # Vim
-*.swp
+*.sw[po]
 
 test-results/
