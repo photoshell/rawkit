@@ -147,7 +147,7 @@ class LibRaw(CDLL):
             ]
             self.libraw_open_wfile_ex.argtypes = [
                 POINTER(libraw_data_t),
-                c_char_p,
+                c_wchar_p,
                 c_int64
             ]
             self.libraw_open_wfile.restype = c_error
