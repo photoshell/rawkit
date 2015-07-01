@@ -1,9 +1,11 @@
 """:mod:`libraw.callbacks` --- LibRaw callback definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Note that you will need to keep a reference to your callback functions for as
-long as you want to call them from C code, otherwise they may be garbage
-collected and lead to a segmentation fault.
+Warning:
+
+    You will need to keep a reference to your callback functions for as long as
+    you want to call them from C code, otherwise they may be garbage collected
+    and lead to a segmentation fault.
 """
 
 from ctypes import *  # noqa
