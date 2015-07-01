@@ -178,7 +178,7 @@ class LibRaw(CDLL):
             "0.16.1-Release"
 
         :returns: The version
-        :rtype: :class:`basestring`
+        :rtype: :class:`str`
         """
         return self.libraw_version().decode('utf-8')
 
