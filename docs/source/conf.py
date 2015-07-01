@@ -123,6 +123,7 @@ html_theme_options = {
     'github_repo': 'rawkit',
     'github_button': False,
     'github_banner': True,
+    'head_font_family': '"Prociono", "Garamond", "Georgia", serif',
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -163,7 +164,7 @@ html_static_path = ['_static']
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
-# html_use_smartypants = True
+html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
 # html_sidebars = {}
@@ -185,16 +186,16 @@ html_sidebars = {
 # html_domain_indices = True
 
 # If false, no index is generated.
-# html_use_index = True
+html_use_index = True
 
 # If true, the index is split into individual pages for each letter.
 # html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-# html_show_sourcelink = True
+html_show_sourcelink = True
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
-# html_show_sphinx = True
+html_show_sphinx = True
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 # html_show_copyright = True

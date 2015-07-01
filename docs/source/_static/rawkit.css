@@ -3,15 +3,10 @@
 
 div.bodywrapper h1 {
 	text-indent: 0;
-	font-family: "Prociono", "Garamond","Georgia", serif;
 	font-size: 5em;
 }
 
-.logo {
-	font-family: "Prociono", "Garamond","Georgia", serif;
-}
-
-div.body h2 {
+.logo-name {
 	font-family: "Prociono", "Garamond","Georgia", serif;
 }
 
