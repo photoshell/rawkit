@@ -219,6 +219,9 @@ class Options(object):
         '_white_balance',
         '_highlight_mode',
         '_colorspace',
+        '_output_profile',
+        '_input_profile',
+        '_use_camera_profile',
         '_cropbox',
         '_gamma',
         '_interpolation',
@@ -226,6 +229,7 @@ class Options(object):
         '_rotation',
         '_dark_frame',
         '_green_matching',
+        '_bad_pixels_file',
     ]
     """The options which are supported by this class."""
 
@@ -662,6 +666,80 @@ class Options(object):
         :libraw: :class:`libraw.structs.libraw_output_params_t.green_matching`
         """
         return False
+
+    @option(param='output_profile', ctype=ctypes.c_char_p)
+    def output_profile(self):
+        """
+        Path to an ICC color profile file containing the output profile. Only
+        used if the version of LibRaw that you're linking against was compiled
+        with LCMS support.
+
+        :type: :class:`string`
+        :default: None
+        :dcraw: ``-o``
+                ``-p``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.output_profile`
+        """
+        return None
+
+    @option(param='camera_profile', ctype=ctypes.c_char_p)
+    def input_profile(self):
+        """
+        Path to an ICC color profile file containing the input profile. Only
+        used if the version of LibRaw that you're linking against was compiled
+        with LCMS support.
+
+        Note that LibRaw defines a magic string, 'embed', which causes it to
+        use the profile embedded in the raw image if present. This is the same
+        as setting the :class:`~use_camera_profile` option.
+
+        :type: :class:`string`
+        :default: None
+        :dcraw: ``-o``
+                ``-p``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.camera_profile`
+        """
+        return None
+
+    @option
+    def use_camera_profile(self):
+        """
+        True if we should use the embedded camera profile (if present in the
+        raw file and we're linking against a version of LibRaw with LCMS
+        support).
+
+        :type: :class:`boolean`
+        :default: True
+        :dcraw: ``-o``
+                ``-p``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.camera_profile`
+        """
+        return True
+
+    @use_camera_profile.setter
+    def use_camera_profile(self, value):
+        self._use_camera_profile = value
+
+    @use_camera_profile.param_writer
+    def use_camera_profile(self, params):
+        if self._use_camera_profile:
+            params.camera_profile = 'embed'
+        else:
+            params.camera_profile = None
+
+    @option(param='bad_pixels', ctype=ctypes.c_char_p)
+    def bad_pixels_file(self):
+        """
+        Points to a bad pixels map in dcraw format: ::
+
+            column row unix-timestamp\\n
+
+        :type: :class:`str`
+        :default: None
+        :dcraw: ``-P``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.bad_pixels`
+        """
+        return None
 
     def _map_to_libraw_params(self, params):
         """

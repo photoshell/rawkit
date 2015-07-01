@@ -130,3 +130,21 @@ def test_dark_frame_writer(options):
     options.dark_frame = df
     params = options._map_to_libraw_params(Mock())
     assert params.dark_frame.value == b'fakefile'
+
+
+def test_use_camera_profile_setter(options):
+    options.use_camera_profile = False
+    assert options.use_camera_profile is False
+
+    options.use_camera_profile = True
+    assert options.use_camera_profile is True
+
+
+def test_use_camera_profile_writer(options):
+    options.use_camera_profile = True
+    params = options._map_to_libraw_params(Mock())
+    assert params.camera_profile == 'embed'
+
+    options.use_camera_profile = False
+    params = options._map_to_libraw_params(Mock())
+    assert params.camera_profile is None
