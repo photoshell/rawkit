@@ -118,7 +118,7 @@ def check_call(exit_code, func, arguments):
              :exc:`~InsufficientMemory`
              :exc:`~DataError`
              :exc:`~IOError`
-             :exc:`~CancelledByCallback`j
+             :exc:`~CancelledByCallback`
              :exc:`~BadCrop`
     """
 
