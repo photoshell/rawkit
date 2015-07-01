@@ -16,8 +16,7 @@ setup(
     author_email='cpaul37@gmail.com',
     maintainer='Cameron Paul, Sam Whited',
     maintainer_email='sam@samwhited.com',
-    url='https://photoshell.github.io/rawkit/',
-    bugtrack_url='https://github.com/photoshell/rawkit/issues',
+    url='https://rawkit.readthedocs.org',
     packages=['rawkit', 'libraw'],
     keywords=['encoding', 'images', 'photography', 'libraw', 'raw', 'photos'],
     classifiers=[
@@ -40,5 +39,5 @@ setup(
         'tox >= 2.0.1',
         'mock >= 1.0.1'
     ],
-    extras_require={'doc': ['Sphinx >=1.0']},
+    extras_require={'doc': ['sphinx >= 1.0']},
 )
