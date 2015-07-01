@@ -107,9 +107,19 @@ def check_call(exit_code, func, arguments):
 
     :param exit_code: the exit code returned by a LibRaw function
     :type exit_code: :class:`int`
-    :returns: Returns :param:`exit_code` or throws an error from
-              :class:`libraw.errors`
-    :rtype: :class:`type(exit_code)`
+    :raises: :exc:`~UnspecifiedError`
+             :exc:`~FileUnsupported`
+             :exc:`~FileUnsupported`
+             :exc:`~RequestForNonexistentImage`
+             :exc:`~OutOfOrderCall`
+             :exc:`~NoThumbnail`
+             :exc:`~UnsupportedThumbnail`
+             :exc:`~InputClosed`
+             :exc:`~InsufficientMemory`
+             :exc:`~DataError`
+             :exc:`~IOError`
+             :exc:`~CancelledByCallback`j
+             :exc:`~BadCrop`
     """
 
     if func.restype is c_error and exit_code.value != 0:
