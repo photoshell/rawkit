@@ -11,8 +11,7 @@ class InvalidFileType(ValueError):
 
     """
     Raised when an invalid file type or file extension is passed to a rawkit
-    method. If rawkit does not know what the filetype is, a
-    :exc:`libraw.errors.FileUnsupported` may be raised instead.
+    method.
     """
 
 

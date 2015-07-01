@@ -31,11 +31,14 @@ class Raw(object):
             raw.options.white_balance = WhiteBalance(camera=False, auto=True)
             raw.save(filename='some/destination/image.ppm')
 
-    :param filename: the name of a raw file to load
-    :type filename: :class:`str`
-    :returns: A raw object
-    :rtype: :class:`Raw`
-    :raises: :exc:`rawkit.errors.NoFileSpecified`
+    Args:
+        filename (str): The name of a raw file to load.
+
+    Returns:
+        Raw: A raw object.
+
+    Raises:
+        rawkit.errors.NoFileSpecified: If `filename` is ``None``.
     """
 
     def __init__(self, filename=None):
@@ -84,12 +87,14 @@ class Raw(object):
         """
         Save the image data as a new PPM or TIFF image.
 
-        :param filename: the name of an image file to save
-        :type filename: :class:`str`
-        :param filetype: the type of file to output (``ppm`` or ``tiff``)
-        :type filetype: :class:`str`
-        :raises: :exc:`rawkit.errors.NoFileSpecified`
-                 :exc:`rawkit.errors.InvalidFileTypeError`
+        Args:
+            filename (str): The name of an image file to save.
+            filetype (str): The type of file to output (``ppm`` or ``tiff``).
+
+        Raises:
+            rawkit.errors.NoFileSpecified: If `filename` is ``None``.
+            rawkit.errors.InvalidFileTypeError: If `filetype` is not ``ppm`` or
+                ``tiff``.
         """
         if filename is None:
             raise NoFileSpecified()
@@ -107,9 +112,15 @@ class Raw(object):
         """
         Save the thumbnail data.
 
-        :param filename: the name of an image file to save
-        :type filename: :class:`str`
+        Args:
+            filename (str): The name of an image file to save.
+
+        Raises:
+            rawkit.errors.NoFileSpecified: If `filename` is ``None``.
         """
+        if filename is None:
+            raise NoFileSpecified()
+
         self.unpack_thumb()
 
         self.libraw.libraw_dcraw_thumb_writer(
@@ -117,10 +128,10 @@ class Raw(object):
 
     def to_buffer(self):
         """
-        Return the image data as an RGB buffer.
+        Convert the image to an RGB buffer.
 
-        :returns: RGB data of the image
-        :rtype: :class:`bytearray`
+        Returns:
+            bytearray: RGB data of the image.
         """
         self.unpack()
         self.process()
@@ -137,10 +148,10 @@ class Raw(object):
 
     def thumbnail_to_buffer(self):
         """
-        Return the thumbnail data as an RGB buffer.
+        Convert the thumbnail data as an RGB buffer.
 
-        :returns: RGB data of the thumbnail
-        :rtype: :class:`bytearray`
+        Returns:
+            bytearray: RGB data of the thumbnail.
         """
         self.unpack_thumb()
 
@@ -159,8 +170,8 @@ class Raw(object):
         """
         Common metadata for the photo
 
-        :returns: A metadata object
-        :rtype: :class:`~rawkit.metadata.Metadata`
+        Returns:
+            rawkit.metadata.Metadata: A metadata object.
         """
         return Metadata(
             aperture=self.data.contents.other.aperture,
@@ -185,8 +196,6 @@ class DarkFrame(Raw):
 
     Creates a temporary file which is not cleaned up until the dark frame is
     closed.
-
-    :See also: :class:`rawkit.raw.Raw`
     """
 
     def __init__(self, filename=None):
@@ -215,11 +224,13 @@ class DarkFrame(Raw):
         """
         Save the image data, defaults to using a temp file.
 
-        :param filename: the name of an image file to save
-        :type filename: :class:`str`
-        :param filetype: the type of file to output (``ppm`` or ``tiff``)
-        :type filetype: :class:`str`
-        :raises: :exc:`rawkit.errors.InvalidFileTypeError`
+        Args:
+            filename (str): The name of an image file to save.
+            filetype (str): The type of file to output (``ppm`` or ``tiff``).
+
+        Raises:
+            rawkit.errors.InvalidFileTypeError: If `filetype` is not ``ppm`` or
+                ``tiff``.
         """
 
         if filename is None:
@@ -233,8 +244,8 @@ class DarkFrame(Raw):
         """
         A tempfile in a unique directory.
 
-        :returns: The name of a temp file
-        :rtype: :class:`str`
+        Returns:
+            str: The name of a temp file.
         """
         return self._tmp
 

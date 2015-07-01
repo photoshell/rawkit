@@ -174,16 +174,16 @@ class WhiteBalance(namedtuple('WhiteBalance',
     white balance multipliers stack (eg. you can use auto white balance, and
     then specify a manual ``rgbg`` multiplier on top of that).
 
-    :param auto: determines if we should automatically set the WB
-    :type auto: :class:`boolean`
-    :param camera: causes us to use the camera defined WB if present
-    :type camera: :class:`boolean`
-    :param greybox: set the WB based on a neutral grey region of the image
-    :type greybox: :class:`4 int tuple`
-    :param rgbg: set the WB manually based on an RGBG channel multiplier
-    :type rgbg: :class:`4 float tuple`
-    :returns: A white blance object
-    :rtype: :class:`WhiteBalance`
+    Args:
+        auto (boolean): Determines if we should automatically set the WB.
+        camera (boolean): Causes us to use the camera defined WB if present.
+        greybox (4 int tuple): Set the WB based on a neutral grey region of the
+                               image.
+        rgbg (4 float tuple): Set the WB manually based on an RGBG channel
+                              multiplier.
+
+    Returns:
+        WhiteBalance: A white balance object.
     """
 
     __slots__ = ()
@@ -198,9 +198,9 @@ class Options(object):
     """
     Represents a set of options which can be used when processing raw data.
 
-    :param attrs: a subscriptable object from which to take the initial state
-                  of the options object.
-    :type attrs: :class:`dict`
+    Args:
+        attrs (dict): A subscriptable object from which to take the initial
+                      state of the options object.
     """
 
     __slots__ = [
@@ -231,7 +231,6 @@ class Options(object):
         '_green_matching',
         '_bad_pixels_file',
     ]
-    """The options which are supported by this class."""
 
     def __init__(self, attrs=None):
         """
@@ -256,9 +255,7 @@ class Options(object):
                 raise StopIteration
 
     def __repr__(self):
-        """
-        Represents the options as a dict.
-        """
+        """Represents the options as a dict."""
         return repr(dict(self))
 
     def keys(self):
@@ -267,8 +264,8 @@ class Options(object):
         been set by the user (even if those options are set to the default
         value).
 
-        :returns: List of option keys which have been set
-        :rtype: :class:`tuple`
+        Returns:
+            tuple: List of option keys which have been set.
         """
         return [slot[1:] for slot in self.__slots__ if getattr(self, slot) is
                 not None]
@@ -277,14 +274,16 @@ class Options(object):
         """
         The values of all options which appear in :func:`keys`.
 
-        :returns: List of options values
-        :rtype: :class:`tuple`
+        Returns:
+            tuple: List of options values.
         """
         return [self.__getitem__(k) for k in self.keys()]
 
     def __getitem__(self, k):
         """
-        Allow accessing options with dictionary syntax eg. opts['half_size'].
+        Allow accessing options with dictionary syntax eg. ::
+
+            opts['half_size'].
         """
         return getattr(self, k)
 
@@ -746,8 +745,9 @@ class Options(object):
         Internal method that writes rawkit options into the libraw options
         struct with the proper C data types.
 
-        :param params: the output params struct to set
-        :type params: :class:`libraw.structs.libraw_output_params_t`
+        Args:
+            params (libraw.structs.libraw_output_params_t):
+                The output params struct to set.
         """
         for slot in self.__slots__:
             prop = slot[1:]
