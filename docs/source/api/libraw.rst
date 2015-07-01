@@ -14,6 +14,11 @@ Submodules
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: libraw.callbacks
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 .. automodule:: libraw.errors
     :members:
     :undoc-members:
