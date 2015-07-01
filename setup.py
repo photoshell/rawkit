@@ -39,5 +39,5 @@ setup(
         'tox >= 2.0.1',
         'mock >= 1.0.1'
     ],
-    extras_require={'doc': ['sphinx >= 1.0']},
+    extras_require={'doc': ['sphinx >= 1.3']},
 )

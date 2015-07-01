@@ -105,21 +105,23 @@ def check_call(exit_code, func, arguments):
     """
     Throws a Python error which corresponds to the given LibRaw exit code.
 
-    :param exit_code: the exit code returned by a LibRaw function
-    :type exit_code: :class:`int`
-    :raises: :exc:`~UnspecifiedError`
-             :exc:`~FileUnsupported`
-             :exc:`~FileUnsupported`
-             :exc:`~RequestForNonexistentImage`
-             :exc:`~OutOfOrderCall`
-             :exc:`~NoThumbnail`
-             :exc:`~UnsupportedThumbnail`
-             :exc:`~InputClosed`
-             :exc:`~InsufficientMemory`
-             :exc:`~DataError`
-             :exc:`~IOError`
-             :exc:`~CancelledByCallback`
-             :exc:`~BadCrop`
+    Args:
+        exit_code (int): An exit code returned by a LibRaw function.
+
+    Raises:
+        UnspecifiedError: We're not sure what happened.
+        FileUnsupported: The file is not a raw file that we recognize.
+        RequestForNonexistentImage: The given IFD does not contain an image.
+        OutOfOrderCall: Something was called out of order (eg. before data was
+                        unpacked)
+        NoThumbnail: The image does not have a thumbnail.
+        UnsupportedThumbnail: The embedded thumbnail format is unsupported.
+        InputClosed: The input stream has been closed.
+        InsufficientMemory: We're out of memory.
+        DataError: The unpacking step failed.
+        IOError: Reading was interrupted (or the file is corrupt).
+        CancelledByCallback: A callback canceled the operation.
+        BadCrop: The crop range was invalid.
     """
 
     if func.restype is c_error and exit_code.value != 0:

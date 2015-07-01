@@ -1,3 +1,11 @@
+""":mod:`rawkit.util` --- Utility functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+These functions perform helpful tasks which don't really fit anywhere else such
+as searching for Raw files on the disk, or checking what cameras are supported
+by LibRaw.
+"""
+
 import ctypes
 import os
 
@@ -7,8 +15,9 @@ from libraw.bindings import LibRaw
 def discover(path):
     """
     Recursively search for raw files in a given directory.
-    :param path: the directory to recursively search
-    :type path: :class:`str`
+
+    Args:
+        path (str): A tree to recursively search.
     """
     file_list = []
     libraw = LibRaw()
@@ -30,8 +39,8 @@ def camera_list():
     Return a list of cameras which are supported by the currently linked
     version of LibRaw.
 
-    :returns: A list of supported cameras
-    :rtype: :class:`str tuple`
+    Returns:
+        str array: A list of supported cameras.
     """
 
     libraw = LibRaw()

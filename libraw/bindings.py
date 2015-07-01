@@ -163,8 +163,8 @@ class LibRaw(CDLL):
 
             (0, 16, 1)
 
-        :returns: The version number
-        :rtype: :class:`3 tuple`
+        Returns:
+            3 tuple: The version number
         """
         v = self.libraw_versionNumber()
         return ((v >> 16) & 0x0000ff, (v >> 8) & 0x0000ff, v & 0x0000ff)
@@ -177,8 +177,8 @@ class LibRaw(CDLL):
 
             "0.16.1-Release"
 
-        :returns: The version
-        :rtype: :class:`str`
+        Returns:
+            str: The version
         """
         return self.libraw_version().decode('utf-8')
 

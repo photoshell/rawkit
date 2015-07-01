@@ -1,9 +1,11 @@
 """:mod:`libraw.callbacks` --- LibRaw callback definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Note that you will need to keep a reference to your callback functions for as
-long as you want to call them from C code, otherwise they may be garbage
-collected and lead to a segmentation fault.
+Warning:
+
+    You will need to keep a reference to your callback functions for as long as
+    you want to call them from C code, otherwise they may be garbage collected
+    and lead to a segmentation fault.
 """
 
 from ctypes import *  # noqa
@@ -31,10 +33,12 @@ Your callback function should map to the LibRaw C callback definition below:
         void *context, int tag, int type, int len, unsigned int ord, void *ifp
     );
 
-:param callback: the Python function to convert to a C callback.
-:type callback: :class:`function`
-:returns: A C callback
-:rtype: :class:`_ctypes.PyCFuncPtrType`
+
+Args:
+    callback (function): The Python function to convert to a C callback.
+
+Returns:
+    _ctypes.PyCFuncPtrType: A C callback.
 """
 
 memory_callback = CFUNCTYPE(c_void_p, c_char_p, c_char_p)
@@ -58,10 +62,11 @@ Your callback function should map to the LibRaw C callback definition below:
         void *data, const char *file, const char *where
     );
 
-:param callback: the Python function to convert to a C callback.
-:type callback: :class:`function`
-:returns: A C callback
-:rtype: :class:`_ctypes.PyCFuncPtrType`
+Args:
+    callback (function): The Python function to convert to a C callback.
+
+Returns:
+    _ctypes.PyCFuncPtrType: A C callback.
 """
 
 data_callback = CFUNCTYPE(c_void_p, c_char_p, c_int)
@@ -85,10 +90,11 @@ Your callback function should map to the LibRaw C callback definition below:
         void *data, const char *file, const int offset
     );
 
-:param callback: the Python function to convert to a C callback.
-:type callback: :class:`function`
-:returns: A C callback
-:rtype: :class:`_ctypes.PyCFuncPtrType`
+Args:
+    callback (function): The Python function to convert to a C callback.
+
+Returns:
+    _ctypes.PyCFuncPtrType: A C callback.
 """
 
 progress_callback = CFUNCTYPE(c_void_p, c_int, c_int, c_int)
@@ -112,8 +118,9 @@ Your callback function should map to the LibRaw C callback definition below:
         void *data, enum LibRaw_progress stage, int iterationa, int expected
     );
 
-:param callback: the Python function to convert to a C callback.
-:type callback: :class:`function`
-:returns: A C callback
-:rtype: :class:`_ctypes.PyCFuncPtrType`
+Args:
+    callback (function): The Python function to convert to a C callback.
+
+Returns:
+    _ctypes.PyCFuncPtrType: A C callback.
 """
