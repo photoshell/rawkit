@@ -8,7 +8,7 @@ from ctypes import *  # noqa
 from ctypes import util
 
 from libraw import errors
-from libraw.callbacks import data_callback, exif_parser_callback, memory_callback, progress_callback
+from libraw.callbacks import data_callback, memory_callback, progress_callback
 from libraw.errors import c_error
 from libraw.structs import libraw_data_t, libraw_decoder_info_t, libraw_processed_image_t
 
@@ -54,11 +54,6 @@ class LibRaw(CDLL):
         self.libraw_recycle_datastream.argtypes = [POINTER(libraw_data_t)]
         self.libraw_recycle.argtypes = [POINTER(libraw_data_t)]
         self.libraw_close.argtypes = [POINTER(libraw_data_t)]
-        self.libraw_set_exifparser_handler.argtypes = [
-            POINTER(libraw_data_t),
-            exif_parser_callback,
-            c_void_p,
-        ]
         self.libraw_set_memerror_handler.argtypes = [
             POINTER(libraw_data_t),
             memory_callback,
