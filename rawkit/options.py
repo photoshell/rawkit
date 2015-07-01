@@ -230,6 +230,8 @@ class Options(object):
         '_dark_frame',
         '_green_matching',
         '_bad_pixels_file',
+        '_median_filter_passes',
+        '_adjust_maximum_threshold',
     ]
 
     def __init__(self, attrs=None):
@@ -739,6 +741,38 @@ class Options(object):
         :libraw: :class:`libraw.structs.libraw_output_params_t.bad_pixels`
         """
         return None
+
+    @option(param='med_passes', ctype=ctypes.c_int)
+    def median_filter_passes(self):
+        """
+        Useful for cleaning up color artifacts by running a 3x3 median filter
+        over the R-G and B-G channels.
+
+        :type: :class:`int`
+        :default: 0
+        :dcraw: ``-m``
+        :libraw: :class:`libraw.structs.libraw_output_params_t.med_passes`
+        """
+        return 0
+
+    @option(param='adjust_maximum_thr', ctype=ctypes.c_float)
+    def adjust_maximum_threshold(self):
+        """
+        Automatically adjusts the maximum pixel value based on per channel
+        maximum data.
+
+        Note:
+
+            If this value is set above 0.99999, the default value will be used
+            instead. If it is set below 0.00001, no adjustment will happen.
+
+        :type: :class:`float`
+        :default: 0.75
+        :dcraw: None
+        :libraw:
+            :class:`libraw.structs.libraw_output_params_t.adjust_maximum_thr`
+        """
+        return 0
 
     def _map_to_libraw_params(self, params):
         """
