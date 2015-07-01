@@ -8,8 +8,9 @@ from ctypes import *  # noqa
 from ctypes import util
 
 from libraw import errors
+from libraw.callbacks import data_callback, exif_parser_callback, memory_callback, progress_callback
 from libraw.errors import c_error
-from libraw.structs import libraw_data_t, libraw_processed_image_t
+from libraw.structs import libraw_data_t, libraw_decoder_info_t, libraw_processed_image_t
 
 
 class LibRaw(CDLL):
@@ -28,6 +29,85 @@ class LibRaw(CDLL):
                 raise ImportError
         except (ImportError, AttributeError, OSError, IOError):
             raise ImportError('Cannot find LibRaw on your system!')
+
+        # Define arg types
+
+        self.libraw_init.argtypes = [c_int]
+        # enum LibRaw_progress
+        self.libraw_strprogress.argtypes = [c_int]
+        self.libraw_unpack_function_name.argtypes = [POINTER(libraw_data_t)]
+
+        self.libraw_subtract_black.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_open_file.argtypes = [POINTER(libraw_data_t), c_char_p]
+        self.libraw_open_file_ex.argtypes = [
+            POINTER(libraw_data_t),
+            c_char_p,
+            c_int64
+        ]
+        self.libraw_open_buffer.argtypes = [
+            POINTER(libraw_data_t),
+            c_void_p,
+            c_int64
+        ]
+        self.libraw_unpack.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_unpack_thumb.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_recycle_datastream.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_recycle.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_close.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_set_exifparser_handler.argtypes = [
+            POINTER(libraw_data_t),
+            exif_parser_callback,
+            c_void_p,
+        ]
+        self.libraw_set_memerror_handler.argtypes = [
+            POINTER(libraw_data_t),
+            memory_callback,
+            c_void_p,
+        ]
+        self.libraw_set_dataerror_handler.argtypes = [
+            POINTER(libraw_data_t),
+            data_callback,
+            c_void_p,
+        ]
+        self.libraw_set_progress_handler.argtypes = [
+            POINTER(libraw_data_t),
+            progress_callback,
+            c_void_p,
+        ]
+        self.libraw_adjust_sizes_info_only.argtypes = [
+            POINTER(libraw_data_t)
+        ]
+        self.libraw_dcraw_ppm_tiff_writer.argtypes = [
+            POINTER(libraw_data_t),
+            c_char_p
+        ]
+        self.libraw_dcraw_thumb_writer.argtypes = [
+            POINTER(libraw_data_t),
+            c_char_p
+        ]
+        self.libraw_dcraw_process.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_dcraw_make_mem_image.argtypes = [
+            POINTER(libraw_data_t),
+            c_int
+        ]
+        self.libraw_dcraw_make_mem_thumb.argtypes = [
+            POINTER(libraw_data_t),
+            c_int
+        ]
+        self.libraw_dcraw_clear_mem.argtypes = [
+            POINTER(libraw_processed_image_t)
+        ]
+        self.libraw_raw2image.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_free_image.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_get_decoder_info.argtypes = [
+            POINTER(libraw_data_t),
+            POINTER(libraw_decoder_info_t)
+        ]
+        self.libraw_COLOR.argtypes = [
+            POINTER(libraw_data_t),
+            c_int,
+            c_int
+        ]
 
         # Define return types
 
@@ -57,7 +137,19 @@ class LibRaw(CDLL):
         self.libraw_raw2image.restype = c_error
         self.libraw_get_decoder_info.restype = c_error
         self.libraw_COLOR.restype = c_error
+
+        # Some special Windows-only garbage:
+
         try:
+            self.libraw_open_wfile.argtypes = [
+                POINTER(libraw_data_t),
+                c_wchar_p
+            ]
+            self.libraw_open_wfile_ex.argtypes = [
+                POINTER(libraw_data_t),
+                c_wchar_p,
+                c_int64
+            ]
             self.libraw_open_wfile.restype = c_error
             self.libraw_open_wfile_ex.restype = c_error
         except AttributeError:

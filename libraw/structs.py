@@ -237,3 +237,12 @@ class libraw_processed_image_t(Structure):
         ('data_size', c_uint),
         ('data', c_byte * 1),
     ]
+
+
+class libraw_decoder_info_t(Structure):
+
+    """Describes a raw format decoder name and format."""
+    _fields_ = [
+        ('decoder_name', c_char_p),
+        ('decoder_flags', c_uint),
+    ]
