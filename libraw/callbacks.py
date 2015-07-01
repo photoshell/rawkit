@@ -10,37 +10,6 @@ Warning:
 
 from ctypes import *  # noqa
 
-exif_parser_callback = CFUNCTYPE(
-    c_void_p, c_int, c_int, c_int, c_int, c_void_p
-)
-"""
-Creates a callback for use by the EXIF parser.
-
-.. sourcecode:: python
-
-    def exif_cb(context, tag, type, len, ord, ifp):
-        pass
-
-    cb = exif_parser_callback(exif_cb)
-
-    libraw.libraw_set_exifparser_handler(libraw_data, cb, data)
-
-Your callback function should map to the LibRaw C callback definition below:
-
-.. sourcecode:: c
-
-    typedef void (*exif_parser_callback) (
-        void *context, int tag, int type, int len, unsigned int ord, void *ifp
-    );
-
-
-Args:
-    callback (function): The Python function to convert to a C callback.
-
-Returns:
-    _ctypes.PyCFuncPtrType: A C callback.
-"""
-
 memory_callback = CFUNCTYPE(c_void_p, c_char_p, c_char_p)
 """
 Creates a callback for use when there are memory errors in LibRaw.
