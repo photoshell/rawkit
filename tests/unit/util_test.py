@@ -2,6 +2,7 @@ import mock
 import pytest
 
 from rawkit import util
+from libraw.errors import FileUnsupported
 
 
 @pytest.yield_fixture
@@ -17,7 +18,7 @@ def test_discover(libraw):
         'rawkit.util.os.walk',
         return_value=(('', None, ('foo.CR2', 'foo.jpg')),)
     ):
-        libraw.libraw_open_file.side_effect = [0, 1]
+        libraw.libraw_open_file.side_effect = [0, FileUnsupported()]
         files = util.discover('')
         assert files == ['foo.CR2'.encode('ascii')]
 
