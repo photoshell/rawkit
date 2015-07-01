@@ -129,6 +129,11 @@ def test_save_thumb(raw, output_file):
     )
 
 
+def test_save_thumb_no_filename(raw):
+    with pytest.raises(NoFileSpecified):
+        raw.save_thumb()
+
+
 def test_to_buffer(raw):
     # Quick hack because to_buffer does some ctypes acrobatics
     with mock.patch('rawkit.raw.ctypes'):
