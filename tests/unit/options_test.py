@@ -143,7 +143,7 @@ def test_use_camera_profile_setter(options):
 def test_use_camera_profile_writer(options):
     options.use_camera_profile = True
     params = options._map_to_libraw_params(Mock())
-    assert params.camera_profile == 'embed'
+    assert params.camera_profile.value == b'embed'
 
     options.use_camera_profile = False
     params = options._map_to_libraw_params(Mock())

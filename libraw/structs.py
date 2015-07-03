@@ -159,7 +159,7 @@ class libraw_output_params_t(Structure):
         ('use_camera_matrix', c_int),
         ('output_color', c_int),
         ('output_profile', POINTER(c_char)),
-        ('camera_profile', POINTER(c_char)),
+        ('camera_profile', c_char_p),
         ('bad_pixels', POINTER(c_char)),
         ('dark_frame', c_char_p),
         ('output_bps', c_int),
