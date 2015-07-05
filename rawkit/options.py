@@ -543,7 +543,7 @@ class Options(object):
         :dcraw: ``-b``
         :libraw: :class:`libraw.structs.libraw_output_params_t.bright`
         """
-        return 1.0
+        return None
 
     @option(param='auto_bright_thr', ctype=ctypes.c_float)
     def auto_brightness_threshold(self):
@@ -573,7 +573,7 @@ class Options(object):
 
     @auto_brightness.param_writer
     def auto_brightness(self, param):
-        param.no_auto_bright = ctypes.c_int(not self._auto_brightness)
+        param.no_auto_bright = ctypes.c_int(not self.auto_brightness)
 
     @option(param='use_fuji_rotate', ctype=ctypes.c_int)
     def auto_stretch(self):
@@ -623,7 +623,7 @@ class Options(object):
             180: 3,
             90: 6,
             0: 0
-        }[self._rotation])
+        }[self.rotation])
 
     @option
     def dark_frame(self):
@@ -646,13 +646,13 @@ class Options(object):
     @dark_frame.param_writer
     def dark_frame(self, params):
         try:
-            self._dark_frame.save()
+            self.dark_frame.save()
             params.dark_frame = ctypes.c_char_p(
-                self._dark_frame.name.encode('utf-8')
+                self.dark_frame.name.encode('utf-8')
             )
         except AttributeError:
             params.dark_frame = ctypes.c_char_p(
-                self._dark_frame.encode('utf-8')
+                self.dark_frame.encode('utf-8')
             )
 
     @option(param='green_matching', ctype=ctypes.c_int)
@@ -723,8 +723,8 @@ class Options(object):
 
     @use_camera_profile.param_writer
     def use_camera_profile(self, params):
-        if self._use_camera_profile:
-            params.camera_profile = 'embed'
+        if self.use_camera_profile:
+            params.camera_profile = ctypes.c_char_p(b'embed')
         else:
             params.camera_profile = None
 
