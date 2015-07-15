@@ -15,7 +15,7 @@ pre-commit: .git/hooks/pre-commit
 
 $(VENV): $(VENV)/bin/activate
 
-$(VENV)/bin/activate: requirements-dev.txt requirements-test.txt
+$(VENV)/bin/activate: requirements-dev.txt
 	test -d $(VENV) || virtualenv -p /usr/bin/python3 $(VENV)
 	$(ACTIVATE); pip install -r requirements-dev.txt
 	touch $(BIN)/activate
