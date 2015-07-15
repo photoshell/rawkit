@@ -33,7 +33,7 @@ def dark_frame(input_file):
 
 
 def test_create(raw, input_file):
-    raw.libraw.libraw_init.assert_called_once()
+    raw.libraw.libraw_init.assert_called_once_with(0)
     raw.libraw.libraw_open_file.assert_called_once_with(
         raw.data,
         input_file.encode('ascii'),
