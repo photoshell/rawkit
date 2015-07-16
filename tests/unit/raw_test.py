@@ -141,6 +141,7 @@ def test_to_buffer(raw):
 
     raw.libraw.libraw_dcraw_make_mem_image.assert_called_once_with(
         raw.data,
+        mock.ANY,
     )
 
     raw.libraw.libraw_dcraw_clear_mem.assert_called_once_with(
@@ -155,6 +156,7 @@ def test_thumbnail_to_buffer(raw):
 
     raw.libraw.libraw_dcraw_make_mem_thumb.assert_called_once_with(
         raw.data,
+        mock.ANY,
     )
 
     raw.libraw.libraw_dcraw_clear_mem.assert_called_once_with(

@@ -8,7 +8,8 @@ import random
 import string
 import tempfile
 
-from rawkit.errors import NoFileSpecified, InvalidFileType
+from rawkit.errors import InvalidFileType
+from rawkit.errors import NoFileSpecified
 from libraw.bindings import LibRaw
 
 from rawkit.metadata import Metadata
@@ -136,7 +137,11 @@ class Raw(object):
         self.unpack()
         self.process()
 
-        processed_image = self.libraw.libraw_dcraw_make_mem_image(self.data)
+        # TODO: check the error code stored in the provided int pointer
+        processed_image = self.libraw.libraw_dcraw_make_mem_image(
+            self.data,
+            ctypes.byref(ctypes.c_int()),
+        )
         data_pointer = ctypes.cast(
             processed_image.contents.data,
             ctypes.POINTER(ctypes.c_byte * processed_image.contents.data_size)
@@ -155,7 +160,11 @@ class Raw(object):
         """
         self.unpack_thumb()
 
-        processed_image = self.libraw.libraw_dcraw_make_mem_thumb(self.data)
+        # TODO: check the error code stored in the provided int pointer
+        processed_image = self.libraw.libraw_dcraw_make_mem_thumb(
+            self.data,
+            ctypes.byref(ctypes.c_int()),
+        )
         data_pointer = ctypes.cast(
             processed_image.contents.data,
             ctypes.POINTER(ctypes.c_byte * processed_image.contents.data_size)
