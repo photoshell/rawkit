@@ -8,9 +8,13 @@ from ctypes import *  # noqa
 from ctypes import util
 
 from libraw import errors
-from libraw.callbacks import data_callback, memory_callback, progress_callback
+from libraw.callbacks import data_callback
+from libraw.callbacks import memory_callback
+from libraw.callbacks import progress_callback
 from libraw.errors import c_error
-from libraw.structs import libraw_data_t, libraw_decoder_info_t, libraw_processed_image_t
+from libraw.structs import libraw_data_t
+from libraw.structs import libraw_decoder_info_t
+from libraw.structs import libraw_processed_image_t
 
 
 class LibRaw(CDLL):
@@ -83,11 +87,11 @@ class LibRaw(CDLL):
         self.libraw_dcraw_process.argtypes = [POINTER(libraw_data_t)]
         self.libraw_dcraw_make_mem_image.argtypes = [
             POINTER(libraw_data_t),
-            c_int
+            POINTER(c_int)
         ]
         self.libraw_dcraw_make_mem_thumb.argtypes = [
             POINTER(libraw_data_t),
-            c_int
+            POINTER(c_int)
         ]
         self.libraw_dcraw_clear_mem.argtypes = [
             POINTER(libraw_processed_image_t)
