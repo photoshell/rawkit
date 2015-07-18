@@ -49,7 +49,6 @@ def camera_list():
     """
 
     libraw = LibRaw()
-    print(libraw)
     libraw.libraw_cameraList.restype = ctypes.POINTER(
         ctypes.c_char_p * libraw.libraw_cameraCount()
     )
