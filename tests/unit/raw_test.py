@@ -4,6 +4,7 @@ import pytest
 from rawkit.errors import InvalidFileType, NoFileSpecified
 from rawkit.metadata import Metadata
 from rawkit.raw import Raw, DarkFrame
+from rawkit.raw import output_file_types
 
 
 @pytest.fixture
@@ -89,7 +90,7 @@ def test_save_dark_frame_with_filename_cached(dark_frame, tmpdir):
     tmpdir.join('somefile').write('')
     fn = os.path.join(str(tmpdir), 'somefile')
     dark_frame.save(filename=fn)
-    dark_frame.save(filename=fn, filetype='tiff')
+    dark_frame.save(filename=fn, filetype=output_file_types.tiff)
     assert not dark_frame.libraw.libraw_dcraw_ppm_tiff_writer.called
 
 
@@ -104,15 +105,15 @@ def _test_save(raw, output_file, filetype):
 
 def test_save_no_filename(raw):
     with pytest.raises(NoFileSpecified):
-        raw.save(filetype='ppm')
+        raw.save(filetype=output_file_types.ppm)
 
 
 def test_save_ppm(raw, output_file):
-    _test_save(raw, output_file, 'ppm')
+    _test_save(raw, output_file, output_file_types.ppm)
 
 
 def test_save_tiff(raw, output_file):
-    _test_save(raw, output_file, 'tiff')
+    _test_save(raw, output_file, output_file_types.ppm)
 
 
 def test_save_invalid(raw, output_file):

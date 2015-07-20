@@ -8,12 +8,25 @@ import random
 import string
 import tempfile
 
-from rawkit.errors import InvalidFileType
-from rawkit.errors import NoFileSpecified
+from collections import namedtuple
 from libraw.bindings import LibRaw
 
+from rawkit.errors import InvalidFileType
+from rawkit.errors import NoFileSpecified
 from rawkit.metadata import Metadata
 from rawkit.options import Options
+
+
+output_file_types = namedtuple(
+    'OutputFileType', ['ppm', 'tiff']
+)('ppm', 'tiff')
+
+"""
+Constants for setting the output filetype.
+
+  - ``ppm`` --- PGM data file.
+  - ``tiff`` --- TIFF file.
+"""
 
 
 class Raw(object):
@@ -84,24 +97,25 @@ class Raw(object):
         self.options._map_to_libraw_params(self.data.contents.params)
         self.libraw.libraw_dcraw_process(self.data)
 
-    def save(self, filename=None, filetype='ppm'):
+    def save(self, filename=None, filetype=output_file_types.ppm):
         """
         Save the image data as a new PPM or TIFF image.
 
         Args:
             filename (str): The name of an image file to save.
-            filetype (str): The type of file to output (``ppm`` or ``tiff``).
+            filetype (output_file_types): The type of file to output.
 
         Raises:
             rawkit.errors.NoFileSpecified: If `filename` is ``None``.
-            rawkit.errors.InvalidFileTypeError: If `filetype` is not ``ppm`` or
-                ``tiff``.
+            rawkit.errors.InvalidFileType: If `filetype` is not of type
+                                           :class:`output_file_types`.
         """
         if filename is None:
             raise NoFileSpecified()
-        if filetype not in ('ppm', 'tiff'):
-            raise InvalidFileType('Output filetype must be "ppm" or "tiff"')
-        self.data.contents.params.output_tiff = 0 if filetype is 'ppm' else 1
+        if filetype not in output_file_types:
+            raise InvalidFileType(
+                "Output filetype must be in raw.output_file_types")
+        self.data.contents.params.output_tiff = filetype
 
         self.unpack()
         self.process()
@@ -229,17 +243,17 @@ class DarkFrame(Raw):
         )
         self._filetype = None
 
-    def save(self, filename=None, filetype='ppm'):
+    def save(self, filename=None, filetype=output_file_types.ppm):
         """
         Save the image data, defaults to using a temp file.
 
         Args:
             filename (str): The name of an image file to save.
-            filetype (str): The type of file to output (``ppm`` or ``tiff``).
+            filetype (output_file_types): The type of file to output.
 
         Raises:
-            rawkit.errors.InvalidFileTypeError: If `filetype` is not ``ppm`` or
-                ``tiff``.
+            rawkit.errors.InvalidFileType: If `filetype` is not of type
+                                           :class:`output_file_types`.
         """
 
         if filename is None:
