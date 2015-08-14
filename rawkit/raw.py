@@ -10,6 +10,7 @@ import tempfile
 
 from collections import namedtuple
 from libraw.bindings import LibRaw
+from libraw.errors import raise_if_error
 
 from rawkit.errors import InvalidFileType
 from rawkit.errors import NoFileSpecified
@@ -151,11 +152,15 @@ class Raw(object):
         self.unpack()
         self.process()
 
-        # TODO: check the error code stored in the provided int pointer
+        status = ctypes.c_int(0)
         processed_image = self.libraw.libraw_dcraw_make_mem_image(
             self.data,
-            ctypes.byref(ctypes.c_int()),
+            ctypes.cast(
+                ctypes.addressof(status),
+                ctypes.POINTER(ctypes.c_int),
+            ),
         )
+        raise_if_error(status.value)
         data_pointer = ctypes.cast(
             processed_image.contents.data,
             ctypes.POINTER(ctypes.c_byte * processed_image.contents.data_size)
@@ -174,11 +179,15 @@ class Raw(object):
         """
         self.unpack_thumb()
 
-        # TODO: check the error code stored in the provided int pointer
+        status = ctypes.c_int(0)
         processed_image = self.libraw.libraw_dcraw_make_mem_thumb(
             self.data,
-            ctypes.byref(ctypes.c_int()),
+            ctypes.cast(
+                ctypes.addressof(status),
+                ctypes.POINTER(ctypes.c_int),
+            ),
         )
+        raise_if_error(status.value)
         data_pointer = ctypes.cast(
             processed_image.contents.data,
             ctypes.POINTER(ctypes.c_byte * processed_image.contents.data_size)

@@ -138,7 +138,8 @@ def test_save_thumb_no_filename(raw):
 def test_to_buffer(raw):
     # Quick hack because to_buffer does some ctypes acrobatics
     with mock.patch('rawkit.raw.ctypes'):
-        raw.to_buffer()
+        with mock.patch('rawkit.raw.raise_if_error'):
+            raw.to_buffer()
 
     raw.libraw.libraw_dcraw_make_mem_image.assert_called_once_with(
         raw.data,
@@ -153,7 +154,8 @@ def test_to_buffer(raw):
 def test_thumbnail_to_buffer(raw):
     # Quick hack because thumbnail_to_buffer does some ctypes acrobatics
     with mock.patch('rawkit.raw.ctypes'):
-        raw.thumbnail_to_buffer()
+        with mock.patch('rawkit.raw.raise_if_error'):
+            raw.thumbnail_to_buffer()
 
     raw.libraw.libraw_dcraw_make_mem_thumb.assert_called_once_with(
         raw.data,
