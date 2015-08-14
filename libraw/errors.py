@@ -124,7 +124,14 @@ def check_call(exit_code, func, arguments):
         BadCrop: The crop range was invalid.
     """
 
-    if func.restype is c_error and exit_code.value != 0:
+    if func.restype is c_error:
+        raise_if_error(exit_code.value)
+
+    return exit_code
+
+
+def raise_if_error(error_code):
+    if error_code != 0:
         raise {
             -1: UnspecifiedError,
             -2: FileUnsupported,
@@ -138,6 +145,4 @@ def check_call(exit_code, func, arguments):
             -100009: IOError,
             -100010: CancelledByCallback,
             -100011: BadCrop
-        }[exit_code.value]
-
-    return exit_code
+        }[error_code]
