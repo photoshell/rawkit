@@ -116,7 +116,9 @@ class Raw(object):
         if filetype not in output_file_types:
             raise InvalidFileType(
                 "Output filetype must be in raw.output_file_types")
-        self.data.contents.params.output_tiff = filetype
+        self.data.contents.params.output_tiff = (
+            filetype == output_file_types.tiff
+        )
 
         self.unpack()
         self.process()
