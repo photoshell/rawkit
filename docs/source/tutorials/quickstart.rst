@@ -172,8 +172,7 @@ do with actually using rawkit, but we might as well do things right):
 
 
 That's it, you've made a useful application which uses rawkit to develop raw
-photos! For a slightly more interesting, but still fairly useful example, take
-a look at the source to photoREPL_, an experimental interface for editing
-photos from the command line.
+photos! For a slightly more interesting example, take a look at the source to
+photoREPL_, an experimental interface for editing photos from the command line.
 
 .. _photoREPL: https://github.com/photoshell/photorepl
