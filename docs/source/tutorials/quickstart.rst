@@ -59,6 +59,7 @@ checking (we'll also get rid of the options and just use the defaults for now):
 
     import sys
 
+    from libraw.errors import FileUnsupported
     from rawkit.errors import InvalidFileType
     from rawkit.raw import Raw
 
@@ -74,13 +75,52 @@ checking (we'll also get rid of the options and just use the defaults for now):
                 outfile
               )
             )
-        except InvalidFileType:
+        except (InvalidFileType, FileUnsupported):
             print(
-              'WARNING: "{}" is an invalid file or is not supported.'.format(
+              'WARNING: File "{}" could not be processed.'.format(
                 rawfile
               ),
               file=sys.stderr
             )
+
+Of course, while this works, it's still a bit slow. Let's add a thread pool to
+the mix and process multiple raw files at once (not that this has anything to
+do with actually using rawkit, but we might as well do things right):
+
+.. sourcecode:: python
+
+   import concurrent.futures
+   import os
+   import sys
+
+   from libraw.errors import FileUnsupported
+   from rawkit.errors import InvalidFileType
+   from rawkit.raw import Raw
+
+   def develop_photo(rawfile):
+       with Raw(filename=rawfile) as raw:
+           outfile = '{}.tiff'.format(rawfile)
+           raw.save(filename=outfile)
+           return outfile
+
+   if __name__ == "__main__":
+
+       with concurrent.futures.ThreadPoolExecutor(max_workers=(
+           (os.cpu_count() or 2) * 2)) as executor:
+           develop_futures = {executor.submit(develop_photo, raw): raw for raw
+               in sys.argv[1:]}
+           for future in concurrent.futures.as_completed(develop_futures):
+               raw = develop_futures[future]
+               try:
+                   data = future.result()
+               except (InvalidFileType, FileUnsupported):
+                   print(
+                     'WARNING: File "{}" could not be processed'.format(raw),
+                     file=sys.stderr
+                   )
+               else:
+                   print('Wrote file: "{}"'.format(data))
+
 
 That's it, you've made a useful application which uses rawkit to develop raw
 photos! For a slightly more interesting, but still fairly useful example, take
