@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="500"
+   height="170"
+   viewBox="0 0 499.99998 170"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="architecture.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="181.51235"
+     inkscape:cy="57.61459"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1015"
+     inkscape:window-x="0"
+     inkscape:window-y="41"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-882.36224)">
+    <a
+       id="a4142"
+       xlink:href="http://www.libraw.org/"
+       xlink:title="LibRaw">
+      <rect
+         y="1002.97"
+         x="0.60772681"
+         height="48.784424"
+         width="498.78442"
+         id="rect4684"
+         style="opacity:1;fill:#73d216;fill-opacity:1;stroke:#4e9a06;stroke-width:1.2155757;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:44;stroke-opacity:1" />
+    </a>
+    <a
+       id="a4148"
+       xlink:href="https://github.com/photoshell/rawkit/tree/master/rawkit"
+       xlink:title="rawkit source">
+      <rect
+         y="882.97003"
+         x="0.60777259"
+         height="48.784424"
+         width="498.78442"
+         id="rect4684-7"
+         style="opacity:1;fill:#73d216;fill-opacity:1;stroke:#4e9a06;stroke-width:1.2155757;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:44;stroke-opacity:1" />
+    </a>
+    <a
+       id="a4145"
+       xlink:href="https://github.com/photoshell/rawkit/tree/master/libraw"
+       xlink:title="libraw cffi source">
+      <rect
+         y="942.97003"
+         x="0.60777259"
+         height="48.784424"
+         width="498.78442"
+         id="rect4684-7-5"
+         style="opacity:1;fill:#73d216;fill-opacity:1;stroke:#4e9a06;stroke-width:1.2155757;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:44;stroke-opacity:1" />
+    </a>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;line-height:125%;font-family:'Calluna Sans';-inkscape-font-specification:'Calluna Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="249.67233"
+       y="914.51727"
+       id="text4735"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4737"
+         x="249.67233"
+         y="914.51727"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;font-family:'Calluna Sans';-inkscape-font-specification:'Calluna Sans';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1">rawkit (Python)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;line-height:125%;font-family:'Calluna Sans';-inkscape-font-specification:'Calluna Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="249.64233"
+       y="975.37225"
+       id="text4735-0"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4737-0"
+         x="249.64233"
+         y="975.37225"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;font-family:'Calluna Sans';-inkscape-font-specification:'Calluna Sans';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1">libraw (CFFI)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;line-height:125%;font-family:'Calluna Sans';-inkscape-font-specification:'Calluna Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="249.31229"
+       y="1035.3722"
+       id="text4735-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4737-9"
+         x="249.31229"
+         y="1035.3722"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30px;font-family:'Calluna Sans';-inkscape-font-specification:'Calluna Sans';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1">LibRaw (C)</tspan></text>
+  </g>
+</svg>

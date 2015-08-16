@@ -80,6 +80,22 @@ to ask (just ask) and if no one is around: be patient, if you part before we
 can answer there's not much we can do. Stick around if you can; we'd love it if
 you'd pay it forward and help someone else in turn.
 
+Tutorials
+---------
+
+.. toctree::
+   :maxdepth: 1
+
+   tutorials/quickstart
+
+Architecture and Design
+-----------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   design/architecture
+
 API Reference
 -------------
 
