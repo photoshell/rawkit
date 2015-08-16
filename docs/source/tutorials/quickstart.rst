@@ -21,9 +21,7 @@ For this you can use :mod:`rawkit.options`.
 The ``Raw`` object you created has a :class:`rawkit.options.Options` object
 already with the aforementioned sane defaults, so instead of constructing a new
 object let's just modify the existing one to tweak the white balance and a few
-other options (we could, of course, construct a new ``Options`` object if we
-wanted to share one set of options among many raw files without copying over
-all the individual options):
+other options:
 
 .. sourcecode:: python
 
@@ -48,6 +46,57 @@ Adobe RGB colorspace.
 
 Lots of other options can be set. A full list can be found in the API
 documentation for the :mod:`rawkit.options` module.
+
+Of course, we probably don't want to process just one raw file. A common
+photography workflow is to do some basic level of processing to lots of files
+at once (eg. an entire days worth of shooting) and then go back and tweak
+individual photos as necessary. To do this, we can construct our own options
+object and reuse it:
+
+.. sourcecode:: python
+
+    import sys
+
+    from rawkit.raw import Raw
+    from rawkit.options import WhiteBalance, colorspaces, gamma_curves
+    from rawkit.options import Options
+
+    opts = Options({
+      'white_balance': WhiteBalance(camera=False, auto=True),
+      'colorspace': colorspaces.adobe_rgb,
+    })
+
+    opts.gamma = gamma_curves.adobe_rgb
+
+
+    for rawfile in sys.argv[1:]
+      with Raw(filename=rawfile) as raw:
+        raw.options = opts
+        raw.save(filename='{}.ppm'.format(rawfile))
+
+As you can see, two methods for setting options on an ``Options`` object are
+presented here: via a dict passed to the constructor, or by manually setting
+the properties. Because the dict method tolerates arbitrary fields, you must be
+very careful not to make a typo. Eg. setting:
+
+.. sourcecode:: python
+
+    opts = Options({
+      'colourspace': colorspaces.adobe_rgb,
+      'white_blaance': WhiteBalance(greybox=[1034, 1058, 1096, 1085])
+    })
+
+will run without error, but there will be no difference to your output photos.
+However, trying to set options via:
+
+.. sourcecode:: python
+
+    opts = Options()
+    opts.colourspace = colorspaces.adobe_rgb
+    opts.white_blaance = WhiteBalance(greybox=[1034, 1058, 1096, 1085])
+
+Will result in an :class:`AttributeError`. This is the recommended method for
+manually setting options because it will fail early and loudly!
 
 Now that we've seen the basics (loading and saving raw files and setting
 options), let's turn our simple example into something useful: A program which
