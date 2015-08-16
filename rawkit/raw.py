@@ -98,24 +98,32 @@ class Raw(object):
         self.options._map_to_libraw_params(self.data.contents.params)
         self.libraw.libraw_dcraw_process(self.data)
 
-    def save(self, filename=None, filetype=output_file_types.ppm):
+    def save(self, filename=None, filetype=None):
         """
         Save the image data as a new PPM or TIFF image.
 
         Args:
             filename (str): The name of an image file to save.
-            filetype (output_file_types): The type of file to output.
+            filetype (output_file_types): The type of file to output. By
+                                          default, guess based on the filename,
+                                          falling back to PPM.
 
         Raises:
             rawkit.errors.NoFileSpecified: If `filename` is ``None``.
-            rawkit.errors.InvalidFileType: If `filetype` is not of type
+            rawkit.errors.InvalidFileType: If `filetype` is not None or in
                                            :class:`output_file_types`.
         """
         if filename is None:
             raise NoFileSpecified()
+
+        if filetype is None:
+            ext = os.path.splitext(filename)[-1].lower()[1:]
+            filetype = ext or output_file_types.ppm
+
         if filetype not in output_file_types:
             raise InvalidFileType(
                 "Output filetype must be in raw.output_file_types")
+
         self.data.contents.params.output_tiff = (
             filetype == output_file_types.tiff
         )
