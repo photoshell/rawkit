@@ -93,17 +93,19 @@ Tutorials
 ---------
 
 .. toctree::
+   :glob:
    :maxdepth: 1
 
-   tutorials/quickstart
+   tutorials/*
 
 Architecture and Design
 -----------------------
 
 .. toctree::
+   :glob:
    :maxdepth: 1
 
-   design/architecture
+   design/*
 
 API Reference
 -------------
@@ -118,8 +120,6 @@ the `rawkit` module instead of using `libraw` directly.
    :maxdepth: 2
 
    api/modules
-   api/rawkit
-   api/libraw
 
 Indices and tables
 ------------------
