@@ -17,8 +17,17 @@ rawkit
    :alt: Test Coverage Status
    :target: https://coveralls.io/r/photoshell/rawkit
 
-``rawkit`` (pronounced `rocket`) is a :mod:`ctypes`-based LibRaw_ binding for
-Python inspired by the Wand_ API. It is licensed under the `MIT License`_.
+.. image:: https://img.shields.io/badge/license-MIT-blue.svg
+   :alt: MIT License
+   :target: https://github.com/photoshell/rawkit/blob/master/LICENSE
+
+.. note::
+
+   `rawkit` is still alpha quality software. Until it hits 1.0, it may undergo
+   substantial changes, including breaking API changes.
+
+``rawkit`` is a :mod:`ctypes`-based set of LibRaw_ bindings for Python inspired
+by Wand_. It is licensed under the `MIT License`_.
 
 .. sourcecode:: python
 

@@ -125,6 +125,7 @@ html_theme_options = {
     'github_button': False,
     'github_banner': True,
     'head_font_family': '"Prociono", "Garamond", "Georgia", serif',
+    'note_bg': '#FFC'
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
