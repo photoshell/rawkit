@@ -117,9 +117,11 @@ with the low-level LibRaw C APIs. Most of the time, developers will want to use
 the `rawkit` module instead of using `libraw` directly.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    api/modules
+   api/libraw
+   api/rawkit
 
 Indices and tables
 ------------------
