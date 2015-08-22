@@ -54,6 +54,12 @@ class Raw(object):
 
     Raises:
         rawkit.errors.NoFileSpecified: If `filename` is ``None``.
+        libraw.errors.FileUnsupported: If the specified file is not a supported
+                                       raw type.
+        libraw.errors.InsufficientMemory: If we run out of memory while loading
+                                          the raw file.
+        IOError: If the file does not exist, or cannot be opened (eg. incorrect
+                 permissions).
     """
 
     def __init__(self, filename=None):
@@ -88,13 +94,30 @@ class Raw(object):
             self.image_unpacked = True
 
     def unpack_thumb(self):
-        """Unpack the thumbnail data."""
+        """
+        Unpack the thumbnail data.
+        Raises:
+            libraw.errors.NoThumbnail: If the raw file does not contain a
+                                       thumbnail.
+            libraw.errors.UnsupportedThumbnail: If the thumbnail format is
+                                                unsupported.
+        """
         if not self.thumb_unpacked:
             self.libraw.libraw_unpack_thumb(self.data)
             self.thumb_unpacked = True
 
     def process(self):
-        """Process the raw data based on self.options"""
+        """
+        Process the raw data based on ``self.options``.
+
+        Raises:
+            libraw.errors.DataError: If invalid or corrupt data is encountered
+                                     in the data struct.
+            libraw.errors.BadCrop: If the image has been cropped poorly (eg.
+                                   the edges are outside of the image bounds,
+                                   or the crop box coordinates don't make
+                                   sense).
+        """
         self.options._map_to_libraw_params(self.data.contents.params)
         self.libraw.libraw_dcraw_process(self.data)
 
