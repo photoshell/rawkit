@@ -79,7 +79,7 @@ class DataError(Exception):
     """
 
 
-class CancelledByCallback(Exception):
+class CanceledByCallback(Exception):
 
     """
     Image processing was canceled because the progress callback requested it.
@@ -113,7 +113,7 @@ def check_call(exit_code, func, arguments):
         InsufficientMemory: We're out of memory.
         DataError: The unpacking step failed.
         IOError: Reading was interrupted (or the file is corrupt).
-        CancelledByCallback: A callback canceled the operation.
+        CanceledByCallback: A callback canceled the operation.
         BadCrop: The crop range was invalid.
     """
 
@@ -136,6 +136,6 @@ def raise_if_error(error_code):
             -100007: InsufficientMemory,
             -100008: DataError,
             -100009: IOError,
-            -100010: CancelledByCallback,
+            -100010: CanceledByCallback,
             -100011: BadCrop
         }[error_code]
