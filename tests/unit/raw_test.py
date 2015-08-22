@@ -110,10 +110,35 @@ def test_save_no_filename(raw):
 
 def test_save_ppm(raw, output_file):
     _test_save(raw, output_file, output_file_types.ppm)
+    assert raw.data.contents.params.output_tiff is False
 
 
 def test_save_tiff(raw, output_file):
-    _test_save(raw, output_file, output_file_types.ppm)
+    _test_save(raw, output_file, output_file_types.tiff)
+    assert raw.data.contents.params.output_tiff is True
+
+
+def test_save_invalid_extension(raw, output_file):
+    with pytest.raises(InvalidFileType):
+        _test_save(raw, output_file, None)
+
+
+def test_save_infer_type_tiff(raw, output_file):
+    _test_save(raw, output_file + '.tiff', None)
+
+    assert raw.data.contents.params.output_tiff is True
+
+
+def test_save_infer_type_no_ext(raw, output_file):
+    _test_save(raw, 'noext', None)
+
+    assert raw.data.contents.params.output_tiff is False
+
+
+def test_save_infer_type_ppm(raw, output_file):
+    _test_save(raw, output_file + '.ppm', None)
+
+    assert raw.data.contents.params.output_tiff is False
 
 
 def test_save_invalid(raw, output_file):
