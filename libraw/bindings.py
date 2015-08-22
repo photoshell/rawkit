@@ -22,6 +22,10 @@ class LibRaw(CDLL):
     """
     A :class:`ctypes.CDLL` that links against `libraw.so` (or the equivalent on
     your platform).
+
+    Raises:
+        ImportError: If LibRaw cannot be found on your system, or linking
+                     fails.
     """
 
     def __init__(self):  # pragma: no cover
