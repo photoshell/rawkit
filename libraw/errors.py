@@ -79,13 +79,6 @@ class DataError(Exception):
     """
 
 
-class IOError(Exception):
-
-    """
-    The RAW file is either corrupt or reading was interrupted somehow.
-    """
-
-
 class CancelledByCallback(Exception):
 
     """
