@@ -14,21 +14,29 @@ class c_error(c_int):
     """
 
 
-class UnspecifiedError(Exception):
+class LibRawError(Exception):
+
+    """
+    A base exception class from which all other exceptions that originate in
+    LibRaw inherit.
+    """
+
+
+class UnspecifiedError(LibRawError):
 
     """
     Something bad happened, but we don't know what.
     """
 
 
-class FileUnsupported(Exception):
+class FileUnsupported(LibRawError):
 
     """
     The file is not a raw file or is from an unsupported camera.
     """
 
 
-class RequestForNonexistentImage(Exception):
+class RequestForNonexistentImage(LibRawError):
 
     """
     The image file directory in the raw file which you are trying to access
@@ -36,7 +44,7 @@ class RequestForNonexistentImage(Exception):
     """
 
 
-class OutOfOrderCall(Exception):
+class OutOfOrderCall(LibRawError):
 
     """
     A LibRaw function depends on another function being called first and was
@@ -44,49 +52,49 @@ class OutOfOrderCall(Exception):
     """
 
 
-class NoThumbnail(Exception):
+class NoThumbnail(LibRawError):
 
     """
     The raw file does not contain a thumbnail.
     """
 
 
-class UnsupportedThumbnail(Exception):
+class UnsupportedThumbnail(LibRawError):
 
     """
     The thumbnail format is not supported.
     """
 
 
-class InputClosed(Exception):
+class InputClosed(LibRawError):
 
     """
     There is no input stream, or the input stream has been closed.
     """
 
 
-class InsufficientMemory(Exception):
+class InsufficientMemory(LibRawError):
 
     """
     Memory allocation failed.
     """
 
 
-class DataError(Exception):
+class DataError(LibRawError):
 
     """
     Data unpacking failed.
     """
 
 
-class CanceledByCallback(Exception):
+class CanceledByCallback(LibRawError):
 
     """
     Image processing was canceled because the progress callback requested it.
     """
 
 
-class BadCrop(Exception):
+class BadCrop(LibRawError):
 
     """
     The cropping coordinates specified are invalid (eg. the top left corner of
