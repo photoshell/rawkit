@@ -7,6 +7,7 @@ import os
 import random
 import string
 import tempfile
+import warnings
 
 from collections import namedtuple
 from libraw.bindings import LibRaw
@@ -174,6 +175,79 @@ class Raw(object):
 
         self.libraw.libraw_dcraw_thumb_writer(
             self.data, filename.encode('ascii'))
+
+    @property
+    def color_description(self):
+        # TODO: remove the pragma once there is integration testing,
+        # but until then testing this is entirely pointless.
+        return self.data.contents.idata.cdesc  # pragma: no cover
+
+    def bayer_data(self, include_margin=False):
+        """
+        Get the bayer data for an image if it exists.
+
+        Args:
+            include_margin (bool): Include margin with calibration pixels.
+
+        Returns:
+            list: 2D array of bayer pixel data structured as a list of rows,
+                  or None if there is no bayer data.
+                  For example, if self.color_description is `RGGB`, the array
+                  would be of the format:
+
+                  [
+                      [R, G, R, G, ...],
+                      [G, B, G, B, ...],
+                      [R, G, R, G, ...],
+                      ...
+                  ]
+        """
+        self.unpack()
+        image = self.data.contents.rawdata.raw_image
+
+        if not bool(image):
+            return None
+
+        sizes = self.data.contents.sizes
+
+        # TODO: handle this
+        if sizes.pixel_aspect != 1:
+            warnings.warn(
+                "The pixel aspect is not unity, it is: " +
+                str(sizes.pixel_aspect)
+            )
+
+        # TODO: handle this
+        if sizes.flip != 0:
+            warnings.warn(
+                "The image is flipped."
+            )
+
+        pitch = sizes.raw_width
+
+        if include_margin:
+            first = 0
+            width = sizes.raw_width
+            height = sizes.raw_height
+        else:
+            first = sizes.raw_width * sizes.top_margin + sizes.left_margin
+            width = sizes.width
+            height = sizes.height
+
+        data_pointer = ctypes.cast(
+            image,
+            ctypes.POINTER(ctypes.c_ushort)
+        )
+
+        data = []
+
+        for y in range(height):
+            row = []
+            for x in range(width):
+                row.append(data_pointer[first + y * pitch + x])
+            data.append(row)
+
+        return data
 
     def to_buffer(self):
         """
