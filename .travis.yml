@@ -1,4 +1,4 @@
-sudo: required
+sudo: false
 language: python
 # Keep up to date with the tox.ini list
 env:
@@ -6,10 +6,10 @@ env:
   - TOXENV=py34
   - TOXENV=pypy
   - TOXENV=pypy3
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq libraw-bin
-
+addons:
+  apt:
+    packages:
+      - libraw-bin
 install:
   - pip install -r requirements-dev.txt
   - pip install coveralls
