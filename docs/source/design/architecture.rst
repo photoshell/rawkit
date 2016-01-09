@@ -3,8 +3,8 @@ Architecture
 
 When we talk about "rawkit" we're actually talking about an entire stack of
 libraries which work together to give you a simple way to work with raw photo
-data in Python. However, under the hood comprises three separate libraries
-which operate in a teired structure:
+data in Python. However, under the hood, rawkit comprises three separate
+libraries which operate in a teired structure:
 
 
 .. only:: builder_html
