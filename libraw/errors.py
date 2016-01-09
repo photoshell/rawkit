@@ -124,6 +124,28 @@ def check_call(exit_code, func, arguments):
 
 
 def raise_if_error(error_code):
+    """
+    :func:`raise_if_error` raises a meaningful exception that corresponds to the
+    given LibRaw integer return value.
+
+    Args:
+        error_code (int): An exit code returned by a LibRaw function.
+
+    Raises:
+        UnspecifiedError: We're not sure what happened.
+        FileUnsupported: The file is not a raw file that we recognize.
+        RequestForNonexistentImage: The given IFD does not contain an image.
+        OutOfOrderCall: Something was called out of order (eg. before data was
+                        unpacked)
+        NoThumbnail: The image does not have a thumbnail.
+        UnsupportedThumbnail: The embedded thumbnail format is unsupported.
+        InputClosed: The input stream has been closed.
+        InsufficientMemory: We're out of memory.
+        DataError: The unpacking step failed.
+        IOError: Reading was interrupted (or the file is corrupt).
+        CanceledByCallback: A callback canceled the operation.
+        BadCrop: The crop range was invalid.
+    """
     if error_code != 0:
         raise {
             -1: UnspecifiedError,
