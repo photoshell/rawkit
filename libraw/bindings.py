@@ -12,9 +12,8 @@ from libraw.callbacks import data_callback
 from libraw.callbacks import memory_callback
 from libraw.callbacks import progress_callback
 from libraw.errors import c_error
-from libraw.structs import libraw_data_t
-from libraw.structs import libraw_decoder_info_t
-from libraw.structs import libraw_processed_image_t
+from libraw import structs_16
+from libraw import structs_17
 
 
 class LibRaw(CDLL):
@@ -37,6 +36,20 @@ class LibRaw(CDLL):
                 raise ImportError
         except (ImportError, AttributeError, OSError, IOError):
             raise ImportError('Cannot find LibRaw on your system!')
+
+        try:
+            structs = {
+                16: structs_16,
+                17: structs_17,
+            }[self.version_number[1]]
+        except KeyError:
+            raise ImportError(
+                'Unsupported Libraw version: %s.%s.%s.' % self.version_number
+            )
+
+        libraw_data_t = structs.libraw_data_t
+        libraw_decoder_info_t = structs.libraw_decoder_info_t
+        libraw_processed_image_t = structs.libraw_processed_image_t
 
         # Define arg types
 
