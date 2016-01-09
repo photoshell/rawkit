@@ -55,6 +55,7 @@ Requirements
 - LibRaw
 
   - LibRaw 0.16.x (API version 10)
+  - LibRaw 0.17.x (API version 11)
 
 While other versions of Python or LibRaw may work, only the versions listed
 above are tested for compatibility.
