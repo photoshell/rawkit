@@ -211,7 +211,7 @@ def test_get_bayer_data(raw, mock_ctypes):
     raw.data.contents.sizes.pixel_aspect = 1
     raw.data.contents.sizes.flip = 0
 
-    result = raw.bayer_data()
+    result, _ = raw.bayer_data()
 
     assert result is not None
 
@@ -247,15 +247,15 @@ def test_bayer_data_non_bayer_image(raw, mock_ctypes):
     # pointer.
     raw.data.contents.rawdata.raw_image = False
 
-    result = raw.bayer_data()
+    result, _ = raw.bayer_data()
 
-    assert result is None
+    assert result == []
 
 
 def test_bayer_data_with_margin(raw, mock_ctypes):
     raw.data.contents.sizes.pixel_aspect = 1
     raw.data.contents.sizes.flip = 0
 
-    result = raw.bayer_data(include_margin=True)
+    result, _ = raw.bayer_data(include_margin=True)
 
-    assert result is not None
+    assert result

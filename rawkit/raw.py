@@ -178,11 +178,17 @@ class Raw(object):
 
     @property
     def color_description(self):
+        """
+        Get the color_description for use with bayer data.
+
+        Returns:
+            str: 4 character string representing color format, such as 'RGGB'.
+        """
         # TODO: remove the pragma once there is integration testing,
         # but until then testing this is entirely pointless.
         return self.data.contents.idata.cdesc  # pragma: no cover
 
-    def bayer_data(self, include_margin=False):
+    def raw_image(self, include_margin=False):
         """
         Get the bayer data for an image if it exists.
 
@@ -206,7 +212,7 @@ class Raw(object):
         image = self.data.contents.rawdata.raw_image
 
         if not bool(image):
-            return None
+            return []
 
         sizes = self.data.contents.sizes
 
@@ -248,6 +254,17 @@ class Raw(object):
             data.append(row)
 
         return data
+
+    def bayer_data(self, include_margin=False):
+        """
+        Get the bayer data and color_description for an image.
+
+        Returns:
+            tuple: Tuple of bayer data and color description. This is a
+                   convenience method to return `rawkit.raw.Raw.raw_image`
+                   and `rawkit.raw.Raw.color_description` as a single tuple.
+        """
+        return self.raw_image(include_margin), self.color_description
 
     def to_buffer(self):
         """

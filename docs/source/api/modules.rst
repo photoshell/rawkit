@@ -1,4 +1,4 @@
-API Docs
+Contents
 ========
 
 .. toctree::
