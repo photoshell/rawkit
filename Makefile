@@ -49,7 +49,7 @@ build: pre-commit wheel dist
 
 .PHONY: upload
 upload: clean
-	python setup.py sdist bdist bdist_wheel upload
+	$(ACTIVATE) python setup.py sdist bdist bdist_wheel upload
 
 .PHONY: clean
 clean:
