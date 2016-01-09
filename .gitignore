@@ -58,4 +58,7 @@ target/
 # Vim
 *.sw[po]
 
+# Mac
+.DS_Store
+
 test-results/

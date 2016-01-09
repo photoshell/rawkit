@@ -16,13 +16,16 @@ pre-commit: .git/hooks/pre-commit
 $(VENV): $(VENV)/bin/activate
 
 $(VENV)/bin/activate: requirements-dev.txt
-	test -d $(VENV) || virtualenv -p /usr/bin/python3 $(VENV)
+	test -d $(VENV) || virtualenv -p python3 $(VENV)
 	$(ACTIVATE); pip install -r requirements-dev.txt
 	touch $(BIN)/activate
 
+.PHONY: tox
+tox: $(VENV)
+	$(ACTIVATE); pip install tox
 
 .PHONY: test
-test: $(VENV)
+test: $(VENV) tox
 	$(ACTIVATE); tox $(REBUILD_FLAG)
 
 .PHONY: stress-test
