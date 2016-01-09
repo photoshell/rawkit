@@ -34,10 +34,5 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     long_description=readme(),
-    tests_require=[
-        'pytest >= 3.7.1',
-        'tox >= 2.0.1',
-        'mock >= 1.0.1'
-    ],
     extras_require={'doc': ['sphinx >= 1.3']},
 )
