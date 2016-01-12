@@ -179,7 +179,7 @@ class Raw(object):
     @property
     def color_description(self):
         """
-        Get the color_description for use with bayer data.
+        Get the color_description of an image.
 
         Returns:
             str: 4 character string representing color format, such as 'RGGB'.
@@ -187,6 +187,43 @@ class Raw(object):
         # TODO: remove the pragma once there is integration testing,
         # but until then testing this is entirely pointless.
         return self.data.contents.idata.cdesc  # pragma: no cover
+
+    def color(self, y, x):
+        """
+        Get the active color of a pixel of bayer data.
+
+        Args:
+            y (int): the y coordinate (or row) of the pixel
+            x (int): the x coordinate (or column) of the pixel
+
+        Returns:
+            str: Character representing the color, such as 'R' for red.
+        """
+        color_index = self.libraw.libraw_COLOR(self.data, y, x)
+        return chr(self.color_description[color_index])
+
+    @property
+    def color_filter_array(self):
+        """
+        EXPERIMENTAL: This method only supports bayer filters for the time
+        being. It will be incorrect when used with other types of sensors.
+
+        Get the color filter array for the camera sensor.
+
+        Returns:
+            list: 2D array representing the color format array pattern.
+                  For example, the typical 'RGGB' pattern of abayer sensor
+                  would be of the format:
+
+                  [
+                      ['R', 'G'],
+                      ['G', 'B'],
+                  ]
+        """
+
+        # TODO: don't assume 2x2 bayer sensor
+        return [[self.color(0, 0), self.color(0, 1)],
+                [self.color(1, 0), self.color(1, 1)]]
 
     def raw_image(self, include_margin=False):
         """
@@ -198,7 +235,7 @@ class Raw(object):
         Returns:
             list: 2D array of bayer pixel data structured as a list of rows,
                   or None if there is no bayer data.
-                  For example, if self.color_description is `RGGB`, the array
+                  For example, if the color format is `RGGB`, the array
                   would be of the format:
 
                   [
@@ -260,11 +297,11 @@ class Raw(object):
         Get the bayer data and color_description for an image.
 
         Returns:
-            tuple: Tuple of bayer data and color description. This is a
+            tuple: Tuple of bayer data and color filter array. This is a
                    convenience method to return `rawkit.raw.Raw.raw_image`
-                   and `rawkit.raw.Raw.color_description` as a single tuple.
+                   and `rawkit.raw.Raw.color_filter_array` as a single tuple.
         """
-        return self.raw_image(include_margin), self.color_description
+        return self.raw_image(include_margin), self.color_filter_array
 
     def to_buffer(self):
         """

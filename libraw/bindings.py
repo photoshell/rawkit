@@ -152,7 +152,7 @@ class LibRaw(CDLL):
             libraw_processed_image_t)
         self.libraw_raw2image.restype = c_error
         self.libraw_get_decoder_info.restype = c_error
-        self.libraw_COLOR.restype = c_error
+        self.libraw_COLOR.restype = c_int
 
         # Some special Windows-only garbage:
 
