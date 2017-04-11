@@ -125,6 +125,24 @@ class libraw_canon_makernotes_t(Structure):
     ]
 
 
+class libraw_dng_levels_t(Structure):
+
+    _fields_ = [
+        ('dng_cblack', c_uint * 4102),
+        ('dng_black', c_uint),
+        ('dng_whitelevel', c_uint * 4),
+        ('dng_blacklevel', c_float * 4),
+        ('analogbalance', c_float * 4),
+    ]
+
+
+class libraw_P1_color_t(Structure):
+
+    _fields_ = [
+        ('romm_cam', c_float * 9),
+    ]
+
+
 class libraw_colordata_t(Structure):
 
     """Describes all color data of the image."""
@@ -392,31 +410,6 @@ class libraw_lensinfo_t(Structure):
         ('makernotes', libraw_makernotes_lens_t),
     ]
 
-
-class libraw_data_t(Structure):
-
-    """
-    A container which comprises the data structures that make up libraw's
-    representation of a raw file.
-    """
-    _fields_ = [
-        ('image', POINTER(c_ushort * 4)),
-        ('sizes', libraw_image_sizes_t),
-        ('idata', libraw_iparams_t),
-        ('lens', libraw_lensinfo_t),
-        ('makernotes', libraw_makernotes_t),
-        ('shootinginfo', libraw_shootinginfo_t),
-        ('params', libraw_output_params_t),
-        ('progress_flags', c_uint),
-        ('process_warnings', c_uint),
-        ('color', libraw_colordata_t),
-        ('other', libraw_imgother_t),
-        ('thumbnail', libraw_thumbnail_t),
-        ('rawdata', libraw_rawdata_t),
-        ('parent_class', c_void_p),
-    ]
-
-
 class libraw_processed_image_t(Structure):
 
     """A container for processed image data."""
@@ -437,24 +430,6 @@ class libraw_decoder_info_t(Structure):
     _fields_ = [
         ('decoder_name', c_char_p),
         ('decoder_flags', c_uint),
-    ]
-
-
-class libraw_dng_levels_t(Structure):
-
-    _fields_ = [
-        ('dng_cblack', c_uint * 4102),
-        ('dng_black', C-c_uint),
-        ('dng_whitelevel', c_uint * 4),
-        ('dng_blacklevel', c_float * 4),
-        ('analogbalance', c_float * 4),
-    ]
-
-
-class libraw_P1_color_t(Structure):
-
-    _fields_ = [
-        ('romm_cam', c_float * 9),
     ]
 
 
@@ -609,6 +584,29 @@ class libraw_custom_camera_t(Structure):
         ('offset', c_ushort)
     ]
 
+
+class libraw_data_t(Structure):
+
+    """
+    A container which comprises the data structures that make up libraw's
+    representation of a raw file.
+    """
+    _fields_ = [
+        ('image', POINTER(c_ushort * 4)),
+        ('sizes', libraw_image_sizes_t),
+        ('idata', libraw_iparams_t),
+        ('lens', libraw_lensinfo_t),
+        ('makernotes', libraw_makernotes_t),
+        ('shootinginfo', libraw_shootinginfo_t),
+        ('params', libraw_output_params_t),
+        ('progress_flags', c_uint),
+        ('process_warnings', c_uint),
+        ('color', libraw_colordata_t),
+        ('other', libraw_imgother_t),
+        ('thumbnail', libraw_thumbnail_t),
+        ('rawdata', libraw_rawdata_t),
+        ('parent_class', c_void_p),
+    ]
 
 class xtrans_params(Structure):
 
