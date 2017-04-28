@@ -1,7 +1,7 @@
 REBUILD_FLAG =
 VENV=env
 BIN=$(VENV)/bin
-ACTIVATE=source $(BIN)/activate
+ACTIVATE=. $(BIN)/activate
 APIDOCS=docs/source/api
 DOCSRC=$(APIDOCS)/modules.rst docs/source/* docs/source/_static/*
 
