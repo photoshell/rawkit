@@ -1,10 +1,14 @@
 sudo: false
 language: python
-# Keep up to date with the tox.ini list
-env:
-  - TOXENV=py27
-  - TOXENV=py36
-  - TOXENV=pypy
+matrix:
+  # Keep up to date with the tox.ini list
+  include:
+    - python: pypy
+      env: TOXENV=pypy
+    - python: 3.6
+      env: TOXENV=py36
+    - python: 2.7
+      env: TOXENV=py27
 addons:
   apt:
     packages:
