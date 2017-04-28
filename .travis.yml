@@ -3,9 +3,8 @@ language: python
 # Keep up to date with the tox.ini list
 env:
   - TOXENV=py27
-  - TOXENV=py34
+  - TOXENV=py36
   - TOXENV=pypy
-  - TOXENV=pypy3
 addons:
   apt:
     packages:
