@@ -97,11 +97,12 @@ class Raw(object):
     def unpack_thumb(self):
         """
         Unpack the thumbnail data.
+
         Raises:
             libraw.errors.NoThumbnail: If the raw file does not contain a
-                                       thumbnail.
+            thumbnail.
             libraw.errors.UnsupportedThumbnail: If the thumbnail format is
-                                                unsupported.
+            unsupported.
         """
         if not self.thumb_unpacked:
             self.libraw.libraw_unpack_thumb(self.data)
@@ -213,12 +214,13 @@ class Raw(object):
         Returns:
             list: 2D array representing the color format array pattern.
                   For example, the typical 'RGGB' pattern of abayer sensor
-                  would be of the format:
+                  would be of the format::
 
-                  [
-                      ['R', 'G'],
-                      ['G', 'B'],
-                  ]
+                      [
+                          ['R', 'G'],
+                          ['G', 'B'],
+                      ]
+
         """
 
         # TODO: don't assume 2x2 bayer sensor
@@ -236,14 +238,15 @@ class Raw(object):
             list: 2D array of bayer pixel data structured as a list of rows,
                   or None if there is no bayer data.
                   For example, if the color format is `RGGB`, the array
-                  would be of the format:
+                  would be of the format::
 
-                  [
-                      [R, G, R, G, ...],
-                      [G, B, G, B, ...],
-                      [R, G, R, G, ...],
-                      ...
-                  ]
+                      [
+                          [R, G, R, G, ...],
+                          [G, B, G, B, ...],
+                          [R, G, R, G, ...],
+                          ...
+                      ]
+
         """
         self.unpack()
         image = self.data.contents.rawdata.raw_image
