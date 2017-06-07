@@ -25,7 +25,7 @@ class libraw_iparams_t(Structure):
 
     """The primary parameters of the image."""
     _fields_ = [
-        ('guard', c_char * 64),
+        ('guard', c_char * 4),
         ('make', c_char * 64),
         ('model', c_char * 64),
         ('software', c_char * 64),
