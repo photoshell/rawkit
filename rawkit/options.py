@@ -77,6 +77,7 @@ class option(object):
             # We're probably generating the documentation...
             return self
 
+
 highlight_modes = namedtuple(
     'HighlightMode', ['clip', 'ignore', 'blend', 'reconstruct']
 )(0, 1, 2, 5)
