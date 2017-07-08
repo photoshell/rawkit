@@ -104,7 +104,7 @@ class libraw_canon_makernotes_t(Structure):
         ('AFAreaYPositions', c_short * 61),
         ('AFPointsInFocus', c_short * 4),
         ('AFPointsSelected', c_short * 4),
-        ('PrimaryAFPoint', c_short),
+        ('PrimaryAFPoint', c_ushort),
         ('FlashMode', c_short),
         ('FlashActivity', c_short),
         ('FlashBits', c_short),
@@ -437,7 +437,7 @@ class libraw_fuji_info_t(Structure):
 
     _fields_ = [
         ('FujiExpoMidPointShift', c_float),
-        ('FujiExpoMidPointShift', c_ushort),
+        ('FujiDynamicRange', c_ushort),
         ('FujiFilmMode', c_ushort),
         ('FujiDynamicRangeSetting', c_ushort),
         ('FujiDevelopmentDynamicRange', c_ushort),
