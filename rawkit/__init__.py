@@ -18,7 +18,7 @@ balance and saving it as a PPM image might look like this:
       raw.save(filename='some/destination/image.ppm')
 """
 
-VERSION = '0.5.0'
+VERSION = '0.6.0'
 """
 The current version of the `rawkit` package.
 """
