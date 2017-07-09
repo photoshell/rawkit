@@ -54,8 +54,9 @@ Requirements
 
 - LibRaw
 
-  - LibRaw 0.16.x (API version 10)
-  - LibRaw 0.17.x (API version 11)
+  - LibRaw 0.16.x
+  - LibRaw 0.17.x
+  - LibRaw 0.18.x
 
 Installing rawkit
 -----------------
