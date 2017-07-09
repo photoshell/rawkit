@@ -34,4 +34,9 @@ Submodules
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: libraw.structs_18
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
