@@ -80,14 +80,6 @@ Now you can fetch rawkit from PyPi_:
 .. _Debian: https://packages.debian.org/stable/graphics/libraw-bin
 .. _PyPi: https://pypi.python.org/pypi/rawkit
 
-Getting Help
-------------
-
-Need help? Join the ``#photoshell`` channel on Freenode. As always, don't ask
-to ask (just ask) and if no one is around: be patient, if you part before we
-can answer there's not much we can do. Stick around if you can; we'd love it if
-you'd pay it forward and help someone else in turn.
-
 Tutorials
 ---------
 
