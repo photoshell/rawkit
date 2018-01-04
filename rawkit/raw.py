@@ -17,6 +17,7 @@ from rawkit.errors import InvalidFileType
 from rawkit.errors import NoFileSpecified
 from rawkit.metadata import Metadata
 from rawkit.options import Options
+from rawkit.orientation import get_orientation
 
 
 output_file_types = namedtuple(
@@ -379,7 +380,7 @@ class Raw(object):
             iso=self.data.contents.other.iso_speed,
             make=self.data.contents.idata.make,
             model=self.data.contents.idata.model,
-            orientation=self.data.contents.sizes.flip,
+            orientation=get_orientation(self.data),
             width=self.data.contents.sizes.width,
         )
 
