@@ -1,4 +1,5 @@
 import mock
+import numpy
 import os
 import pytest
 import warnings
@@ -45,6 +46,12 @@ def mock_warning():
 def mock_ctypes():
     with mock.patch('rawkit.raw.ctypes') as mock_ctypes:
         yield mock_ctypes
+
+
+@pytest.yield_fixture
+def mock_numpy():
+    with mock.patch.object(numpy, 'ctypeslib') as mock_numpy:
+        yield mock_numpy
 
 
 def test_create(raw, input_file):
@@ -205,6 +212,32 @@ def test_thumbnail_to_buffer(raw, mock_ctypes):
 def test_metadata(raw):
     metadata = raw.metadata
     assert type(metadata) is Metadata
+
+
+def test_as_array(raw, mock_ctypes, mock_numpy):
+    raw.data.contents.sizes.pixel_aspect = 1
+    raw.data.contents.sizes.flip = 0
+    raw.data.contents.sizes.raw_width = 0
+    raw.data.contents.sizes.raw_height = 0
+
+    result = raw.as_array()
+
+    assert result is not None
+
+
+def test_as_array_non_bayer_image(raw, mock_ctypes):
+    raw.data.contents.sizes.pixel_aspect = 1
+    raw.data.contents.sizes.flip = 0
+
+    # The falsiness of this value is what is tested to see if bayer data
+    # exists, so we set this to False even though it's supposed to be a
+    # pointer.
+    raw.data.contents.rawdata.raw_image = False
+
+    result = raw.as_array()
+    expected = numpy.empty((0, 0))
+
+    assert numpy.array_equal(result, expected)
 
 
 def test_get_bayer_data(raw, mock_ctypes):
