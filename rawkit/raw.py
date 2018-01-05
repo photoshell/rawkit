@@ -228,32 +228,12 @@ class Raw(object):
         return [[self.color(0, 0), self.color(0, 1)],
                 [self.color(1, 0), self.color(1, 1)]]
 
-    def raw_image(self, include_margin=False):
-        """
-        Get the bayer data for an image if it exists.
-
-        Args:
-            include_margin (bool): Include margin with calibration pixels.
-
-        Returns:
-            list: 2D array of bayer pixel data structured as a list of rows,
-                  or None if there is no bayer data.
-                  For example, if the color format is `RGGB`, the array
-                  would be of the format::
-
-                      [
-                          [R, G, R, G, ...],
-                          [G, B, G, B, ...],
-                          [R, G, R, G, ...],
-                          ...
-                      ]
-
-        """
+    def data_pointer(self):
         self.unpack()
         image = self.data.contents.rawdata.raw_image
 
         if not bool(image):
-            return []
+            return None, None
 
         sizes = self.data.contents.sizes
 
@@ -270,6 +250,71 @@ class Raw(object):
                 "The image is flipped."
             )
 
+        data_pointer = ctypes.cast(
+            image,
+            ctypes.POINTER(ctypes.c_ushort)
+        )
+
+        return data_pointer, sizes
+
+    def as_array(self):
+        """
+        Get a numpy array of the raw image data
+
+        Returns:
+            array: A numpy array of bayer pixel data structured as a list of
+                   rows, or array([]) if there is no bayer data.
+                   The margin with calibration pixels is always included.
+                   For example, if the color format is `RGGB`, the array
+                   would be of the format::
+
+                       array([
+                           [R, G, R, G, ...],
+                           [G, B, G, B, ...],
+                           [R, G, R, G, ...],
+                           ...
+                       ])
+
+        """
+        # TODO: Add support for include_margin
+        import numpy
+
+        data_pointer, sizes = self.data_pointer()
+
+        if not data_pointer:
+            return numpy.empty((0, 0))
+
+        return numpy.ctypeslib.as_array(
+            data_pointer,
+            (sizes.raw_height, sizes.raw_width)
+        )
+
+    def raw_image(self, include_margin=False):
+        """
+        Get the bayer data for an image if it exists.
+
+        Args:
+            include_margin (bool): Include margin with calibration pixels.
+
+        Returns:
+            list: 2D array of bayer pixel data structured as a list of rows,
+                  or [] if there is no bayer data.
+                  For example, if the color format is `RGGB`, the array
+                  would be of the format::
+
+                      [
+                          [R, G, R, G, ...],
+                          [G, B, G, B, ...],
+                          [R, G, R, G, ...],
+                          ...
+                      ]
+
+        """
+        data_pointer, sizes = self.data_pointer()
+
+        if not data_pointer:
+            return []
+
         pitch = sizes.raw_width
 
         if include_margin:
@@ -280,11 +325,6 @@ class Raw(object):
             first = sizes.raw_width * sizes.top_margin + sizes.left_margin
             width = sizes.width
             height = sizes.height
-
-        data_pointer = ctypes.cast(
-            image,
-            ctypes.POINTER(ctypes.c_ushort)
-        )
 
         data = []
 

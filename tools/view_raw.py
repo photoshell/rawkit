@@ -3,11 +3,9 @@
 import sys
 
 import matplotlib.pyplot as plt
-import numpy as np
 
 from rawkit.raw import Raw
 
 with Raw(filename=sys.argv[1]) as raw:
-    data = np.array(raw.raw_image())
-    plt.imshow(data)
+    plt.imshow(raw.as_array())
     plt.show()
