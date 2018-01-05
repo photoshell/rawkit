@@ -1,5 +1,6 @@
+repos:
 -   repo: git://github.com/pre-commit/pre-commit-hooks
-    sha: v0.4.2
+    sha: v1.1.1
     hooks:
       -   id: autopep8-wrapper
           args: ['-i']
