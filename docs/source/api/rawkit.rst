@@ -24,6 +24,11 @@ Submodules
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: rawkit.orientation
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 .. automodule:: rawkit.raw
     :members:
     :undoc-members:
