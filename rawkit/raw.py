@@ -205,7 +205,7 @@ class Raw(object):
         return chr(self.color_description[color_index])
 
     @property
-    def color_filter_array(self):
+    def color_filter(self):
         """
         EXPERIMENTAL: This method only supports bayer filters for the time
         being. It will be incorrect when used with other types of sensors.
@@ -227,6 +227,29 @@ class Raw(object):
         # TODO: don't assume 2x2 bayer sensor
         return [[self.color(0, 0), self.color(0, 1)],
                 [self.color(1, 0), self.color(1, 1)]]
+
+    @property
+    def color_filter_array(self):
+        """
+        EXPERIMENTAL: This method only supports bayer filters for the time
+        being. It will be incorrect when used with other types of sensors.
+
+        Get the color filter array for the camera sensor.
+
+        Returns:
+            list: Numpy array representing the color format array pattern.
+                  For example, the typical 'RGGB' pattern of abayer sensor
+                  would be of the format::
+
+                      array([
+                          ['R', 'G'],
+                          ['G', 'B'],
+                      ])
+
+        """
+
+        import numpy
+        return numpy.array(self.color_filter)
 
     def data_pointer(self):
         self.unpack()
@@ -259,10 +282,10 @@ class Raw(object):
 
     def as_array(self):
         """
-        Get a numpy array of the raw image data
+        Get a NumPy array of the raw image data
 
         Returns:
-            array: A numpy array of bayer pixel data structured as a list of
+            array: A NumPy array of bayer pixel data structured as a list of
                    rows, or array([]) if there is no bayer data.
                    The margin with calibration pixels is always included.
                    For example, if the color format is `RGGB`, the array
