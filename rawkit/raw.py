@@ -202,7 +202,7 @@ class Raw(object):
             str: Character representing the color, such as 'R' for red.
         """
         color_index = self.libraw.libraw_COLOR(self.data, y, x)
-        return chr(self.color_description[color_index])
+        return self.color_description.decode()[color_index]
 
     @property
     def color_filter(self):
