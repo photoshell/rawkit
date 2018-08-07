@@ -255,7 +255,7 @@ class Options(object):
             try:
                 yield self.keys()[idx - 1]
             except IndexError:
-                raise StopIteration
+                return
 
     def __repr__(self):
         """Represents the options as a dict."""
