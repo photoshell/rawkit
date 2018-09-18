@@ -93,3 +93,33 @@ Args:
 Returns:
     _ctypes.PyCFuncPtrType: A C callback.
 """
+
+exif_parser_callback = CFUNCTYPE(
+    c_void_p, c_int, c_int, c_int, c_uint, c_void_p)
+"""
+A callback that will be called to alert you when EXIF data is parsed.
+
+
+.. sourcecode:: python
+
+    def exif_cb(context, tag, type, len, ord, ifp):
+        pass
+
+    cb = exif_parser_callback(exif_cb)
+
+    libraw.libraw_set_exifparser_handler(libraw_data, cb, data)
+
+Your callback function should map to the LibRaw C callback defintion below:
+
+.. sourcecode:: c
+
+    typedef void (*exif_parser_callback)(
+        void *context, int tag, int type, int len, unsigned int ord, void *ifp
+    );
+
+Args:
+    callback (function): The Python function to convert to a C callback.
+
+Returns:
+    _ctypes.PyCFuncPtrType: A C callback.
+"""

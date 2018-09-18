@@ -13,12 +13,14 @@ from ctypes import util
 
 from libraw import errors
 from libraw.callbacks import data_callback
+from libraw.callbacks import exif_parser_callback
 from libraw.callbacks import memory_callback
 from libraw.callbacks import progress_callback
 from libraw.errors import c_error
 from libraw import structs_16
 from libraw import structs_17
 from libraw import structs_18
+from libraw import structs_19
 
 
 class LibRaw(CDLL):
@@ -39,8 +41,10 @@ class LibRaw(CDLL):
             libraw = util.find_library('libraw')
         if libraw is None:
             # Attempt to guess manually (See #116)
-            shared_lib_ext = {'Linux':'.so', 'Darwin':'.dylib', 'Windows':'.dll'}
-            libraw = os.path.join(sys.prefix, 'lib', 'libraw' + shared_lib_ext[platform.system()])
+            shared_lib_ext = {'Linux': '.so',
+                              'Darwin': '.dylib', 'Windows': '.dll'}
+            libraw = os.path.join(
+                sys.prefix, 'lib', 'libraw' + shared_lib_ext[platform.system()])
 
         try:
             if libraw is not None:
@@ -55,6 +59,7 @@ class LibRaw(CDLL):
                 16: structs_16,
                 17: structs_17,
                 18: structs_18,
+                19: structs_19,
             }[self.version_number[1]]
         except KeyError:
             raise ImportError(
@@ -89,6 +94,11 @@ class LibRaw(CDLL):
         self.libraw_recycle_datastream.argtypes = [POINTER(libraw_data_t)]
         self.libraw_recycle.argtypes = [POINTER(libraw_data_t)]
         self.libraw_close.argtypes = [POINTER(libraw_data_t)]
+        self.libraw_set_exifparser_handler.argtypes = [
+            POINTER(libraw_data_t),
+            exif_parser_callback,
+            c_void_p,
+        ]
         self.libraw_set_memerror_handler.argtypes = [
             POINTER(libraw_data_t),
             memory_callback,

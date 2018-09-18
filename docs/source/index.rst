@@ -48,7 +48,7 @@ Requirements
 - Python
 
   - CPython 2.7+
-  - CPython 3.4+
+  - CPython 3.5+
   - PyPy 2.5+
   - PyPy3 2.4+
 
@@ -57,6 +57,7 @@ Requirements
   - LibRaw 0.16.x
   - LibRaw 0.17.x
   - LibRaw 0.18.x
+  - LibRaw 0.19.x
 
 Installing rawkit
 -----------------
@@ -64,8 +65,8 @@ Installing rawkit
 First, you'll need to install LibRaw:
 
   - `libraw` on Arch_
-  - `LibRaw` on Fedora_ 21+
-  - `libraw10` on Ubuntu_ Utopic+
+  - `LibRaw` on Fedora_ 21+ and EPEL 6
+  - `libraw-bin` on Ubuntu_ trusty+
   - `libraw-bin` on Debian_ Jessie+
 
 Now you can fetch rawkit from PyPi_:
@@ -76,7 +77,7 @@ Now you can fetch rawkit from PyPi_:
 
 .. _Arch: https://www.archlinux.org/packages/extra/x86_64/libraw/
 .. _Fedora: https://apps.fedoraproject.org/packages/LibRaw
-.. _Ubuntu: http://packages.ubuntu.com/utopic/libraw10
+.. _Ubuntu: https://packages.ubuntu.com/bionic/libraw-bin
 .. _Debian: https://packages.debian.org/stable/graphics/libraw-bin
 .. _PyPi: https://pypi.python.org/pypi/rawkit
 
