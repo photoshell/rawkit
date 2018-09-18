@@ -124,7 +124,7 @@ class Raw(object):
         self.options._map_to_libraw_params(self.data.contents.params)
         self.libraw.libraw_dcraw_process(self.data)
 
-    def save(self, filename=None, filetype=None):
+    def save(self, filename, filetype=None):
         """
         Save the image data as a new PPM or TIFF image.
 

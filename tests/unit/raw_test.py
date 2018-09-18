@@ -126,7 +126,7 @@ def _test_save(raw, output_file, filetype):
 
 def test_save_no_filename(raw):
     with pytest.raises(NoFileSpecified):
-        raw.save(filetype=output_file_types.ppm)
+        raw.save(filename=None, filetype=output_file_types.ppm)
 
 
 def test_save_ppm(raw, output_file):
