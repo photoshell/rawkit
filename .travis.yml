@@ -1,23 +1,38 @@
 sudo: false
 language: python
+cache:
+  directories:
+    # Pipenv takes over 10 minutes and times out the build if we have a pip
+    # cache on Python 3.7 for some reason.
+    # - $HOME/.cache/pip
+    - $HOME/.cache/pipenv
 matrix:
   # Keep up to date with the tox.ini list
   include:
-    - python: pypy
-      env: TOXENV=pypy
+    - python: pypy3
+      env: TOXENV=pypy3
     - python: 3.7
       dist: xenial
       sudo: true
       env: TOXENV=py37
+    - python: 3.6
+      env: TOXENV=py36
+    - python: 3.5
+      env: TOXENV=py35
     - python: 2.7
       env: TOXENV=py27
+    - python: 3.6
+      env: TOXENV=flake8-py3
+    - python: 3.6
+      env: TOXENV=docs
 addons:
   apt:
     packages:
       - libraw-bin
 install:
-  - pip install -r requirements-dev.txt
   - pip install coveralls
+  - pip install pipenv
+  - pipenv install --dev
 script:
   - make docs
   - make test
