@@ -4,6 +4,10 @@
 The :class:`libraw.bindings` module handles linking against the LibRaw binary.
 """
 
+import os.path
+import platform
+import sys
+
 from ctypes import *  # noqa
 from ctypes import util
 
@@ -30,6 +34,14 @@ class LibRaw(CDLL):
 
     def __init__(self):  # pragma: no cover
         libraw = util.find_library('raw')
+        if libraw is None:
+            # Windows (apparently; see #142)
+            libraw = util.find_library('libraw')
+        if libraw is None:
+            # Attempt to guess manually (See #116)
+            shared_lib_ext = {'Linux':'.so', 'Darwin':'.dylib', 'Windows':'.dll'}
+            libraw = os.path.join(sys.prefix, 'lib', 'libraw' + shared_lib_ext[platform.system()])
+
         try:
             if libraw is not None:
                 super(LibRaw, self).__init__(libraw)
