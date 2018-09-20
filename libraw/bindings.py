@@ -72,7 +72,7 @@ class LibRaw(CDLL):
 
         # Define arg types
 
-        self.libraw_init.argtypes = [c_int]
+        self.libraw_init.argtypes = [c_uint]
         # enum LibRaw_progress
         self.libraw_strprogress.argtypes = [c_int]
         self.libraw_unpack_function_name.argtypes = [POINTER(libraw_data_t)]

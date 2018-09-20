@@ -120,6 +120,8 @@ class Raw(object):
                                    the edges are outside of the image bounds,
                                    or the crop box coordinates don't make
                                    sense).
+            libraw.errors.InsufficientMemory: If we run out of memory while
+                                              processing the raw file.
         """
         self.options._map_to_libraw_params(self.data.contents.params)
         self.libraw.libraw_dcraw_process(self.data)
