@@ -64,7 +64,7 @@ Installing rawkit
 
 First, you'll need to install LibRaw:
 
-  - `libraw` on Arch_
+  - `libraw` or `libraw16`_ on Arch_
   - `LibRaw` on Fedora_ 21+ and EPEL 6
   - `libraw-bin` on Ubuntu_ trusty+
   - `libraw-bin` on Debian_ Jessie+
@@ -75,6 +75,7 @@ Now you can fetch rawkit from PyPi_:
 
     $ pip install rawkit
 
+.. _`libraw16`: https://aur.archlinux.org/packages/libraw16/
 .. _Arch: https://www.archlinux.org/packages/extra/x86_64/libraw/
 .. _Fedora: https://apps.fedoraproject.org/packages/LibRaw
 .. _Ubuntu: https://packages.ubuntu.com/bionic/libraw-bin
@@ -121,4 +122,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
