@@ -17,6 +17,10 @@ rawkit
    :alt: Test Coverage Status
    :target: https://coveralls.io/r/photoshell/rawkit
 
+.. image:: http://unmaintained.tech/badge.svg
+   :target: http://unmaintained.tech/
+   :alt: No Maintenance Intended
+
 ``rawkit`` (pronounced `rocket`) is a ctypes-based LibRaw_ binding for
 Python inspired by the Wand_ API.
 

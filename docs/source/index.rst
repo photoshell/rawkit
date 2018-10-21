@@ -21,10 +21,15 @@ rawkit
    :alt: MIT License
    :target: https://github.com/photoshell/rawkit/blob/master/LICENSE
 
+.. image:: http://unmaintained.tech/badge.svg
+   :target: http://unmaintained.tech/
+   :alt: No Maintenance Intended
+
 .. note::
 
-   `rawkit` is still alpha quality software. Until it hits 1.0, it may undergo
-   substantial changes, including breaking API changes.
+   `rawkit` is currently unmaintained. Code is provided as-is but no guarantee
+   of support is provided, and there is no guarantee that patches will be merged
+   or reviewed.
 
 ``rawkit`` is a :mod:`ctypes`-based set of LibRaw_ bindings for Python inspired
 by Wand_. It is licensed under the `MIT License`_.
