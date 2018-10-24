@@ -70,7 +70,11 @@ class Raw(object):
             raise NoFileSpecified()
         self.libraw = LibRaw()
         self.data = self.libraw.libraw_init(0)
-        self.libraw.libraw_open_file(self.data, filename.encode('ascii'))
+        try:  # pragma: no cover
+            _fname = os.fsencode(filename)
+        except Exception:  # pragma: no cover
+            _fname = filename
+        self.libraw.libraw_open_file(self.data, _fname)
 
         self.options = Options()
 
@@ -159,8 +163,12 @@ class Raw(object):
         self.unpack()
         self.process()
 
+        try:  # pragma: no cover
+            _fname = os.fsencode(filename)
+        except Exception:  # pragma: no cover
+            _fname = filename
         self.libraw.libraw_dcraw_ppm_tiff_writer(
-            self.data, filename.encode('ascii'))
+            self.data, _fname)
 
     def save_thumb(self, filename=None):
         """
@@ -177,8 +185,12 @@ class Raw(object):
 
         self.unpack_thumb()
 
+        try:  # pragma: no cover
+            _fname = os.fsencode(filename)
+        except Exception:  # pragma: no cover
+            _fname = filename
         self.libraw.libraw_dcraw_thumb_writer(
-            self.data, filename.encode('ascii'))
+            self.data, _fname)
 
     @property
     def color_description(self):
